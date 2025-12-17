@@ -1,9 +1,12 @@
-import { Text, View } from 'react-native';
+import PrayerTimeCard from '@/components/prayer-time/prayer-time-card';
+import { View } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <View>
-      <Text className='text-primary-950'>Home</Text>
+    // <SafeAreaView>
+    <View className=''>
+      <PrayerTimeCard />
     </View>
+    // </SafeAreaView>
   );
 }
