@@ -48,18 +48,19 @@ export default function PrayerTimeCard() {
       className='overflow-hidden'
     >
       <BlurView intensity={70} tint='dark' className='px-5 py-6 pt-10'>
-        <View className='absolute inset-0 bg-black/25 rounded-3xl' />
+        <View className='absolute inset-0 bg-black/30 rounded-3xl' />
 
         {/* Header */}
         <View className='flex-row justify-between items-start mb-4'>
           <View>
-            <Text style={shadow} className='text-white text-lg font-semibold'>
+            <Text
+              style={shadow}
+              className='text-white text-[16px] font-semibold'
+            >
               {hijriDate}
             </Text>
-            <Text className='text-white/70 text-sm'>{gregorianDate}</Text>
+            <Text className='text-white/70 text-[16px]'>{gregorianDate}</Text>
           </View>
-
-          {/* <Feather name='moon' size={26} color='rgba(255,255,255,0.7)' /> */}
         </View>
 
         {/* Current prayer */}
@@ -131,7 +132,7 @@ export default function PrayerTimeCard() {
                 />
 
                 <Text
-                  className={`mt-1 text-lg ${
+                  className={`mt-1 text-[16px] ${
                     isActive ? 'text-white font-semibold' : 'text-white/70'
                   }`}
                 >
