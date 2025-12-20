@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "key": "sleep",
+    "name": {
+      "en": "Before Sleep",
+      "bn": "ঘুমানোর আগে"
+    }
+  },
+  {
+    "id": 2,
+    "key": "salah",
+    "name": {
+      "en": "After Salah",
+      "bn": "নামাজের পর"
+    }
+  },
+  {
+    "id": 3,
+    "key": "morning-evening",
+    "name": {
+      "en": "Morning & Evening",
+      "bn": "সকাল ও সন্ধ্যা"
+    }
+  },
+  {
+    "id": 4,
+    "key": "other",
+    "name": {
+      "en": "Other Useful Duas",
+      "bn": "অন্যান্য দরকারী দোয়া"
+    }
+  }
+]

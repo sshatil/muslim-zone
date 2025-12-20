@@ -1,0 +1,12 @@
+{
+  "featured": [
+    {
+      "moduleKey": "daily",
+      "duaIds": [1, 2]
+    },
+    {
+      "moduleKey": "ramadan",
+      "duaIds": [1]
+    }
+  ]
+}

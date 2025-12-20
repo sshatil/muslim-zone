@@ -1,0 +1,28 @@
+{
+  "duas": [
+    {
+      "id": 1,
+      "categoryId": 4,
+      "key": "iftar-dua",
+      "title": {
+        "en": "Dua Before Iftar",
+        "bn": "ইফতারের আগে দোয়া"
+      },
+      "arabic": "اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ",
+      "transliteration": {
+        "en": "Allahumma laka sumtu wa ‘ala rizq-ika aftartu"
+      },
+      "translation": {
+        "en": "O Allah! I fasted for You and with Your provision I break my fast.",
+        "bn": "হে আল্লাহ! আমি আপনার জন্য রোজা রেখেছি এবং আপনার রিযিক দিয়ে ইফতার করছি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Abu Dawood 2357"
+      },
+      "tags": ["ramadan", "fasting", "iftar"],
+      "isFeatured": true,
+      "order": 1
+    }
+  ]
+}

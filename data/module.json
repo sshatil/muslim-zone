@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "key": "daily",
+    "name": {
+      "en": "Daily Duas",
+      "bn": "দৈনন্দিন দোয়া"
+    },
+    "file": "duas/daily.json"
+  },
+  {
+    "id": 2,
+    "key": "ramadan",
+    "name": {
+      "en": "Ramadan Duas",
+      "bn": "রমজানের দোয়া"
+    },
+    "file": "duas/ramadan.json"
+  }
+]

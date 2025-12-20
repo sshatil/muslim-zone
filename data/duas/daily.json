@@ -1,0 +1,52 @@
+{
+  "duas": [
+    {
+      "id": 1,
+      "categoryId": 1,
+      "key": "before-sleep",
+      "title": {
+        "en": "Dua Before Sleeping",
+        "bn": "ঘুমানোর আগের দোয়া"
+      },
+      "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+      "transliteration": {
+        "en": "Bismika Allahumma amootu wa ahyaa"
+      },
+      "translation": {
+        "en": "In Your name, O Allah, I die and I live.",
+        "bn": "হে আল্লাহ! আপনার নামেই আমি মরি এবং বাঁচি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih al-Bukhari 6312"
+      },
+      "tags": ["sleep", "night"],
+      "isFeatured": true,
+      "order": 1
+    },
+    {
+      "id": 2,
+      "categoryId": 2,
+      "key": "after-salah",
+      "title": {
+        "en": "Dua After Salah",
+        "bn": "নামাজের পরের দোয়া"
+      },
+      "arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ",
+      "transliteration": {
+        "en": "Allahumma anta as-salaam wa minka as-salaam"
+      },
+      "translation": {
+        "en": "O Allah, You are Peace and from You comes peace.",
+        "bn": "হে আল্লাহ! আপনি শান্তি এবং আপনার কাছ থেকেই শান্তি আসে।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih Muslim 591"
+      },
+      "tags": ["salah", "prayer"],
+      "isFeatured": true,
+      "order": 2
+    }
+  ]
+}

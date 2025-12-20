@@ -47,8 +47,9 @@ export default function PrayerTimeCard() {
       resizeMode='cover'
       className='overflow-hidden'
     >
-      <BlurView intensity={70} tint='dark' className='px-5 py-6 pt-10'>
-        <View className='absolute inset-0 bg-black/30 rounded-3xl' />
+      <BlurView intensity={50} tint='dark' className='px-4 py-6 pt-20'>
+        {/* <View className='absolute inset-0 bg-black/30 rounded-3xl' /> */}
+        <View className='absolute inset-0 bg-background-50/60' />
 
         {/* Header */}
         <View className='flex-row justify-between items-start mb-4'>
@@ -121,7 +122,7 @@ export default function PrayerTimeCard() {
             return (
               <View
                 key={prayer.key}
-                className={`items-center px-3 py-2 rounded-lg ${
+                className={`items-center px-2 py-2 rounded-lg ${
                   isActive ? 'bg-white/25' : ''
                 }`}
               >
@@ -132,7 +133,7 @@ export default function PrayerTimeCard() {
                 />
 
                 <Text
-                  className={`mt-1 text-[16px] ${
+                  className={`mt-1 text-[14px] ${
                     isActive ? 'text-white font-semibold' : 'text-white/70'
                   }`}
                 >
@@ -140,7 +141,7 @@ export default function PrayerTimeCard() {
                 </Text>
 
                 <Text
-                  className={`text-md ${
+                  className={`text-[12px] ${
                     isActive ? 'text-white' : 'text-white/60'
                   }`}
                 >
