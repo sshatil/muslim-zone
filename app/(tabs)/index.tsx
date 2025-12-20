@@ -1,14 +1,15 @@
 import FeaturedDuaList from '@/components/duas/featured-dua';
 import PrayerTimeCard from '@/components/prayer-time/prayer-time-card';
-import WeeklyPrayerTime from '@/components/prayer-time/weekly-prayer-time';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <View className='bg-background-100 min-h-screen'>
-      <PrayerTimeCard />
-      <WeeklyPrayerTime />
-      <FeaturedDuaList />
-    </View>
+    <ScrollView className='bg-background-50 min-h-screen'>
+      <View className='space-y-4'>
+        <PrayerTimeCard />
+        {/* <WeeklyPrayerTime /> */}
+        <FeaturedDuaList />
+      </View>
+    </ScrollView>
   );
 }

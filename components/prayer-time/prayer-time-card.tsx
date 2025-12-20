@@ -45,76 +45,43 @@ export default function PrayerTimeCard() {
     <ImageBackground
       source={require('@/assets/images/mosque-banner.png')}
       resizeMode='cover'
-      className='overflow-hidden'
+      className='overflow-hidden bg-background-0/15'
     >
-      <BlurView intensity={50} tint='dark' className='px-4 py-6 pt-20'>
-        {/* <View className='absolute inset-0 bg-black/30 rounded-3xl' /> */}
+      <BlurView intensity={10} tint='dark' className='px-4 py-6'>
         <View className='absolute inset-0 bg-background-50/60' />
 
         {/* Header */}
-        <View className='flex-row justify-between items-start mb-4'>
+        <View className='flex-row justify-between items-start mb-3 mt-10'>
           <View>
-            <Text
-              style={shadow}
-              className='text-white text-[16px] font-semibold'
-            >
+            <Text style={shadow} className='text-white text-sm font-semibold'>
               {hijriDate}
             </Text>
-            <Text className='text-white/70 text-[16px]'>{gregorianDate}</Text>
+            <Text className='text-white/70 text-sm'>{gregorianDate}</Text>
+          </View>
+          <View className='flex-row items-center gap-1'>
+            <Ionicons name='location-outline' size={14} color='#fff' />
+            <Text className='text-white/70 text-sm'>{location}</Text>
           </View>
         </View>
 
-        {/* Current prayer */}
-        <View className='flex-row justify-between items-center mb-4'>
-          <View className='items-start mb-5'>
-            <Text className='text-white text-sm font-semibold uppercase mb-1'>
-              Current Prayer
-            </Text>
-            <Text style={shadow} className='text-white text-3xl font-bold'>
-              {currentPrayer} : {currentPrayerTime}
-            </Text>
-          </View>
-          <View className='items-end'>
-            <Text className='text-white text-lg'>Sunrise: 6:00 AM</Text>
-            <Text className='text-white text-lg'>Sunset: 7:00 PM</Text>
-          </View>
-        </View>
-
-        {/* Info */}
-        <View className='flex-row justify-between items-center mb-4'>
-          <View>
-            <Text className='text-white/90 text-md mb-1'>Time Remaining</Text>
-            <Text
-              style={shadow}
-              className='text-white/90 text-base font-semibold bg-white/10 rounded-lg px-2 py-1'
-            >
-              <Ionicons name='time-outline' size={16} color='white' />{' '}
-              {timeLeft}
-            </Text>
-          </View>
-
-          <View className='items-end'>
-            <View className='flex-row items-center'>
-              <Ionicons
-                name='location-outline'
-                size={16}
-                color='rgba(255,255,255,0.7)'
-                className='mr-2'
-              />
-              <Text className='text-white/90 text-sm font-medium'>
-                location
-              </Text>
-            </View>
-            <Text className='text-white/90 text-sm font-medium'>
-              {location}
-            </Text>
-          </View>
+        {/* Current Prayer */}
+        <View className='mb-3'>
+          <Text className='text-white/70 text-xs uppercase mb-1'>
+            Current Prayer
+          </Text>
+          <Text
+            style={shadow}
+            className='text-white text-2xl font-bold leading-tight'
+          >
+            {currentPrayer}: {currentPrayerTime}
+          </Text>
+          <Text className='text-white/50 text-sm'>Next Prayer:{timeLeft}</Text>
         </View>
 
         {/* Divider */}
         <View className='h-px bg-white/20 mb-3' />
 
-        {/* Daily prayer */}
+        {/* Daily Prayer Row */}
         <View className='flex-row justify-between'>
           {PRAYERS.map((prayer) => {
             const isActive = prayer.key === currentPrayer;
@@ -122,27 +89,25 @@ export default function PrayerTimeCard() {
             return (
               <View
                 key={prayer.key}
-                className={`items-center px-2 py-2 rounded-lg ${
-                  isActive ? 'bg-white/25' : ''
+                className={`items-center px-1 py-0.5 rounded-lg ${
+                  isActive ? 'bg-white/20 px-2 rounded-lg' : ''
                 }`}
               >
                 <Ionicons
                   name={getPrayerIcon(prayer.key) as any}
-                  size={17}
+                  size={14}
                   color={isActive ? '#fff' : 'rgba(255,255,255,0.7)'}
                 />
-
                 <Text
-                  className={`mt-1 text-[14px] ${
-                    isActive ? 'text-white font-semibold' : 'text-white/70'
+                  className={`mt-0.5 text-sm ${
+                    isActive ? 'text-white font-semibold' : 'text-white/90'
                   }`}
                 >
                   {prayer.key}
                 </Text>
-
                 <Text
-                  className={`text-[12px] ${
-                    isActive ? 'text-white' : 'text-white/60'
+                  className={`text-[11px] ${
+                    isActive ? 'text-white' : 'text-white/90'
                   }`}
                 >
                   {prayer.time}
