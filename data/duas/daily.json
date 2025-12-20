@@ -25,6 +25,30 @@
       "order": 1
     },
     {
+      "id": 3,
+      "categoryId": 1,
+      "key": "before-sleep-2",
+      "title": {
+        "en": "Another Dua Before Sleeping",
+        "bn": "ঘুমানোর আগের অন্য একটি দোয়া"
+      },
+      "arabic": "اَللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",
+      "transliteration": {
+        "en": "Allahumma qinee 'adhabaka yawma tab'athu 'ibadak"
+      },
+      "translation": {
+        "en": "O Allah, protect me from Your punishment on the day You resurrect Your slaves.",
+        "bn": "হে আল্লাহ! যেদিন আপনি আপনার বান্দাদের পুনরুজ্জীবিত করবেন, সেদিন আমাকে আপনার শাস্তি থেকে রক্ষা করুন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih Muslim 709"
+      },
+      "tags": ["sleep", "protection"],
+      "isFeatured": true,
+      "order": 3
+    },
+    {
       "id": 2,
       "categoryId": 2,
       "key": "after-salah",
