@@ -22,7 +22,7 @@ export default function PrayerTimeCard() {
   const currentPrayer = 'Asr';
   const currentPrayerTime = '4:32 PM';
   const timeLeft = '01h 18m left';
-  const location = 'Dhaka, Bangladesh';
+  const location1 = 'Dhaka, Bangladesh';
 
   const getPrayerIcon = (prayerKey: string) => {
     switch (prayerKey) {
@@ -60,7 +60,7 @@ export default function PrayerTimeCard() {
           </View>
           <View className='flex-row items-center gap-1'>
             <Ionicons name='location-outline' size={14} color='#fff' />
-            <Text className='text-white/70 text-sm'>{location}</Text>
+            <Text className='text-white/70 text-sm'>{location1}</Text>
           </View>
         </View>
 
