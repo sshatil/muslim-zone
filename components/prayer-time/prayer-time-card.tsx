@@ -1,4 +1,5 @@
 import { useLocation } from '@/hooks/use-location';
+import { usePrayerTime } from '@/hooks/use-prayer-time';
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { ImageBackground, Text, View } from 'react-native';
@@ -42,7 +43,17 @@ export default function PrayerTimeCard() {
     }
   };
   const { data } = useLocation();
-  console.log(data);
+
+  const { data: prayerTime } = usePrayerTime(
+    data?.latitude ?? 0,
+    data?.longitude ?? 0,
+    12,
+    2025
+  );
+
+  if (!data) return null;
+
+  // console.log('prayerTime', prayerTime);
   return (
     <ImageBackground
       source={require('@/assets/images/mosque-banner.png')}
