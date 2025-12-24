@@ -1,4 +1,5 @@
 import * as Location from 'expo-location';
+import tzLookup from 'tz-lookup';
 
 const countryCodeToFlag = (countryCode: string): string => {
   if (!countryCode || countryCode.length !== 2) return '';
@@ -10,7 +11,6 @@ const countryCodeToFlag = (countryCode: string): string => {
 
 export const getGPSLocation = async () => {
   const { status } = await Location.requestForegroundPermissionsAsync();
-
   if (status !== 'granted') {
     throw new Error('Location permission denied');
   }
@@ -19,28 +19,28 @@ export const getGPSLocation = async () => {
     accuracy: Location.Accuracy.BestForNavigation,
   });
 
+  const { latitude, longitude } = location.coords;
+
   const address = await Location.reverseGeocodeAsync({
-    latitude: location.coords.latitude,
-    longitude: location.coords.longitude,
+    latitude,
+    longitude,
   });
 
   const place = address?.[0];
-
   const countryCode = place?.isoCountryCode ?? '';
   const flag = countryCodeToFlag(countryCode);
 
-  console.log({
-    country: place?.country,
-    countryCode,
-    flag,
-  });
+  // ✅ TIMEZONE FROM LAT/LNG
+  const timezone = tzLookup(latitude, longitude);
+  console.log('timezone', timezone);
 
   return {
-    latitude: location.coords.latitude,
-    longitude: location.coords.longitude,
+    latitude,
+    longitude,
     city: place?.city ?? '',
     country: place?.country ?? '',
     countryCode,
     flag,
+    timezone, // 👈 THIS IS WHAT YOU NEED
   };
 };

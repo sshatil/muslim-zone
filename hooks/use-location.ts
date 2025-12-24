@@ -9,6 +9,7 @@ export type UserLocation = {
   country?: string;
   countryCode?: string;
   flag?: string;
+  timezone?: string;
   source: 'gps' | 'ip';
 };
 
@@ -23,13 +24,23 @@ const getUserLocation = async (): Promise<UserLocation> => {
   } catch {
     // Fallback to IP
     const ip = await fetchLocationByIP();
+    const countryCodeToFlag = (countryCode: string): string => {
+      if (!countryCode || countryCode.length !== 2) return '';
+
+      return countryCode
+        .toUpperCase()
+        .replace(/./g, (char) =>
+          String.fromCodePoint(127397 + char.charCodeAt(0))
+        );
+    };
+    const flag = countryCodeToFlag(ip.countryCode);
     return {
       latitude: ip.latitude,
       longitude: ip.longitude,
       city: ip.city,
       country: ip.country,
       countryCode: ip.countryCode,
-      flag: ip.flag,
+      flag: flag,
       source: 'ip',
     };
   }

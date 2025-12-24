@@ -2,58 +2,115 @@ import { useLocation } from '@/hooks/use-location';
 import { usePrayerTime } from '@/hooks/use-prayer-time';
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
+import { DateTime } from 'luxon';
+import { useEffect, useMemo, useState } from 'react';
 import { ImageBackground, Text, View } from 'react-native';
 
-const PRAYERS = [
-  { key: 'Fajr', time: '5:02 AM' },
-  { key: 'Dhuhr', time: '12:21 PM' },
-  { key: 'Asr', time: '4:32 PM' },
-  { key: 'Maghrib', time: '6:18 PM' },
-  { key: 'Isha', time: '7:35 PM' },
-];
-
-const shadow = {
-  textShadowColor: 'rgba(0,0,0,0.5)',
-  textShadowOffset: { width: 0, height: 1 },
-  textShadowRadius: 2,
+const getPrayerIcon = (prayerKey: string) => {
+  switch (prayerKey) {
+    case 'Fajr':
+      return 'moon-outline';
+    case 'Dhuhr':
+      return 'sunny-outline';
+    case 'Asr':
+      return 'partly-sunny-outline';
+    case 'Maghrib':
+      return 'partly-sunny-outline';
+    case 'Isha':
+      return 'cloudy-night-outline';
+    default:
+      return 'time-outline';
+  }
 };
 
 export default function PrayerTimeCard() {
-  const hijriDate = '15 Rabiul Awwal 1447';
-  const gregorianDate = 'Monday, 16 September 2025';
-  const currentPrayer = 'Asr';
-  const currentPrayerTime = '4:32 PM';
-  const timeLeft = '01h 18m left';
-  const location1 = 'Dhaka, Bangladesh';
-
-  const getPrayerIcon = (prayerKey: string) => {
-    switch (prayerKey) {
-      case 'Fajr':
-        return 'moon-outline';
-      case 'Dhuhr':
-        return 'sunny-outline';
-      case 'Asr':
-        return 'partly-sunny-outline';
-      case 'Maghrib':
-        return 'partly-sunny-outline';
-      case 'Isha':
-        return 'cloudy-night-outline';
-      default:
-        return 'time-outline';
-    }
-  };
-  const { data } = useLocation();
-
-  const { data: prayerTime } = usePrayerTime(
-    data?.latitude ?? 0,
-    data?.longitude ?? 0,
-    12,
-    2025
+  const { data: locationData } = useLocation();
+  const { data: prayerData } = usePrayerTime(
+    locationData?.latitude ?? 0,
+    locationData?.longitude ?? 0,
+    new Date()
   );
 
-  if (!data) return null;
+  const [timeLeft, setTimeLeft] = useState('');
 
-  // console.log('prayerTime', prayerTime);
+  // Determine current and next prayer
+  const currentPrayerInfo = useMemo(() => {
+    if (!prayerData || !locationData?.timezone) return null;
+
+    const now = DateTime.now().setZone(locationData.timezone);
+    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    let currentPrayer = 'Fajr';
+    let nextPrayerTime: DateTime | null = null;
+
+    for (let i = 0; i < prayerOrder.length; i++) {
+      const key = prayerOrder[i] as keyof typeof prayerData.prayerTimes;
+      const prayerTime = DateTime.fromJSDate(
+        new Date(prayerData.prayerTimes[key])
+      ).setZone(locationData.timezone);
+
+      if (now < prayerTime) {
+        nextPrayerTime = prayerTime;
+        break;
+      } else {
+        currentPrayer = key;
+      }
+    }
+
+    // Wrap to tomorrow's Fajr if all prayers are passed
+    if (!nextPrayerTime) {
+      nextPrayerTime = DateTime.fromJSDate(
+        new Date(prayerData.prayerTimes['Fajr'])
+      )
+        .plus({ days: 1 })
+        .setZone(locationData.timezone);
+    }
+
+    return {
+      currentPrayer,
+      currentPrayerTime: DateTime.fromJSDate(
+        new Date(
+          prayerData.prayerTimes[
+            currentPrayer as keyof typeof prayerData.prayerTimes
+          ]
+        )
+      ).setZone(locationData.timezone),
+      nextPrayerTime,
+    };
+  }, [prayerData, locationData]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!currentPrayerInfo?.nextPrayerTime) return;
+
+    const interval = setInterval(() => {
+      const now = DateTime.now().setZone(locationData!.timezone);
+      const diff = currentPrayerInfo
+        .nextPrayerTime!.diff(now, ['hours', 'minutes', 'seconds'])
+        .toObject();
+
+      if (!diff) return;
+
+      if (diff.hours! <= 0 && diff.minutes! <= 0 && diff.seconds! <= 0) {
+        setTimeLeft('00h 00m 00s');
+        return;
+      }
+
+      setTimeLeft(
+        `${Math.floor(diff.hours!).toString().padStart(2, '0')}h ${Math.floor(
+          diff.minutes!
+        )
+          .toString()
+          .padStart(2, '0')}m ${Math.floor(diff.seconds!)
+          .toString()
+          .padStart(2, '0')}s`
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentPrayerInfo, locationData]);
+
+  if (!locationData || !currentPrayerInfo || !prayerData) return null;
+
   return (
     <ImageBackground
       source={require('@/assets/images/mosque-banner.png')}
@@ -66,14 +123,17 @@ export default function PrayerTimeCard() {
         {/* Header */}
         <View className='flex-row justify-between items-start mb-3 mt-10'>
           <View>
-            <Text style={shadow} className='text-white text-sm font-semibold'>
-              {hijriDate}
+            <Text className='text-white text-sm font-semibold'>
+              {currentPrayerInfo.currentPrayerTime.toFormat('dd LLL yyyy')}
             </Text>
-            <Text className='text-white/70 text-sm'>{gregorianDate}</Text>
+            <Text className='text-white/70 text-sm'>
+              {currentPrayerInfo.currentPrayerTime.toFormat('cccc')}
+            </Text>
           </View>
           <View className='flex-row items-center gap-1'>
+            <Text className='text-sm text-white'>{locationData.flag}</Text>
             <Ionicons name='location-outline' size={14} color='#fff' />
-            <Text className='text-white/70 text-sm'>{location1}</Text>
+            <Text className='text-white/70 text-sm'>{locationData.city}</Text>
           </View>
         </View>
 
@@ -82,13 +142,13 @@ export default function PrayerTimeCard() {
           <Text className='text-white/70 text-xs uppercase mb-1'>
             Current Prayer
           </Text>
-          <Text
-            style={shadow}
-            className='text-white text-2xl font-bold leading-tight'
-          >
-            {currentPrayer}: {currentPrayerTime}
+          <Text className='text-white text-2xl font-bold leading-tight'>
+            {currentPrayerInfo.currentPrayer}:{' '}
+            {currentPrayerInfo.currentPrayerTime.toFormat('hh:mm a')}
           </Text>
-          <Text className='text-white/50 text-sm'>Next Prayer:{timeLeft}</Text>
+          <Text className='text-white/50 text-sm'>
+            Remaining Time: {timeLeft}
+          </Text>
         </View>
 
         {/* Divider */}
@@ -96,18 +156,20 @@ export default function PrayerTimeCard() {
 
         {/* Daily Prayer Row */}
         <View className='flex-row justify-between'>
-          {PRAYERS.map((prayer) => {
-            const isActive = prayer.key === currentPrayer;
-
+          {Object.entries(prayerData.prayerTimes).map(([key, time]) => {
+            const isActive = key === currentPrayerInfo.currentPrayer;
+            const timeInZone = DateTime.fromJSDate(new Date(time)).setZone(
+              locationData.timezone
+            );
             return (
               <View
-                key={prayer.key}
+                key={key}
                 className={`items-center px-1 py-0.5 rounded-lg ${
                   isActive ? 'bg-white/20 px-2 rounded-lg' : ''
                 }`}
               >
                 <Ionicons
-                  name={getPrayerIcon(prayer.key) as any}
+                  name={getPrayerIcon(key)}
                   size={14}
                   color={isActive ? '#fff' : 'rgba(255,255,255,0.7)'}
                 />
@@ -116,14 +178,14 @@ export default function PrayerTimeCard() {
                     isActive ? 'text-white font-semibold' : 'text-white/90'
                   }`}
                 >
-                  {prayer.key}
+                  {key}
                 </Text>
                 <Text
                   className={`text-[11px] ${
                     isActive ? 'text-white' : 'text-white/90'
                   }`}
                 >
-                  {prayer.time}
+                  {timeInZone.toFormat('hh:mm a')}
                 </Text>
               </View>
             );
