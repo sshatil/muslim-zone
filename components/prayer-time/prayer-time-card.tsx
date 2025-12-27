@@ -1,27 +1,11 @@
 import { useLocation } from '@/hooks/use-location';
 import { usePrayerTime } from '@/hooks/use-prayer-time';
+import { getPrayerIcon } from '@/utils/prayer-time';
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
 import { ImageBackground, Text, View } from 'react-native';
-
-const getPrayerIcon = (prayerKey: string) => {
-  switch (prayerKey) {
-    case 'Fajr':
-      return 'moon-outline';
-    case 'Dhuhr':
-      return 'sunny-outline';
-    case 'Asr':
-      return 'partly-sunny-outline';
-    case 'Maghrib':
-      return 'partly-sunny-outline';
-    case 'Isha':
-      return 'cloudy-night-outline';
-    default:
-      return 'time-outline';
-  }
-};
 
 export default function PrayerTimeCard() {
   const { data: locationData } = useLocation();
@@ -109,7 +93,28 @@ export default function PrayerTimeCard() {
     return () => clearInterval(interval);
   }, [currentPrayerInfo, locationData]);
 
-  if (!locationData || !currentPrayerInfo || !prayerData) return null;
+  // Arabic date, day and year
+  const arabicDate = useMemo(() => {
+    if (!currentPrayerInfo || !locationData?.timezone) return '';
+
+    const date = currentPrayerInfo.currentPrayerTime
+      .setZone(locationData.timezone)
+      .toJSDate();
+
+    return new Intl.DateTimeFormat('en-US-u-ca-islamic', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: locationData.timezone,
+    }).format(date);
+  }, [currentPrayerInfo, locationData]);
+
+  if (!locationData || !currentPrayerInfo || !prayerData)
+    return (
+      <View className='h-screen justify-center items-center'>
+        <Text>Logo</Text>
+      </View>
+    );
 
   return (
     <ImageBackground
@@ -123,6 +128,9 @@ export default function PrayerTimeCard() {
         {/* Header */}
         <View className='flex-row justify-between items-start mb-3 mt-10'>
           <View>
+            <Text className='text-white text-sm font-semibold'>
+              {arabicDate}
+            </Text>
             <Text className='text-white text-sm font-semibold'>
               {currentPrayerInfo.currentPrayerTime.toFormat('dd LLL yyyy')}
             </Text>
