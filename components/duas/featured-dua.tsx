@@ -1,5 +1,3 @@
-'use client';
-
 import { Card } from '@/components/ui/card';
 import { getCategories } from '@/lib/dua-loader';
 import { getFeaturedDuas } from '@/lib/dua-utils';
@@ -49,7 +47,7 @@ export default function FeaturedDuaList() {
                 <Card
                   size='md'
                   variant='outline'
-                  className='border-outline-200 bg-background-10 rounded-xl'
+                  className='bg-background-10 rounded-xl my-2'
                 >
                   <View className='flex-row items-center justify-between'>
                     {/* Left */}
@@ -83,7 +81,7 @@ export default function FeaturedDuaList() {
                 <Card
                   size='md'
                   variant='outline'
-                  className='border-outline-200 bg-background-10 rounded-xl'
+                  className='bg-background-10 rounded-xl my-2'
                 >
                   <View className='flex-row items-center justify-between'>
                     {/* Left */}
