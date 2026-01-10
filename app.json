@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "one-step-sunnah",
-    "slug": "one-step-sunnah",
+    "name": "Muslim Zone",
+    "slug": "muslim-zone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "onestepsunnah",
+    "scheme": "muslim-zone",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
