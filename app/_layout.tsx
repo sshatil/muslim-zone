@@ -1,7 +1,8 @@
+import { ThemeProvider } from '@/context/ThemeContext';
 import {
   DarkTheme,
   DefaultTheme,
-  ThemeProvider,
+  ThemeProvider as NavThemeProvider,
 } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -18,12 +19,20 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <MainLayout />
+    </ThemeProvider>
+  );
+}
+
+function MainLayout() {
   const colorScheme = useColorScheme();
 
   return (
     <QueryClientProvider>
-      <GluestackUIProvider mode='dark'>
-        <ThemeProvider
+      <GluestackUIProvider mode={colorScheme ?? 'light'}>
+        <NavThemeProvider
           value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
         >
           <Stack>
@@ -34,7 +43,7 @@ export default function RootLayout() {
           /> */}
           </Stack>
           <StatusBar style='auto' />
-        </ThemeProvider>
+        </NavThemeProvider>
       </GluestackUIProvider>
     </QueryClientProvider>
   );
