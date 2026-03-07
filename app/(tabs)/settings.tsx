@@ -1,9 +1,12 @@
-import { Text, View } from 'react-native';
+import Settings from '@/components/settings/settings';
+import { ScrollView, View } from 'react-native';
 
 export default function SettingsScreen() {
   return (
-    <View>
-      <Text className='text-primary-950'>Settings Page</Text>
-    </View>
+    <ScrollView className='min-h-screen bg-background-50'>
+      <View className='space-y-4'>
+        <Settings />
+      </View>
+    </ScrollView>
   );
 }
