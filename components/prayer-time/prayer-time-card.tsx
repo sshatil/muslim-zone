@@ -18,17 +18,17 @@ export default function PrayerTimeCard() {
 
   return (
     <ImageBackground
-      source={require('@/assets/images/mosque-banner.png')}
+      source={require('@/assets/images/prayer-banner.jpg')}
       resizeMode='cover'
-      className='overflow-hidden bg-background-0/15'
+      className='overflow-hidden'
     >
       <BlurView intensity={10} tint='dark' className='px-4 py-6'>
-        <View className='absolute inset-0 bg-background-50/60' />
+        <View className='absolute inset-0 bg-gray-950/80' />
 
         {/* Header */}
         <View className='mb-3 mt-10 flex-row items-start justify-between'>
           <View>
-            <Text className='text-sm font-semibold text-white'>
+            <Text className='text-md font-semibold text-white'>
               {arabicDate}
             </Text>
             <Text className='text-sm font-semibold text-white'>
@@ -63,7 +63,7 @@ export default function PrayerTimeCard() {
         <View className='mb-3 h-px bg-white/20' />
 
         {/* Daily Prayer Row */}
-        <View className='flex-row justify-between'>
+        <View className='flex-row justify-between rounded-lg p-2'>
           {Object.entries(prayerData.prayerTimes).map(([key, time]) => {
             const isActive = key === currentPrayerInfo.currentPrayer;
             const timeInZone = DateTime.fromJSDate(new Date(time)).setZone(
@@ -73,7 +73,7 @@ export default function PrayerTimeCard() {
               <View
                 key={key}
                 className={`items-center rounded-lg px-1 py-0.5 ${
-                  isActive ? 'rounded-lg bg-white/20 px-2' : ''
+                  isActive ? 'rounded-xl bg-white/20' : ''
                 }`}
               >
                 <Ionicons

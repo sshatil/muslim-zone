@@ -3,7 +3,7 @@ import { ScrollView, View } from 'react-native';
 
 export default function PrayerScreen() {
   return (
-    <ScrollView className='bg-background-50 min-h-screen'>
+    <ScrollView className='min-h-screen bg-background-50'>
       <View className='space-y-4'>
         <PrayerTime />
       </View>

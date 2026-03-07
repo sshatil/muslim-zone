@@ -20,7 +20,7 @@ export default function PrayerTime() {
   return (
     <View className='h-screen'>
       <View className='flex-1 bg-gradient-to-bl'>
-        <View className='absolute inset-0 bg-background-950/80' />
+        <View className='absolute inset-0' />
 
         <ScrollView
           className='flex-1 px-6 pt-16'
@@ -28,29 +28,29 @@ export default function PrayerTime() {
         >
           {/* Header section */}
           <View className='mb-10 items-center'>
-            <Text className='mb-2 text-sm font-medium uppercase tracking-widest text-white/60'>
+            <Text className='mb-2 text-sm font-medium uppercase tracking-widest text-typography-500'>
               {locationData.city}, {locationData.country}
             </Text>
-            <Text className='mb-1 text-3xl font-bold text-white'>
+            <Text className='mb-1 text-3xl font-bold text-typography-950'>
               {currentPrayerInfo.currentPrayerTime.toFormat('cccc, dd LLL')}
             </Text>
-            <Text className='text-lg font-medium text-primary-400'>
+            <Text className='text-lg font-medium text-typography-500'>
               {arabicDate}
             </Text>
           </View>
 
           {/* Hero timer section */}
           <View className='mb-12 items-center'>
-            <View className='mb-6 rounded-full border border-white/5 bg-white/10 px-6 py-2'>
-              <Text className='text-sm font-medium text-white/90'>
+            <View className='mb-6 rounded-full border border-outline-200 bg-background-50 px-6 py-2'>
+              <Text className='text-sm font-medium text-typography-500'>
                 Next: {currentPrayerInfo.nextPrayerName}
               </Text>
             </View>
 
-            <Text className='font-mono mb-2 text-6xl font-light tracking-wider text-white'>
+            <Text className='font-mono mb-2 text-6xl font-light tracking-wider text-typography-950'>
               {timeLeft || '-- : -- : --'}
             </Text>
-            <Text className='text-sm uppercase tracking-widest text-white/40'>
+            <Text className='text-sm uppercase tracking-widest text-typography-500'>
               Time Remaining
             </Text>
           </View>
@@ -71,32 +71,34 @@ export default function PrayerTime() {
                   intensity={isCurrent ? 20 : 0}
                   className={`flex-row items-center justify-between overflow-hidden rounded-2xl border p-4 ${
                     isCurrent
-                      ? 'border-primary-500/50 bg-primary-500/10'
-                      : 'border-white/5 bg-background-900/40'
+                      ? 'border-green-500/50 bg-primary-500/10'
+                      : 'border-outline-200 bg-background-50'
                   }`}
                 >
                   <View className='flex-row items-center gap-4'>
                     <View
                       className={`h-10 w-10 items-center justify-center rounded-full ${
-                        isCurrent ? 'bg-primary-500' : 'bg-white/10'
+                        isCurrent && ''
                       }`}
                     >
                       <Ionicons
                         name={getPrayerIcon(key)}
                         size={20}
-                        color={isCurrent ? '#fff' : '#ffffff80'}
+                        color={isCurrent ? '#4ade80' : ''}
                       />
                     </View>
                     <View>
                       <Text
                         className={`text-base font-semibold ${
-                          isCurrent ? 'text-white' : 'text-white/70'
+                          isCurrent
+                            ? 'text-typography-950'
+                            : 'text-typography-500'
                         }`}
                       >
                         {key}
                       </Text>
                       {isNext && (
-                        <Text className='text-[10px] font-medium uppercase tracking-wide text-primary-400'>
+                        <Text className='text-[10px] font-medium uppercase tracking-wide text-typography-500'>
                           Upcoming
                         </Text>
                       )}
@@ -105,7 +107,7 @@ export default function PrayerTime() {
 
                   <Text
                     className={`text-lg font-medium ${
-                      isCurrent ? 'text-white' : 'text-white/70'
+                      isCurrent ? 'text-typography-950' : 'text-typography-500'
                     }`}
                   >
                     {timeInZone.toFormat('hh:mm a')}
