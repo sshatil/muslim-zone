@@ -84,7 +84,7 @@ export default function PrayerTime() {
                       <Ionicons
                         name={getPrayerIcon(key)}
                         size={20}
-                        color={isCurrent ? '#4ade80' : ''}
+                        color={isCurrent ? '#4ade80' : '#687076'}
                       />
                     </View>
                     <View>

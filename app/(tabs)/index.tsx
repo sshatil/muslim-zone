@@ -4,10 +4,9 @@ import { ScrollView, View } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <ScrollView className='min-h-screen'>
+    <ScrollView className='min-h-screen bg-background-100'>
       <View className='space-y-4'>
         <PrayerTimeCard />
-        {/* <WeeklyPrayerTime /> */}
         <FeaturedDuaList />
       </View>
     </ScrollView>

@@ -30,7 +30,7 @@ export default function CategoryDuas() {
         }}
       />
       <ScrollView className='flex-1 bg-background-100 p-4'>
-        <View className='space-y-3 mb-6'>
+        <View className='mb-6 space-y-3'>
           {duas.map((dua) => (
             <Pressable
               key={dua.id}
@@ -39,14 +39,14 @@ export default function CategoryDuas() {
               <Card
                 size='md'
                 variant='outline'
-                className='border-outline-200 bg-background-0 rounded-xl my-2'
+                className='my-2 rounded-xl border-outline-200 bg-background-0'
               >
                 <View className='flex-row items-center justify-between'>
-                  <View className='flex-1 mr-2'>
-                    <Text className='text-sm font-medium text-typography-950 mb-1'>
+                  <View className='mr-2 flex-1'>
+                    <Text className='mb-1 text-base font-medium text-typography-950'>
                       {dua.title.en}
                     </Text>
-                    <Text className='text-xs text-typography-500 line-clamp-1'>
+                    <Text className='line-clamp-1 text-xs text-typography-500'>
                       {dua.translation.en}
                     </Text>
                   </View>

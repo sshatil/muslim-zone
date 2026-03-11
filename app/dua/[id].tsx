@@ -19,7 +19,7 @@ export default function DuaDetail() {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(
-      `${dua.arabic}\n\n${dua.translation.en}\n\n${dua.source?.reference}`
+      `${dua.arabic}\n\n${dua.translation.en}\n\n${dua.source?.reference}`,
     );
   };
 
@@ -32,18 +32,18 @@ export default function DuaDetail() {
         }}
       />
       <ScrollView className='flex-1 bg-background-100'>
-        <View className='p-6 space-y-6'>
+        <View className='space-y-6 p-6'>
           {/* Card Container */}
-          <View className='bg-background-0 rounded-2xl p-6 shadow-sm border border-outline-200'>
+          <View className='rounded-2xl border border-outline-200 bg-background-0 p-6 shadow-sm'>
             {/* Arabic */}
-            <Text className='text-2xl text-center text-typography-950 font-bold mb-6 leading-loose'>
+            <Text className='mb-6 text-center text-2xl font-bold leading-loose text-typography-950'>
               {dua.arabic}
             </Text>
 
             {/* Transliteration */}
             {dua.transliteration?.en && (
-              <View className='mb-6 bg-surface-50 p-4 rounded-xl'>
-                <Text className='text-base text-typography-950 italic text-center'>
+              <View className='bg-surface-50 mb-6 rounded-xl p-4'>
+                <Text className='text-center text-lg italic text-typography-950'>
                   {dua.transliteration.en}
                 </Text>
               </View>
@@ -51,15 +51,15 @@ export default function DuaDetail() {
 
             {/* Translation */}
             <View className='mb-4'>
-              <Text className='text-base text-typography-950 text-center leading-relaxed'>
+              <Text className='text-center text-lg leading-relaxed text-typography-950'>
                 {dua.translation.en}
               </Text>
             </View>
 
             {/* Source */}
             {dua.source && (
-              <View className='mt-4 pt-4 border-t border-outline-200 flex-row justify-between items-center'>
-                <Text className='text-xs text-typography-500 font-medium'>
+              <View className='mt-4 flex-row items-center justify-between border-t border-outline-200 pt-4'>
+                <Text className='text-sm font-medium text-typography-500'>
                   {dua.source.reference}
                 </Text>
                 <TouchableOpacity onPress={copyToClipboard} className='p-2'>

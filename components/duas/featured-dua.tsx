@@ -21,13 +21,13 @@ export default function FeaturedDuaList() {
       acc[catId].push(dua);
       return acc;
     },
-    {} as Record<number, typeof featuredDuas>
+    {} as Record<number, typeof featuredDuas>,
   );
 
   return (
-    <View className='mt-6 px-4'>
+    <View className='bg-background-100 p-2'>
       {/* Title */}
-      <Text className='text-lg font-semibold text-typography-950 mb-3'>
+      <Text className='mb-3 text-lg font-semibold text-typography-950'>
         Featured Duas
       </Text>
 
@@ -47,16 +47,16 @@ export default function FeaturedDuaList() {
                 <Card
                   size='md'
                   variant='outline'
-                  className='bg-background-10 rounded-xl my-2'
+                  className='my-2 rounded-xl bg-background-0'
                 >
                   <View className='flex-row items-center justify-between'>
                     {/* Left */}
                     <View className='flex-1'>
-                      <Text className='text-sm font-medium text-typography-950'>
+                      <Text className='text-base font-medium text-typography-950'>
                         {dua.title.en}
                       </Text>
 
-                      <Text className='text-xs mt-1 text-typography-950'>
+                      <Text className='mt-1 text-xs text-typography-950'>
                         {dua.source?.reference}
                       </Text>
                     </View>
@@ -81,16 +81,16 @@ export default function FeaturedDuaList() {
                 <Card
                   size='md'
                   variant='outline'
-                  className='bg-background-10 rounded-xl my-2'
+                  className='my-2 rounded-xl bg-background-0'
                 >
                   <View className='flex-row items-center justify-between'>
                     {/* Left */}
                     <View className='flex-1'>
-                      <Text className='text-sm font-medium text-typography-950'>
+                      <Text className='text-base font-medium text-typography-950'>
                         {category?.name.en ?? 'Unknown Category'}
                       </Text>
 
-                      <Text className='text-xs mt-1 text-typography-500'>
+                      <Text className='mt-1 text-xs text-typography-500'>
                         {duas.length} Duas
                       </Text>
                     </View>

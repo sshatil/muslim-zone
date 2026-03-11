@@ -54,7 +54,7 @@ export default function PrayerTimeCard() {
             {currentPrayerInfo.currentPrayer}:{' '}
             {currentPrayerInfo.currentPrayerTime.toFormat('hh:mm a')}
           </Text>
-          <Text className='text-sm text-white/50'>
+          <Text className='text-lg text-white/50'>
             Remaining Time: {timeLeft}
           </Text>
         </View>
@@ -72,24 +72,24 @@ export default function PrayerTimeCard() {
             return (
               <View
                 key={key}
-                className={`items-center rounded-lg px-1 py-0.5 ${
+                className={`items-center rounded-lg px-2 py-1 ${
                   isActive ? 'rounded-xl bg-white/20' : ''
                 }`}
               >
                 <Ionicons
                   name={getPrayerIcon(key)}
-                  size={14}
+                  size={16}
                   color={isActive ? '#fff' : 'rgba(255,255,255,0.7)'}
                 />
                 <Text
-                  className={`mt-0.5 text-sm ${
-                    isActive ? 'font-semibold text-white' : 'text-white/90'
+                  className={`mt-0.5 text-base ${
+                    isActive ? 'text-white' : 'text-white/90'
                   }`}
                 >
                   {key}
                 </Text>
                 <Text
-                  className={`text-[11px] ${
+                  className={`text-sm ${
                     isActive ? 'text-white' : 'text-white/90'
                   }`}
                 >
