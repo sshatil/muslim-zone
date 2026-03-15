@@ -4,9 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
 import { ScrollView, Text, View } from 'react-native';
+import { CountdownDisplay } from './countdown';
 
 export default function PrayerTime() {
-  const { locationData, prayerData, currentPrayerInfo, timeLeft, arabicDate } =
+  const { locationData, prayerData, currentPrayerInfo, arabicDate } =
     usePrayerTiming();
 
   if (!locationData || !currentPrayerInfo || !prayerData) {
@@ -23,7 +24,7 @@ export default function PrayerTime() {
         <View className='absolute inset-0' />
 
         <ScrollView
-          className='flex-1 px-6 pt-16'
+          className='flex-1 px-6 pb-6 pt-16'
           showsVerticalScrollIndicator={false}
         >
           {/* Header section */}
@@ -47,12 +48,11 @@ export default function PrayerTime() {
               </Text>
             </View>
 
-            <Text className='font-mono mb-2 text-6xl font-light tracking-wider text-typography-950'>
-              {timeLeft || '-- : -- : --'}
-            </Text>
-            <Text className='text-sm uppercase tracking-widest text-typography-500'>
-              Time Remaining
-            </Text>
+            <CountdownDisplay
+              nextPrayerTime={currentPrayerInfo.nextPrayerTime}
+              timezone={locationData.timezone ?? ''}
+              className='text-2xl font-medium text-typography-500'
+            />
           </View>
 
           {/* Prayer times list */}

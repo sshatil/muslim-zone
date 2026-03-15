@@ -1,31 +1,17 @@
-// import { getTodayPrayerTimes } from '@/api/prayer-time';
-// import { useQuery } from '@tanstack/react-query';
-
-// export const usePrayerTime = (
-//   lat: number,
-//   lng: number,
-//   date: Date = new Date()
-// ) => {
-//   return useQuery({
-//     queryKey: ['prayer-time', lat, lng, date],
-//     queryFn: () => getTodayPrayerTimes(lat, lng, date),
-//     enabled: !!lat && !!lng && !!date,
-//   });
-// };
-
-///////////
 import { getTodayPrayerTimes } from '@/api/prayer-time';
 import { useQuery } from '@tanstack/react-query';
 
 export const usePrayerTime = (
   lat: number,
   lng: number,
-  date: Date = new Date()
+  dateKey: string, // only refetch in new day
 ) => {
   return useQuery({
-    queryKey: ['prayer-time', lat, lng, date.toDateString()],
-    enabled: !!lat && !!lng,
+    queryKey: ['prayer-time', lat, lng, dateKey],
+    enabled: !!lat && !!lng && !!dateKey,
+    staleTime: Infinity, // don’t refetch until key changes (e.g. new day)
     queryFn: async () => {
+      const date = new Date(dateKey + 'T12:00:00');
       const data = await getTodayPrayerTimes(lat, lng, date);
 
       return {

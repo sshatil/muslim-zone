@@ -30,7 +30,7 @@ const getUserLocation = async (): Promise<UserLocation> => {
       return countryCode
         .toUpperCase()
         .replace(/./g, (char) =>
-          String.fromCodePoint(127397 + char.charCodeAt(0))
+          String.fromCodePoint(127397 + char.charCodeAt(0)),
         );
     };
     const flag = countryCodeToFlag(ip.countryCode);
@@ -50,6 +50,6 @@ export const useLocation = () => {
   return useQuery({
     queryKey: ['user-location'],
     queryFn: getUserLocation,
-    staleTime: 1000 * 60 * 60, // 1 hour
+    // staleTime: 1000 * 60 * 60, // 1 hour
   });
 };

@@ -4,9 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { DateTime } from 'luxon';
 import { ImageBackground, Text, View } from 'react-native';
+import { CountdownDisplay } from './countdown';
 
 export default function PrayerTimeCard() {
-  const { locationData, prayerData, currentPrayerInfo, timeLeft, arabicDate } =
+  const { locationData, prayerData, currentPrayerInfo, arabicDate } =
     usePrayerTiming();
 
   if (!locationData || !currentPrayerInfo || !prayerData)
@@ -54,9 +55,11 @@ export default function PrayerTimeCard() {
             {currentPrayerInfo.currentPrayer}:{' '}
             {currentPrayerInfo.currentPrayerTime.toFormat('hh:mm a')}
           </Text>
-          <Text className='text-lg text-white/50'>
-            Remaining Time: {timeLeft}
-          </Text>
+          <CountdownDisplay
+            nextPrayerTime={currentPrayerInfo.nextPrayerTime}
+            timezone={locationData.timezone ?? ''}
+            className='text-md text-white'
+          />
         </View>
 
         {/* Divider */}

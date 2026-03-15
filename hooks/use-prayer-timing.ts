@@ -3,15 +3,27 @@ import { usePrayerTime } from '@/hooks/use-prayer-time';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
 
+function todayDateKey(): string {
+  return new Date().toISOString().split('T')[0];
+}
+
 export function usePrayerTiming() {
+  const [dateKey, setDateKey] = useState(todayDateKey);
   const { data: locationData } = useLocation();
   const { data: prayerData } = usePrayerTime(
     locationData?.latitude ?? 0,
     locationData?.longitude ?? 0,
-    new Date(),
+    dateKey,
   );
 
-  const [timeLeft, setTimeLeft] = useState('');
+  // Update date key only when the calendar day changes (e.g. after midnight)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const next = todayDateKey();
+      setDateKey((prev) => (next !== prev ? next : prev));
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Determine current and next prayer
   const currentPrayerInfo = useMemo(() => {
@@ -62,37 +74,6 @@ export function usePrayerTiming() {
     };
   }, [prayerData, locationData]);
 
-  // Countdown timer
-  useEffect(() => {
-    if (!currentPrayerInfo?.nextPrayerTime) return;
-
-    const interval = setInterval(() => {
-      const now = DateTime.now().setZone(locationData!.timezone);
-      const diff = currentPrayerInfo
-        .nextPrayerTime!.diff(now, ['hours', 'minutes', 'seconds'])
-        .toObject();
-
-      if (!diff) return;
-
-      if (diff.hours! <= 0 && diff.minutes! <= 0 && diff.seconds! <= 0) {
-        setTimeLeft('00 : 00 : 00');
-        return;
-      }
-
-      setTimeLeft(
-        `${Math.floor(diff.hours!).toString().padStart(2, '0')} : ${Math.floor(
-          diff.minutes!,
-        )
-          .toString()
-          .padStart(2, '0')} : ${Math.floor(diff.seconds!)
-          .toString()
-          .padStart(2, '0')}`,
-      );
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [currentPrayerInfo, locationData]);
-
   // Arabic date, day and year
   const arabicDate = useMemo(() => {
     if (!currentPrayerInfo || !locationData?.timezone) return '';
@@ -113,7 +94,6 @@ export function usePrayerTiming() {
     locationData,
     prayerData,
     currentPrayerInfo,
-    timeLeft,
     arabicDate,
   };
 }
