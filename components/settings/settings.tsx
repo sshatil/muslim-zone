@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 import { useTheme } from '@/context/ThemeContext';
 
@@ -13,10 +13,45 @@ import {
   ActionsheetItemText,
 } from '@/components/ui/actionsheet';
 import { Card } from '@/components/ui/card';
+import { useLocation } from '@/hooks/use-location';
+import {
+  defaultPrayerSettings,
+  getPrayerNotificationSettings,
+  PrayerNotificationSettings,
+  savePrayerNotificationSettings,
+  schedulePrayerNotifications,
+} from '@/utils/notifications';
 
 export default function Settings() {
   const { theme, setTheme } = useTheme();
   const [showThemeSheet, setShowThemeSheet] = useState(false);
+  const { data: locationData } = useLocation();
+  const [prayerSettings, setPrayerSettings] =
+    useState<PrayerNotificationSettings>(defaultPrayerSettings);
+
+  useEffect(() => {
+    async function loadSettings() {
+      const settings = await getPrayerNotificationSettings();
+      setPrayerSettings(settings);
+    }
+    loadSettings();
+  }, []);
+
+  const handleTogglePrayer = async (
+    prayer: keyof PrayerNotificationSettings,
+    value: boolean,
+  ) => {
+    const newSettings = { ...prayerSettings, [prayer]: value };
+    setPrayerSettings(newSettings);
+    await savePrayerNotificationSettings(newSettings);
+
+    if (locationData?.latitude && locationData?.longitude) {
+      await schedulePrayerNotifications(
+        locationData.latitude,
+        locationData.longitude,
+      );
+    }
+  };
 
   const themeOptions = [
     { label: 'Light', value: 'light', icon: 'sunny-outline' },
@@ -71,27 +106,48 @@ export default function Settings() {
           </Card>
         </View>
 
+        {/* Prayer notifications section */}
+        <View className='gap-4'>
+          <Text className='px-1 text-sm font-semibold uppercase text-typography-500'>
+            Prayer Notifications
+          </Text>
+
+          <Card variant='outline' className='p-2'>
+            {(
+              Object.keys(defaultPrayerSettings) as Array<
+                keyof PrayerNotificationSettings
+              >
+            ).map((prayer, index) => (
+              <View
+                key={prayer}
+                className={`flex-row items-center justify-between p-2 ${
+                  index !== 0 ? 'border-t border-outline-200' : ''
+                }`}
+              >
+                <View className='flex-row items-center gap-3'>
+                  <Text className='text-base font-medium text-typography-500'>
+                    {prayer}
+                  </Text>
+                </View>
+
+                <Switch
+                  value={prayerSettings[prayer]}
+                  onValueChange={(val) => handleTogglePrayer(prayer, val)}
+                  trackColor={{ false: '#D4D4D8', true: '#C7D2FE' }}
+                  thumbColor={prayerSettings[prayer] ? '#6366F1' : '#F4F4F5'}
+                />
+              </View>
+            ))}
+          </Card>
+        </View>
+
         {/* General Section */}
         <View className='gap-4'>
           <Text className='px-1 text-sm font-semibold uppercase text-typography-500'>
             General
           </Text>
           <Card variant='outline' className='p-2'>
-            <View className='flex-row items-center gap-3 p-2'>
-              <View className='items-center justify-center rounded-full'>
-                <Ionicons
-                  name='notifications-outline'
-                  size={20}
-                  color='#EF4444'
-                />
-              </View>
-
-              <Text className='text-base font-medium text-typography-500'>
-                Notifications
-              </Text>
-            </View>
-
-            <TouchableOpacity className='w-full border-t border-outline-200 p-2'>
+            <TouchableOpacity className='w-full p-2'>
               <View className='w-full flex-row items-center justify-between'>
                 <View className='flex-row items-center gap-3'>
                   <Ionicons
@@ -111,7 +167,7 @@ export default function Settings() {
           </Card>
         </View>
 
-        {/* Application Info */}
+        {/* Application info */}
         <View className='items-center py-4'>
           <Text className='text-sm text-typography-500'>
             Muslim Zone • v1.0.0
@@ -119,7 +175,7 @@ export default function Settings() {
         </View>
       </ScrollView>
 
-      {/* Theme Bottom Sheet */}
+      {/* Theme bottom sheet */}
       <Actionsheet
         isOpen={showThemeSheet}
         onClose={() => setShowThemeSheet(false)}

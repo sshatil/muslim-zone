@@ -10,6 +10,45 @@ import { Platform } from 'react-native';
 const DAYS_TO_SCHEDULE = Platform.OS === 'ios' ? 12 : 30;
 const PRAYERS = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const;
 const STORAGE_KEY = 'prayer_notifications_last_scheduled';
+const SETTINGS_STORAGE_KEY = 'prayer_notifications_settings';
+
+export type PrayerNotificationSettings = {
+  Fajr: boolean;
+  Dhuhr: boolean;
+  Asr: boolean;
+  Maghrib: boolean;
+  Isha: boolean;
+};
+
+export const defaultPrayerSettings: PrayerNotificationSettings = {
+  Fajr: true,
+  Dhuhr: true,
+  Asr: true,
+  Maghrib: true,
+  Isha: true,
+};
+
+export async function getPrayerNotificationSettings(): Promise<PrayerNotificationSettings> {
+  try {
+    const data = await AsyncStorage.getItem(SETTINGS_STORAGE_KEY);
+    if (data) {
+      return { ...defaultPrayerSettings, ...JSON.parse(data) };
+    }
+  } catch (error) {
+    console.error('Failed to get prayer notification settings:', error);
+  }
+  return defaultPrayerSettings;
+}
+
+export async function savePrayerNotificationSettings(
+  settings: PrayerNotificationSettings,
+): Promise<void> {
+  try {
+    await AsyncStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+  } catch (error) {
+    console.error('Failed to save prayer notification settings:', error);
+  }
+}
 
 // Notification handler (foreground behaviour).
 
@@ -96,13 +135,19 @@ export async function schedulePrayerNotifications(
 
     // adhan returns proper Date objects — no string parsing needed.
     const { prayerTimes } = getTodayPrayerTimes(latitude, longitude, date);
+    const settings = await getPrayerNotificationSettings();
 
     for (const prayer of PRAYERS) {
       // prayerTimes values are ISO strings from api/prayer-time.ts
       const prayerTime = new Date(prayerTimes[prayer]);
 
-      // Skip any prayer that has already passed.
-      if (prayerTime.getTime() <= Date.now()) continue;
+      // Skip any prayer that has already passed or is disabled in settings.
+      if (
+        prayerTime.getTime() <= Date.now() ||
+        !settings[prayer as keyof PrayerNotificationSettings]
+      ) {
+        continue;
+      }
 
       try {
         await Notifications.scheduleNotificationAsync({
