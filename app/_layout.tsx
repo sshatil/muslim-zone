@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@/context/ThemeContext';
+import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,7 +10,6 @@ import 'react-native-reanimated';
 import { QueryClientProvider } from '@/components/query-client';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useLocation } from '@/hooks/use-location';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
@@ -32,7 +31,7 @@ export default function RootLayout() {
 }
 
 function MainLayout() {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme();
   const { data: locationData } = useLocation();
   const appState = useRef<AppStateStatus>(AppState.currentState);
 
@@ -61,10 +60,8 @@ function MainLayout() {
   }, [locationData?.latitude, locationData?.longitude]);
 
   return (
-    <GluestackUIProvider mode={colorScheme ?? 'light'}>
-      <NavThemeProvider
-        value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-      >
+    <GluestackUIProvider mode={theme ?? 'light'}>
+      <NavThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         </Stack>

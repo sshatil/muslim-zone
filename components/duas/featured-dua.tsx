@@ -25,9 +25,9 @@ export default function FeaturedDuaList() {
   );
 
   return (
-    <View className='bg-background-100 p-2'>
+    <View className='p-2'>
       {/* Title */}
-      <Text className='mb-3 text-lg font-semibold text-typography-950'>
+      <Text className='mb-3 text-2xl font-bold text-typography-950'>
         Featured Duas
       </Text>
 

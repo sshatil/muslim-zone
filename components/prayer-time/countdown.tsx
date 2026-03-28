@@ -16,29 +16,25 @@ export function CountdownDisplay({
   useEffect(() => {
     const tick = () => {
       const now = DateTime.now().setZone(timezone);
-      const diff = nextPrayerTime
-        .diff(now, ['hours', 'minutes', 'seconds'])
-        .toObject();
+
+      const diff = nextPrayerTime.diff(now, ['hours', 'minutes']).toObject();
 
       if (!diff) return;
 
-      if (
-        (diff.hours ?? 0) <= 0 &&
-        (diff.minutes ?? 0) <= 0 &&
-        (diff.seconds ?? 0) <= 0
-      ) {
-        setTimeLeft('00 : 00 : 00');
+      const hours = Math.floor(diff.hours ?? 0);
+      const minutes = Math.floor(diff.minutes ?? 0);
+
+      if (hours <= 0 && minutes <= 0) {
+        setTimeLeft('Now');
         return;
       }
 
-      setTimeLeft(
-        `${String(Math.floor(diff.hours ?? 0)).padStart(2, '0')} : ${String(
-          Math.floor(diff.minutes ?? 0),
-        ).padStart(2, '0')} : ${String(Math.floor(diff.seconds ?? 0)).padStart(
-          2,
-          '0',
-        )}`,
-      );
+      // Format like: 2h 15m
+      if (hours > 0) {
+        setTimeLeft(`${hours}h ${minutes}m`);
+      } else {
+        setTimeLeft(`${minutes}m`);
+      }
     };
 
     tick();
@@ -46,5 +42,5 @@ export function CountdownDisplay({
     return () => clearInterval(interval);
   }, [nextPrayerTime, timezone]);
 
-  return <Text className={`${className}`}>Remaining Time: {timeLeft}</Text>;
+  return <Text className={className}>{timeLeft}</Text>;
 }
