@@ -34,7 +34,7 @@ export default function PrayerTimeCard() {
         className='absolute -bottom-12 -left-2 h-40 w-40'
         blurRadius={25}
       />
-      <View className='mx-3 my-4 rounded-[40px] bg-white/70 dark:bg-[#064E3B66]/40'>
+      <View className='mx-2 my-4 rounded-[40px] bg-white/70 dark:bg-[#064E3B66]/40'>
         <View className=''>
           {/* Header */}
           <View className='px-10 pb-4 pt-10'>
@@ -56,7 +56,7 @@ export default function PrayerTimeCard() {
                 </Text>
                 <View className=''>
                   <Text className='mt-3 text-5xl font-extrabold text-typography-950 dark:text-white'>
-                    {currentPrayerInfo.currentPrayer}
+                    {currentPrayerInfo.nextPrayerName}
                   </Text>
                 </View>
                 <View className='mt-2 flex-row items-center gap-1'>
@@ -93,7 +93,7 @@ export default function PrayerTimeCard() {
           <View className='mb-1 h-px bg-typography-950/20' />
 
           {/* Daily Prayer Row */}
-          <View className='mt-2 flex-row justify-between rounded-lg px-1 py-6'>
+          <View className='mt-2 flex-row justify-between rounded-lg px-2 py-6'>
             {Object.entries(prayerData.prayerTimes).map(([key, time]) => {
               const isActive = key === currentPrayerInfo.currentPrayer;
               const timeInZone = DateTime.fromJSDate(new Date(time)).setZone(
