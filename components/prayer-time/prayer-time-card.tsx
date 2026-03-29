@@ -3,7 +3,7 @@ import { usePrayerTiming } from '@/hooks/use-prayer-timing';
 import { getPrayerIcon } from '@/utils/prayer-time';
 import { Ionicons } from '@expo/vector-icons';
 import { DateTime } from 'luxon';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { CountdownDisplay } from './countdown';
 
 export default function PrayerTimeCard() {
@@ -22,19 +22,20 @@ export default function PrayerTimeCard() {
   const iconColor = theme === 'dark' ? '#9e9c95' : '#241A00';
 
   return (
-    // <ImageBackground
-    //   source={require('@/assets/images/prayer-banner.jpg')}
-    //   resizeMode='cover'
-    //   className='overflow-hidden'
-    // >
-    // <View className='mt-16 rounded-xl bg-primary-0/70'>
     <View className='mt-16'>
-      {/* <BlurView intensity={10} tint='dark' className='px-4 py-6'> */}
-      {/* <View className='px-6'> */}
-      <View className='m-4 rounded-[40px] bg-white/70 dark:bg-[#064E3B66]/40'>
-        <View className=''>
-          {/* <View className='absolute inset-0 bg-gray-950/80' /> */}
+      <Image
+        source={require('@/assets/images/overlay-top.png')}
+        className='absolute -top-4 right-0 h-40 w-40'
+        blurRadius={25}
+      />
 
+      <Image
+        source={require('@/assets/images/overlay.png')}
+        className='absolute -bottom-12 -left-2 h-40 w-40'
+        blurRadius={25}
+      />
+      <View className='mx-3 my-4 rounded-[40px] bg-white/70 dark:bg-[#064E3B66]/40'>
+        <View className=''>
           {/* Header */}
           <View className='px-10 pb-4 pt-10'>
             <View className='flex-row items-center justify-center gap-3'>
@@ -54,7 +55,7 @@ export default function PrayerTimeCard() {
                   Up Next
                 </Text>
                 <View className=''>
-                  <Text className='mb-2 text-5xl font-extrabold text-typography-950 dark:text-white'>
+                  <Text className='mt-3 text-5xl font-extrabold text-typography-950 dark:text-white'>
                     {currentPrayerInfo.currentPrayer}
                   </Text>
                 </View>
@@ -64,7 +65,7 @@ export default function PrayerTimeCard() {
                     timezone={locationData.timezone ?? ''}
                     className='text-2xl font-medium text-typography-950 dark:text-[#FED65B]'
                   />
-                  <Text className='text-sm text-typography-950/60 text-white/60'>
+                  <Text className='text-sm text-typography-950/60 dark:text-white/60'>
                     Remaining
                   </Text>
                 </View>
@@ -92,7 +93,7 @@ export default function PrayerTimeCard() {
           <View className='mb-1 h-px bg-typography-950/20' />
 
           {/* Daily Prayer Row */}
-          <View className='mt-2 flex-row justify-between rounded-lg p-6'>
+          <View className='mt-2 flex-row justify-between rounded-lg px-1 py-6'>
             {Object.entries(prayerData.prayerTimes).map(([key, time]) => {
               const isActive = key === currentPrayerInfo.currentPrayer;
               const timeInZone = DateTime.fromJSDate(new Date(time)).setZone(
@@ -101,7 +102,7 @@ export default function PrayerTimeCard() {
               return (
                 <View
                   key={key}
-                  className={`items-center rounded-lg px-2 py-1 ${
+                  className={`items-center rounded-lg px-1 py-1 ${
                     isActive ? 'bg-primary-500 dark:bg-[#FED65B]' : ''
                   }`}
                 >
@@ -113,7 +114,7 @@ export default function PrayerTimeCard() {
                   <Text
                     className={`mt-0.5 text-base ${
                       isActive
-                        ? 'text-white/80 dark:text-[#241A00B2]/80'
+                        ? 'font-bold text-white/80 dark:text-[#241A00]'
                         : 'text-typography-950/60'
                     }`}
                   >
@@ -132,7 +133,6 @@ export default function PrayerTimeCard() {
               );
             })}
           </View>
-          {/* </BlurView> */}
         </View>
       </View>
     </View>
