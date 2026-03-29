@@ -61,21 +61,23 @@ export default function Settings() {
 
   const selected = themeOptions.find((t) => t.value === theme);
 
+  const switchColor = theme === 'dark' ? '#E9C349' : '#003527';
+
   return (
     <>
       <Stack.Screen options={{ title: 'Settings', headerLargeTitle: true }} />
 
       <ScrollView
-        className='flex-1 bg-background-50'
+        className='flex-1'
         contentContainerClassName='p-4 gap-6 pb-20 pt-20'
       >
         {/* Appearance Section */}
         <View className='gap-4'>
-          <Text className='px-1 text-sm font-semibold uppercase text-typography-500'>
+          <Text className='px-1 text-[26px] font-bold uppercase text-[#003527] dark:text-[#E9C349]'>
             Appearance
           </Text>
 
-          <Card variant='outline' className='p-2'>
+          <Card variant='outline' className='rounded-2xl bg-background-0 p-5'>
             {/* Theme Selector Row */}
             <TouchableOpacity
               onPress={() => setShowThemeSheet(true)}
@@ -91,11 +93,11 @@ export default function Settings() {
                 </View>
 
                 <View>
-                  <Text className='text-base font-medium text-typography-500'>
+                  <Text className='text-base font-medium text-[#003527] dark:text-white'>
                     Theme
                   </Text>
 
-                  <Text className='text-sm text-typography-500'>
+                  <Text className='text-sm text-[#003527]/80 dark:text-white/80'>
                     {selected?.label}
                   </Text>
                 </View>
@@ -108,11 +110,11 @@ export default function Settings() {
 
         {/* Prayer notifications section */}
         <View className='gap-4'>
-          <Text className='px-1 text-sm font-semibold uppercase text-typography-500'>
-            Prayer Notifications
+          <Text className='px-1 text-[26px] font-bold uppercase text-[#003527] dark:text-[#E9C349]'>
+            Prayer Alerts
           </Text>
 
-          <Card variant='outline' className='p-2'>
+          <Card variant='outline' className='rounded-2xl bg-background-0 p-5'>
             {(
               Object.keys(defaultPrayerSettings) as Array<
                 keyof PrayerNotificationSettings
@@ -125,7 +127,7 @@ export default function Settings() {
                 }`}
               >
                 <View className='flex-row items-center gap-3'>
-                  <Text className='text-base font-medium text-typography-500'>
+                  <Text className='text-[18px] text-[#003527] dark:text-white'>
                     {prayer}
                   </Text>
                 </View>
@@ -133,8 +135,8 @@ export default function Settings() {
                 <Switch
                   value={prayerSettings[prayer]}
                   onValueChange={(val) => handleTogglePrayer(prayer, val)}
-                  trackColor={{ false: '#D4D4D8', true: '#C7D2FE' }}
-                  thumbColor={prayerSettings[prayer] ? '#6366F1' : '#F4F4F5'}
+                  trackColor={{ false: switchColor, true: switchColor }}
+                  thumbColor={prayerSettings[prayer] ? '#FFFFFF' : '#BFC9C3'}
                 />
               </View>
             ))}
@@ -143,10 +145,10 @@ export default function Settings() {
 
         {/* General Section */}
         <View className='gap-4'>
-          <Text className='px-1 text-sm font-semibold uppercase text-typography-500'>
+          <Text className='px-1 text-[26px] font-bold uppercase text-[#003527] dark:text-[#E9C349]'>
             General
           </Text>
-          <Card variant='outline' className='p-2'>
+          <Card variant='outline' className='rounded-2xl bg-background-0 p-5'>
             <TouchableOpacity className='w-full p-2'>
               <View className='w-full flex-row items-center justify-between'>
                 <View className='flex-row items-center gap-3'>
@@ -156,7 +158,7 @@ export default function Settings() {
                     color='#3B82F6'
                   />
 
-                  <Text className='text-base font-medium text-typography-500'>
+                  <Text className='text-[18px] text-[#003527] dark:text-white'>
                     About
                   </Text>
                 </View>
