@@ -5,7 +5,8 @@
     "name": {
       "en": "Before Sleep",
       "bn": "ঘুমানোর আগে"
-    }
+    },
+    "icon": "bed-outline"
   },
   {
     "id": 2,
@@ -13,15 +14,17 @@
     "name": {
       "en": "After Salah",
       "bn": "নামাজের পর"
-    }
+    },
+    "icon": "time-outline"
   },
   {
     "id": 3,
-    "key": "morning-evening",
+    "key": "morning",
     "name": {
-      "en": "Morning & Evening",
-      "bn": "সকাল ও সন্ধ্যা"
-    }
+      "en": "Morning",
+      "bn": "সকাল"
+    },
+    "icon": "sunny-outline"
   },
   {
     "id": 4,
@@ -29,6 +32,7 @@
     "name": {
       "en": "Other Useful Duas",
       "bn": "অন্যান্য দরকারী দোয়া"
-    }
+    },
+    "icon": "book-outline"
   }
 ]

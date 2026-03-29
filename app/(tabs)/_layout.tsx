@@ -37,6 +37,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name='duas'
+        options={{
+          title: 'Duas',
+          tabBarIcon: ({ color }) => (
+            <Ionicons size={28} name='book-outline' color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name='settings'
         options={{
           title: 'Settings',
