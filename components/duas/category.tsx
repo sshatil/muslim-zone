@@ -39,7 +39,7 @@ export default function Category() {
       </View>
 
       {/* Category List */}
-      <View className='flex-row flex-wrap justify-between'>
+      <View className='mt-4 flex-row flex-wrap justify-between'>
         {filtered.map((cat) => (
           <CategoryList key={cat.id} cat={cat} />
         ))}

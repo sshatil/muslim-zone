@@ -1,3 +1,4 @@
+import AppGradient from '@/components/app-gradient';
 import { Card } from '@/components/ui/card';
 import { getCategories } from '@/lib/dua-loader';
 import { getDuasByCategory } from '@/lib/dua-utils';
@@ -23,44 +24,46 @@ export default function CategoryDuas() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: category.name.en,
-          headerBackTitle: 'Back',
-        }}
-      />
-      <ScrollView className='flex-1 bg-background-100 p-4'>
-        <View className='mb-6 space-y-3'>
-          {duas.map((dua) => (
-            <Pressable
-              key={dua.id}
-              onPress={() => router.push(`/dua/${dua.id}`)}
-            >
-              <Card
-                size='md'
-                variant='outline'
-                className='my-2 rounded-xl border-outline-200 bg-background-0'
+      <AppGradient>
+        <Stack.Screen
+          options={{
+            title: category.name.en,
+            headerBackTitle: 'Back',
+          }}
+        />
+        <ScrollView className='flex-1 p-4'>
+          <View className='mb-6 space-y-3'>
+            {duas.map((dua) => (
+              <Pressable
+                key={dua.id}
+                onPress={() => router.push(`/dua/${dua.id}`)}
               >
-                <View className='flex-row items-center justify-between'>
-                  <View className='mr-2 flex-1'>
-                    <Text className='mb-1 text-base font-medium text-typography-950'>
-                      {dua.title.en}
-                    </Text>
-                    <Text className='line-clamp-1 text-xs text-typography-500'>
-                      {dua.translation.en}
-                    </Text>
+                <Card
+                  size='md'
+                  variant='outline'
+                  className='my-2 rounded-xl border-outline-200 bg-background-0'
+                >
+                  <View className='flex-row items-center justify-between'>
+                    <View className='mr-2 flex-1'>
+                      <Text className='mb-1 text-base font-medium text-typography-950'>
+                        {dua.title.en}
+                      </Text>
+                      <Text className='line-clamp-1 text-xs text-typography-500'>
+                        {dua.translation.en}
+                      </Text>
+                    </View>
+                    <Ionicons
+                      name='chevron-forward-outline'
+                      size={18}
+                      color='#9CA3AF'
+                    />
                   </View>
-                  <Ionicons
-                    name='chevron-forward-outline'
-                    size={18}
-                    color='#9CA3AF'
-                  />
-                </View>
-              </Card>
-            </Pressable>
-          ))}
-        </View>
-      </ScrollView>
+                </Card>
+              </Pressable>
+            ))}
+          </View>
+        </ScrollView>
+      </AppGradient>
     </>
   );
 }
