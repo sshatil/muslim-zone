@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 
@@ -77,7 +77,10 @@ export default function Settings() {
             Appearance
           </Text>
 
-          <Card variant='outline' className='rounded-2xl bg-background-0 p-5'>
+          <Card
+            variant='outline'
+            className='rounded-2xl bg-background-0 p-5 dark:bg-[#001B13]'
+          >
             {/* Theme Selector Row */}
             <TouchableOpacity
               onPress={() => setShowThemeSheet(true)}
@@ -114,7 +117,10 @@ export default function Settings() {
             Prayer Alerts
           </Text>
 
-          <Card variant='outline' className='rounded-2xl bg-background-0 p-5'>
+          <Card
+            variant='outline'
+            className='rounded-2xl bg-background-0 p-5 dark:bg-[#001B13]'
+          >
             {(
               Object.keys(defaultPrayerSettings) as Array<
                 keyof PrayerNotificationSettings
@@ -148,8 +154,14 @@ export default function Settings() {
           <Text className='px-1 text-[26px] font-bold uppercase text-[#003527] dark:text-[#E9C349]'>
             General
           </Text>
-          <Card variant='outline' className='rounded-2xl bg-background-0 p-5'>
-            <TouchableOpacity className='w-full p-2'>
+          <Card
+            variant='outline'
+            className='rounded-2xl bg-background-0 p-5 dark:bg-[#001B13]'
+          >
+            <TouchableOpacity
+              className='w-full p-2'
+              onPress={() => router.push('/about')}
+            >
               <View className='w-full flex-row items-center justify-between'>
                 <View className='flex-row items-center gap-3'>
                   <Ionicons
@@ -167,13 +179,6 @@ export default function Settings() {
               </View>
             </TouchableOpacity>
           </Card>
-        </View>
-
-        {/* Application info */}
-        <View className='items-center py-4'>
-          <Text className='text-sm text-typography-500'>
-            Muslim Zone • v1.0.0
-          </Text>
         </View>
       </ScrollView>
 
