@@ -11,13 +11,7 @@ export default function PrayerTime() {
   const { locationData, prayerData, currentPrayerInfo, arabicDate } =
     usePrayerTiming();
 
-  if (!locationData || !currentPrayerInfo || !prayerData) {
-    return (
-      <View className='flex-1 items-center justify-center bg-background-950'>
-        <Text className='text-white'>Loading...</Text>
-      </View>
-    );
-  }
+  if (!locationData || !currentPrayerInfo || !prayerData) return null;
 
   return (
     <View className='h-screen'>

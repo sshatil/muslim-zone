@@ -4,7 +4,7 @@
     "slug": "muslim-zone",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "muslim-zone",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,9 +14,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/logo-icon.png",
-        "backgroundImage": "./assets/images/logo-icon.png",
-        "monochromeImage": "./assets/images/logo-icon.png"
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundImage": "./assets/images/icon.png",
+        "monochromeImage": "./assets/images/icon.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -37,7 +37,7 @@
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#03251C",
-            "image": "./assets/images/splash-dark.png"
+            "image": "./assets/images/icon.png"
           }
         }
       ],

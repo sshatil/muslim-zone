@@ -11,6 +11,8 @@ import { QueryClientProvider } from '@/components/query-client';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
 import { useLocation } from '@/hooks/use-location';
+import SplashLoading from '@/components/prayer-time/splash-loading';
+import { usePrayerTiming } from '@/hooks/use-prayer-timing';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
@@ -32,7 +34,7 @@ export default function RootLayout() {
 
 function MainLayout() {
   const { theme } = useTheme();
-  const { data: locationData } = useLocation();
+  const { locationData, prayerData, currentPrayerInfo } = usePrayerTiming();
   const appState = useRef<AppStateStatus>(AppState.currentState);
 
   useEffect(() => {
@@ -58,6 +60,10 @@ function MainLayout() {
 
     return () => subscription.remove();
   }, [locationData?.latitude, locationData?.longitude]);
+
+  if (!locationData || !prayerData || !currentPrayerInfo) {
+    return <SplashLoading />;
+  }
 
   return (
     <GluestackUIProvider mode={theme ?? 'light'}>

@@ -11,12 +11,7 @@ export default function PrayerTimeCard() {
     usePrayerTiming();
   const { theme } = useTheme();
 
-  if (!locationData || !currentPrayerInfo || !prayerData)
-    return (
-      <View className='h-screen items-center justify-center'>
-        <Text>Logo</Text>
-      </View>
-    );
+  if (!locationData || !currentPrayerInfo || !prayerData) return null;
 
   const activeIconColor = theme === 'dark' ? '#241A00' : '#FFFFFF';
   const iconColor = theme === 'dark' ? '#9e9c95' : '#241A00';
