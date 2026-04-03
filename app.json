@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/logo-icon.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.shatil.muslimzone"
     },
     "web": {
       "output": "static",
@@ -44,14 +45,20 @@
         "expo-notifications",
         {
           "icon": "./assets/images/logo-icon.png",
-          "color": "#ffffff",
-          "sounds": ["./assets/sounds/azan.wav", "./assets/sounds/azan.mp3"]
+          "color": "#ffffff"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "dc504975-9c58-43da-84c7-fee01e3baf28"
+      }
+    },
+    "owner": "sshatil"
   }
 }
