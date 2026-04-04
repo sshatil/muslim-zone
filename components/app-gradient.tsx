@@ -3,9 +3,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { ReactNode } from 'react';
 
 export default function AppGradient({ children }: { children: ReactNode }) {
-  const { theme } = useTheme();
+  const { colorScheme } = useTheme();
 
-  const isDark = theme === 'dark';
+  const isDark = colorScheme === 'dark';
 
   return (
     <LinearGradient

@@ -32,7 +32,7 @@ export default function RootLayout() {
 }
 
 function MainLayout() {
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
   const { locationData, prayerData, currentPrayerInfo } = usePrayerTiming();
   const appState = useRef<AppStateStatus>(AppState.currentState);
 
@@ -74,8 +74,8 @@ function MainLayout() {
   }
 
   return (
-    <GluestackUIProvider mode={theme ?? 'light'}>
-      <NavThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+    <GluestackUIProvider mode={colorScheme ?? 'light'}>
+      <NavThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         </Stack>

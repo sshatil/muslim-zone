@@ -9,9 +9,9 @@ import { Pressable, Text, View } from 'react-native';
 export const CategoryList = ({ cat }: { cat: DuaCategory }) => {
   const router = useRouter();
   const getCategoriesDua = getDuasByCategory('daily', cat.id);
-  const { theme } = useTheme();
+  const { colorScheme } = useTheme();
 
-  const iconColor = theme === 'dark' ? '#FED65B' : '#006C51';
+  const iconColor = colorScheme === 'dark' ? '#FED65B' : '#006C51';
   return (
     <Pressable
       key={cat.id}
@@ -21,7 +21,7 @@ export const CategoryList = ({ cat }: { cat: DuaCategory }) => {
       <Card
         size='md'
         variant='outline'
-        className='flex-col items-start rounded-2xl bg-background-0 p-6'
+        className='flex-col items-start rounded-2xl bg-background-0 px-5 py-6'
       >
         {/* Icon */}
         <View className='mb-3 rounded-full bg-[#17A57F33] p-3'>
@@ -32,7 +32,7 @@ export const CategoryList = ({ cat }: { cat: DuaCategory }) => {
           {/* Title */}
           <Text
             numberOfLines={2}
-            className='text-center text-[16px] font-semibold text-typography-950 dark:text-white'
+            className='text-[16px] font-semibold text-typography-950 dark:text-white'
           >
             {cat.name.en}
           </Text>

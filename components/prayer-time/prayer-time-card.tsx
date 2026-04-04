@@ -9,12 +9,12 @@ import { CountdownDisplay } from './countdown';
 export default function PrayerTimeCard() {
   const { locationData, prayerData, currentPrayerInfo, arabicDate } =
     usePrayerTiming();
-  const { theme } = useTheme();
+  const { colorScheme } = useTheme();
 
   if (!locationData || !currentPrayerInfo || !prayerData) return null;
 
-  const activeIconColor = theme === 'dark' ? '#241A00' : '#FFFFFF';
-  const iconColor = theme === 'dark' ? '#9e9c95' : '#241A00';
+  const activeIconColor = colorScheme === 'dark' ? '#241A00' : '#FFFFFF';
+  const iconColor = colorScheme === 'dark' ? '#9e9c95' : '#241A00';
 
   return (
     <View className='mt-16'>

@@ -4,8 +4,8 @@ import { useEffect, useRef } from 'react';
 import { Animated, Image, Text, View } from 'react-native';
 
 export default function SplashLoading() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === 'dark';
 
   const scale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(0.3)).current;
