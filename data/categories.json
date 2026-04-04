@@ -3,8 +3,8 @@
     "id": 1,
     "key": "sleep",
     "name": {
-      "en": "Before Sleep",
-      "bn": "ঘুমানোর আগে"
+      "en": "Sleep",
+      "bn": "ঘুম"
     },
     "icon": "bed-outline"
   },
@@ -31,7 +31,7 @@
     "key": "other",
     "name": {
       "en": "Other Duas",
-      "bn": "অন্যান্য দরকারী দোয়া"
+      "bn": "অন্যান্য দোয়া"
     },
     "icon": "book-outline"
   }

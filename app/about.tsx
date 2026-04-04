@@ -49,7 +49,7 @@ export default function AboutScreen() {
       {/* Section: Version */}
       <View className='rounded-2xl bg-background-0 p-4 dark:bg-white/5'>
         <Text className='text-center text-sm text-typography-500'>
-          Version 0.1.0
+          Version 0.1.1
         </Text>
       </View>
     </ScrollView>
