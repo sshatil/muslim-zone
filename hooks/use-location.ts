@@ -50,6 +50,6 @@ export const useLocation = () => {
   return useQuery({
     queryKey: ['user-location'],
     queryFn: getUserLocation,
-    // staleTime: 1000 * 60 * 60, // 1 hour
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
 };

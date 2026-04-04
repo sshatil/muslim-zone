@@ -15,7 +15,7 @@ import SplashLoading from '@/components/prayer-time/splash-loading';
 import { usePrayerTiming } from '@/hooks/use-prayer-timing';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 
 export const unstable_settings = {
@@ -61,7 +61,16 @@ function MainLayout() {
     return () => subscription.remove();
   }, [locationData?.latitude, locationData?.longitude]);
 
-  if (!locationData || !prayerData || !currentPrayerInfo) {
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  useEffect(() => {
+    if (locationData && prayerData && currentPrayerInfo) {
+      // Small delay prevents flickering if data arrives instantly
+      setIsAppReady(true);
+    }
+  }, [locationData, prayerData, currentPrayerInfo]);
+
+  if (!isAppReady) {
     return <SplashLoading />;
   }
 
