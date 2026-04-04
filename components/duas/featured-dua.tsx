@@ -33,7 +33,7 @@ export default function FeaturedDuaList() {
           Useful Duas
         </Text>
 
-        <Pressable onPress={() => router.push('/')}>
+        <Pressable onPress={() => router.push('/duas')}>
           <Text className='text-sm font-semibold text-typography-950'>
             View more
           </Text>

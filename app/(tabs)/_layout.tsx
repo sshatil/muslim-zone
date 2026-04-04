@@ -7,8 +7,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
-  const { theme } = useTheme();
-  const colorScheme = theme === 'dark' ? 'dark' : 'light';
+  const { theme, colorScheme } = useTheme();
 
   return (
     <Tabs
@@ -17,7 +16,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
-          backgroundColor: theme === 'dark' ? '#001A14' : '#FFFFFF',
+          backgroundColor: colorScheme === 'dark' ? '#001A14' : '#FFFFFF',
         },
       }}
     >

@@ -23,7 +23,7 @@ import {
 } from '@/utils/notifications';
 
 export default function Settings() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, colorScheme } = useTheme();
   const [showThemeSheet, setShowThemeSheet] = useState(false);
   const { data: locationData } = useLocation();
   const [prayerSettings, setPrayerSettings] =
@@ -61,7 +61,7 @@ export default function Settings() {
 
   const selected = themeOptions.find((t) => t.value === theme);
 
-  const switchColor = theme === 'dark' ? '#E9C349' : '#003527';
+  const switchColor = colorScheme === 'dark' ? '#E9C349' : '#003527';
 
   return (
     <>

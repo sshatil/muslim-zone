@@ -7,15 +7,14 @@ import {
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
 
+import SplashLoading from '@/components/prayer-time/splash-loading';
 import { QueryClientProvider } from '@/components/query-client';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
-import { useLocation } from '@/hooks/use-location';
-import SplashLoading from '@/components/prayer-time/splash-loading';
 import { usePrayerTiming } from '@/hooks/use-prayer-timing';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 
 export const unstable_settings = {
@@ -33,7 +32,7 @@ export default function RootLayout() {
 }
 
 function MainLayout() {
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
   const { locationData, prayerData, currentPrayerInfo } = usePrayerTiming();
   const appState = useRef<AppStateStatus>(AppState.currentState);
 
@@ -61,13 +60,22 @@ function MainLayout() {
     return () => subscription.remove();
   }, [locationData?.latitude, locationData?.longitude]);
 
-  if (!locationData || !prayerData || !currentPrayerInfo) {
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  useEffect(() => {
+    if (locationData && prayerData && currentPrayerInfo) {
+      // Small delay prevents flickering if data arrives instantly
+      setIsAppReady(true);
+    }
+  }, [locationData, prayerData, currentPrayerInfo]);
+
+  if (!isAppReady) {
     return <SplashLoading />;
   }
 
   return (
-    <GluestackUIProvider mode={theme ?? 'light'}>
-      <NavThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+    <GluestackUIProvider mode={colorScheme ?? 'light'}>
+      <NavThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         </Stack>
