@@ -7,11 +7,10 @@ import {
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
 
+import SplashLoading from '@/components/prayer-time/splash-loading';
 import { QueryClientProvider } from '@/components/query-client';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
-import { useLocation } from '@/hooks/use-location';
-import SplashLoading from '@/components/prayer-time/splash-loading';
 import { usePrayerTiming } from '@/hooks/use-prayer-timing';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
