@@ -1,7 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { getCategories } from '@/lib/dua-loader';
 import { getFeaturedDuas } from '@/lib/dua-utils';
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
@@ -24,88 +23,60 @@ export default function FeaturedDuaList() {
     {} as Record<number, typeof featuredDuas>,
   );
 
-  return (
-    <View className='bg-background-100 p-2'>
-      {/* Title */}
-      <Text className='mb-3 text-lg font-semibold text-typography-950'>
-        Featured Duas
-      </Text>
+  const entries = Object.entries(groupedDuas);
 
-      <View className='space-y-3'>
-        {Object.entries(groupedDuas).map(([categoryId, duas]) => {
+  return (
+    <View className='mx-4 p-2'>
+      {/* Header */}
+      <View className='mb-4 flex-row items-center justify-between pb-2'>
+        <Text className='text-xl font-bold text-typography-950'>
+          Useful Duas
+        </Text>
+
+        <Pressable onPress={() => router.push('/')}>
+          <Text className='text-sm font-semibold text-typography-950'>
+            View more
+          </Text>
+        </Pressable>
+      </View>
+
+      <View className='flex-row flex-wrap justify-between'>
+        {entries.slice(0, 4).map(([categoryId, duas]) => {
           const catId = Number(categoryId);
           const isSingle = duas.length === 1;
           const dua = duas[0];
           const category = categories.find((c) => c.id === catId);
 
-          if (isSingle) {
-            return (
-              <Pressable
-                key={`dua-${dua.id}`}
-                onPress={() => router.push(`/dua/${dua.id}`)}
+          return (
+            <Pressable
+              key={isSingle ? `dua-${dua.id}` : `cat-${catId}`}
+              onPress={() =>
+                router.push(isSingle ? `/dua/${dua.id}` : `/category/${catId}`)
+              }
+              className='mb-3 w-[48%]'
+            >
+              <Card
+                size='md'
+                variant='outline'
+                className='rounded-2xl bg-background-0 p-5'
               >
-                <Card
-                  size='md'
-                  variant='outline'
-                  className='my-2 rounded-xl bg-background-0'
-                >
-                  <View className='flex-row items-center justify-between'>
-                    {/* Left */}
-                    <View className='flex-1'>
-                      <Text className='text-base font-medium text-typography-950'>
-                        {dua.title.en}
-                      </Text>
+                <View className='flex-row items-center justify-between'>
+                  {/* Left */}
+                  <View className='flex-1'>
+                    <Text className='text-[16px] font-bold text-typography-950'>
+                      {isSingle
+                        ? dua.title.en
+                        : (category?.name.en ?? 'Unknown Category')}
+                    </Text>
 
-                      <Text className='mt-1 text-xs text-typography-950'>
-                        {dua.source?.reference}
-                      </Text>
-                    </View>
-
-                    {/* Right Icon */}
-                    <Ionicons
-                      name='chevron-forward-outline'
-                      size={18}
-                      color='#9CA3AF'
-                    />
+                    <Text className='mt-1 text-xs text-typography-950/60'>
+                      {isSingle ? dua.source?.reference : `${duas.length} Duas`}
+                    </Text>
                   </View>
-                </Card>
-              </Pressable>
-            );
-          } else {
-            // Multiple duas in this category
-            return (
-              <Pressable
-                key={`cat-${catId}`}
-                onPress={() => router.push(`/category/${catId}`)}
-              >
-                <Card
-                  size='md'
-                  variant='outline'
-                  className='my-2 rounded-xl bg-background-0'
-                >
-                  <View className='flex-row items-center justify-between'>
-                    {/* Left */}
-                    <View className='flex-1'>
-                      <Text className='text-base font-medium text-typography-950'>
-                        {category?.name.en ?? 'Unknown Category'}
-                      </Text>
-
-                      <Text className='mt-1 text-xs text-typography-500'>
-                        {duas.length} Duas
-                      </Text>
-                    </View>
-
-                    {/* Right Icon */}
-                    <Ionicons
-                      name='chevron-forward-outline'
-                      size={18}
-                      color='#9CA3AF'
-                    />
-                  </View>
-                </Card>
-              </Pressable>
-            );
-          }
+                </View>
+              </Card>
+            </Pressable>
+          );
         })}
       </View>
     </View>

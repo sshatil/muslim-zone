@@ -3,18 +3,22 @@ import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useTheme } from '@/context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme();
+  const colorScheme = theme === 'dark' ? 'dark' : 'light';
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme].tint,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarStyle: {
+          backgroundColor: theme === 'dark' ? '#001A14' : '#FFFFFF',
+        },
       }}
     >
       <Tabs.Screen
@@ -32,6 +36,15 @@ export default function TabLayout() {
           title: 'Prayer',
           tabBarIcon: ({ color }) => (
             <Ionicons size={28} name='time-outline' color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='duas'
+        options={{
+          title: 'Duas',
+          tabBarIcon: ({ color }) => (
+            <Ionicons size={28} name='book-outline' color={color} />
           ),
         }}
       />

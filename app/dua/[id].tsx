@@ -1,3 +1,4 @@
+import AppGradient from '@/components/app-gradient';
 import { getDuaById } from '@/lib/dua-utils';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -25,51 +26,53 @@ export default function DuaDetail() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: dua.title.en,
-          headerBackTitle: 'Back',
-        }}
-      />
-      <ScrollView className='flex-1 bg-background-100'>
-        <View className='space-y-6 p-6'>
-          {/* Card Container */}
-          <View className='rounded-2xl border border-outline-200 bg-background-0 p-6 shadow-sm'>
-            {/* Arabic */}
-            <Text className='mb-6 text-center text-2xl font-bold leading-loose text-typography-950'>
-              {dua.arabic}
-            </Text>
-
-            {/* Transliteration */}
-            {dua.transliteration?.en && (
-              <View className='bg-surface-50 mb-6 rounded-xl p-4'>
-                <Text className='text-center text-lg italic text-typography-950'>
-                  {dua.transliteration.en}
-                </Text>
-              </View>
-            )}
-
-            {/* Translation */}
-            <View className='mb-4'>
-              <Text className='text-center text-lg leading-relaxed text-typography-950'>
-                {dua.translation.en}
+      <AppGradient>
+        <Stack.Screen
+          options={{
+            title: dua.title.en,
+            headerBackTitle: 'Back',
+          }}
+        />
+        <ScrollView className='flex-1'>
+          <View className='space-y-6 p-6'>
+            {/* Card Container */}
+            <View className='mt-6 rounded-2xl border border-outline-200 bg-background-0 p-6 shadow-sm'>
+              {/* Arabic */}
+              <Text className='mb-6 text-center text-3xl font-bold leading-loose text-typography-950 dark:text-[#ECFDF5]'>
+                {dua.arabic}
               </Text>
-            </View>
 
-            {/* Source */}
-            {dua.source && (
-              <View className='mt-4 flex-row items-center justify-between border-t border-outline-200 pt-4'>
-                <Text className='text-sm font-medium text-typography-500'>
-                  {dua.source.reference}
+              {/* Transliteration */}
+              {dua.transliteration?.en && (
+                <View className='bg-surface-50 mb-6 rounded-xl p-4'>
+                  <Text className='text-center text-xl italic text-typography-950 dark:text-[#ECFDF5]'>
+                    {dua.transliteration.en}
+                  </Text>
+                </View>
+              )}
+
+              {/* Translation */}
+              <View className='mb-4'>
+                <Text className='text-center text-xl leading-relaxed text-typography-950 dark:text-[#ECFDF5]'>
+                  {dua.translation.en}
                 </Text>
-                <TouchableOpacity onPress={copyToClipboard} className='p-2'>
-                  <Ionicons name='copy-outline' size={18} color='#6B7280' />
-                </TouchableOpacity>
               </View>
-            )}
+
+              {/* Source */}
+              {dua.source && (
+                <View className='mt-4 flex-row items-center justify-between border-t border-outline-200 pt-4'>
+                  <Text className='text-sm font-medium text-typography-500 dark:text-[#6B7280]'>
+                    {dua.source.reference}
+                  </Text>
+                  <TouchableOpacity onPress={copyToClipboard} className='p-2'>
+                    <Ionicons name='copy-outline' size={18} color='#6B7280' />
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </AppGradient>
     </>
   );
 }

@@ -37,4 +37,5 @@ export type DuaCategory = {
   id: number;
   key: string;
   name: LanguageMap;
+  icon: string;
 };

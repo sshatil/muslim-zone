@@ -3,10 +3,10 @@ import { getDuasByModule } from './dua-loader';
 
 export function getDuasByCategory(
   moduleKey: string,
-  categoryId: number
+  categoryId: number,
 ): Dua[] {
   return getDuasByModule(moduleKey).filter(
-    (dua) => dua.categoryId === categoryId
+    (dua) => dua.categoryId === categoryId,
   );
 }
 
@@ -28,7 +28,7 @@ export function searchDuas(moduleKey: string, query: string): Dua[] {
       dua.key.includes(q) ||
       dua.tags?.some((tag) => tag.includes(q)) ||
       Object.values(dua.title).some(
-        (t) => t?.toLowerCase().includes(q) ?? false
-      )
+        (t) => t?.toLowerCase().includes(q) ?? false,
+      ),
   );
 }
