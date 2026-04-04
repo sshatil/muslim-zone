@@ -14,7 +14,7 @@ export default function PrayerTime() {
   if (!locationData || !currentPrayerInfo || !prayerData) return null;
 
   return (
-    <View className='h-screen'>
+    <View className=''>
       <View className='flex-1 bg-gradient-to-bl'>
         <View className='absolute inset-0' />
 
@@ -23,7 +23,7 @@ export default function PrayerTime() {
           showsVerticalScrollIndicator={false}
         >
           {/* Header section */}
-          <View className='mb-10 mt-6 items-center'>
+          <View className='mb-7 mt-6 items-center'>
             <Text className='mb-2 text-[14px] font-bold uppercase tracking-widest text-typography-950/90'>
               {locationData.city}, {locationData.country}
             </Text>
@@ -70,7 +70,7 @@ export default function PrayerTime() {
           </View>
 
           {/* Prayer times list */}
-          <View className='mb-10 mt-4 gap-6'>
+          <View className='mb-10 mt-4 gap-4'>
             {Object.entries(prayerData.prayerTimes).map(([key, time]) => {
               const isCurrent = key === currentPrayerInfo.currentPrayer;
               const isNext = key === currentPrayerInfo.nextPrayerName;
