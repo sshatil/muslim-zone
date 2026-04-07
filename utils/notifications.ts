@@ -9,7 +9,6 @@ import { Platform } from 'react-native';
  */
 const DAYS_TO_SCHEDULE = Platform.OS === 'ios' ? 12 : 30;
 const PRAYERS = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const;
-const STORAGE_KEY = 'prayer_notifications_last_scheduled';
 const SETTINGS_STORAGE_KEY = 'prayer_notifications_settings';
 
 export type PrayerNotificationSettings = {
@@ -87,28 +86,39 @@ export async function requestNotificationPermissions(): Promise<boolean> {
 
 // AsyncStorage guard helpers.
 
-/** Returns the date string (YYYY-MM-DD) of the last successful schedule, or null. */
-async function getLastScheduledDate(): Promise<string | null> {
+const SCHEDULE_STATE_KEY = 'prayer_notifications_schedule_state';
+
+interface ScheduleState {
+  date: string;
+  latitude: number;
+  longitude: number;
+}
+
+/** Returns the schedule state, or null. */
+async function getLastScheduleState(): Promise<ScheduleState | null> {
   try {
-    return await AsyncStorage.getItem(STORAGE_KEY);
+    const data = await AsyncStorage.getItem(SCHEDULE_STATE_KEY);
+    return data ? JSON.parse(data) : null;
   } catch {
     return null;
   }
 }
 
-/** Saves today's date string as the last scheduled date. */
-async function saveLastScheduledDate(): Promise<void> {
-  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+/** Saves the schedule state. */
+async function saveLastScheduleState(
+  latitude: number,
+  longitude: number,
+): Promise<void> {
+  const state: ScheduleState = {
+    date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+    latitude,
+    longitude,
+  };
   try {
-    await AsyncStorage.setItem(STORAGE_KEY, today);
+    await AsyncStorage.setItem(SCHEDULE_STATE_KEY, JSON.stringify(state));
   } catch {
     // non-fatal
   }
-}
-
-/** Returns today's date string (YYYY-MM-DD). */
-function todayString(): string {
-  return new Date().toISOString().split('T')[0];
 }
 
 export async function schedulePrayerNotifications(
@@ -173,7 +183,7 @@ export async function schedulePrayerNotifications(
     }
   }
 
-  await saveLastScheduledDate();
+  await saveLastScheduleState(latitude, longitude);
   console.log(
     `[Notifications] Scheduled ${scheduledCount} notifications across ${DAYS_TO_SCHEDULE} days.`,
   );
@@ -183,8 +193,9 @@ export async function schedulePrayerNotifications(
 
 /**
  * Schedules notifications only when necessary:
- *   • First launch ever (no stored date)
- *   • A new calendar day has started since the last schedule
+ *   • First launch ever (no stored state)
+ *   • Location has changed significantly (> ~1km)
+ *   • We are running low on scheduled days memory buffer
  *
  * Safe to call every time the app comes to the foreground.
  */
@@ -194,17 +205,47 @@ export async function ensurePrayerNotificationsScheduled(
 ): Promise<void> {
   if (!latitude || !longitude) return;
 
-  const lastDate = await getLastScheduledDate();
-  const today = todayString();
+  const lastState = await getLastScheduleState();
+  const today = new Date().toISOString().split('T')[0];
 
-  if (lastDate === today) {
-    // Already scheduled today — nothing to do.
-    console.log('[Notifications] Already scheduled today — skipping.');
-    return;
+  let needsReschedule = false;
+
+  if (!lastState) {
+    console.log('[Notifications] No previous schedule state found.');
+    needsReschedule = true;
+  } else {
+    // 1. Check if location changed significantly (e.g. > ~5km, ~0.05 degrees)
+    const latDiff = Math.abs(lastState.latitude - latitude);
+    const lonDiff = Math.abs(lastState.longitude - longitude);
+    const locationChanged = latDiff > 0.05 || lonDiff > 0.05;
+
+    // 2. Check if we need to refresh based on time elapsed
+    // Buffer logic: iOS 12 days -> refresh after 7 days. Android 30 days -> refresh after 15 days.
+    const REFRESH_AFTER_DAYS = Platform.OS === 'ios' ? 7 : 15;
+
+    const lastDateObj = new Date(lastState.date);
+    const todayObj = new Date(today);
+    const timeDiff = todayObj.getTime() - lastDateObj.getTime();
+    const daysElapsed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    if (locationChanged) {
+      console.log(
+        '[Notifications] Location changed significantly. Rescheduling…',
+      );
+      needsReschedule = true;
+    } else if (daysElapsed >= REFRESH_AFTER_DAYS) {
+      console.log(
+        `[Notifications] Schedule is ${daysElapsed} days old. Rescheduling for another batch…`,
+      );
+      needsReschedule = true;
+    } else {
+      console.log(
+        `[Notifications] Schedule up to date (${daysElapsed} days old, max ${REFRESH_AFTER_DAYS}). Skipping.`,
+      );
+    }
   }
 
-  console.log(
-    `[Notifications] New day detected (last: ${lastDate ?? 'never'}, today: ${today}) — rescheduling…`,
-  );
-  await schedulePrayerNotifications(latitude, longitude);
+  if (needsReschedule) {
+    await schedulePrayerNotifications(latitude, longitude);
+  }
 }
