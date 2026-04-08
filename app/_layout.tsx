@@ -12,27 +12,90 @@ import { QueryClientProvider } from '@/components/query-client';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
 import { usePrayerTiming } from '@/hooks/use-prayer-timing';
+import {
+  crashLog,
+  recordError,
+  setCrashlyticsCollectionEnabled,
+} from '@/lib/firebase';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef, useState } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import { Component, type ReactNode, useEffect, useRef, useState } from 'react';
+import { AppState, AppStateStatus, Text, View } from 'react-native';
+
+// Crashlytics
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class FirebaseErrorBoundary extends Component<
+  { children: ReactNode },
+  ErrorBoundaryState
+> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, info: { componentStack: string }) {
+    crashLog(`Component stack: ${info.componentStack}`);
+    recordError(error, 'UnhandledJSError');
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 24,
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
+            Something went wrong
+          </Text>
+          <Text style={{ color: '#888', textAlign: 'center' }}>
+            {this.state.error?.message ?? 'An unexpected error occurred.'}
+          </Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// Root layout
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
 export default function RootLayout() {
+  // Enable Crashlytics collection on startup
+  useEffect(() => {
+    setCrashlyticsCollectionEnabled(true);
+  }, []);
+
   return (
-    <ThemeProvider>
-      <QueryClientProvider>
-        <MainLayout />
-      </QueryClientProvider>
-    </ThemeProvider>
+    <FirebaseErrorBoundary>
+      <ThemeProvider>
+        <QueryClientProvider>
+          <MainLayout />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </FirebaseErrorBoundary>
   );
 }
 
 function MainLayout() {
-  const { theme, colorScheme } = useTheme();
+  const { colorScheme } = useTheme();
   const { locationData, prayerData, currentPrayerInfo } = usePrayerTiming();
   const appState = useRef<AppStateStatus>(AppState.currentState);
 
@@ -64,7 +127,6 @@ function MainLayout() {
 
   useEffect(() => {
     if (locationData && prayerData && currentPrayerInfo) {
-      // Small delay prevents flickering if data arrives instantly
       setIsAppReady(true);
     }
   }, [locationData, prayerData, currentPrayerInfo]);
@@ -75,7 +137,9 @@ function MainLayout() {
 
   return (
     <GluestackUIProvider mode={colorScheme ?? 'light'}>
-      <NavThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <NavThemeProvider
+        value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      >
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         </Stack>

@@ -42,3 +42,7 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Firebase — contains API keys, never commit these
+google-services.json
+GoogleService-Info.plist
