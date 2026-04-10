@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shatil.muslimzone"
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +21,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.shatil.muslimzone"
+      "package": "com.shatil.muslimzone",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
@@ -28,6 +30,16 @@
     },
     "plugins": [
       "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/crashlytics",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       [
         "expo-splash-screen",
         {
