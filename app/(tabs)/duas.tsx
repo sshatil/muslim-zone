@@ -8,7 +8,7 @@ export default function DuasScreen() {
   return (
     <AppGradient>
       <ScrollView className='min-h-screen'>
-        <View className='space-y-4'>
+        <View className='space-y-4 pb-28'>
           <Category />
         </View>
       </ScrollView>

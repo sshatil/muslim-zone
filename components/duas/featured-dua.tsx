@@ -9,7 +9,7 @@ export default function FeaturedDuaList() {
   const featuredDuas = getFeaturedDuas('daily');
 
   return (
-    <View className='mx-4 p-2'>
+    <View className='mx-4 mb-20 p-2'>
       <View className='mb-4 flex-row items-center justify-between pb-2'>
         <Text className='text-xl font-bold text-typography-950'>
           Useful Duas
@@ -21,7 +21,6 @@ export default function FeaturedDuaList() {
           </Text>
         </Pressable>
       </View>
-
       <View className='flex-row flex-wrap justify-between'>
         {featuredDuas.map((dua) => (
           <Pressable
