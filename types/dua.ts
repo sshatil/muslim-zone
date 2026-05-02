@@ -11,7 +11,7 @@ export type DuaSource = {
 
 export type Dua = {
   id: number;
-  categoryId: number;
+  categoryIds: number[];
   key: string;
 
   title: LanguageMap;
