@@ -7,38 +7,58 @@ export function CountdownDisplay({
   timezone,
   className,
 }: {
-  nextPrayerTime: DateTime;
-  timezone: string;
-  className: string;
+  nextPrayerTime: DateTime | string;
+  timezone?: string | null;
+  className?: string;
 }) {
   const [timeLeft, setTimeLeft] = useState('');
 
   useEffect(() => {
+    const getNextPrayerDateTime = () => {
+      if (typeof nextPrayerTime === 'string') {
+        return DateTime.fromISO(nextPrayerTime);
+      }
+
+      return nextPrayerTime;
+    };
+
     const tick = () => {
-      const now = DateTime.now().setZone(timezone);
+      const targetTime = getNextPrayerDateTime();
 
-      const diff = nextPrayerTime.diff(now, ['hours', 'minutes']).toObject();
+      if (!targetTime || !targetTime.isValid) {
+        setTimeLeft('');
+        return;
+      }
 
-      if (!diff) return;
+      const zone = timezone || targetTime.zoneName || 'local';
 
-      const hours = Math.floor(diff.hours ?? 0);
-      const minutes = Math.floor(diff.minutes ?? 0);
+      const now = DateTime.now().setZone(zone);
+      const target = targetTime.setZone(zone);
 
-      if (hours <= 0 && minutes <= 0) {
+      const diffInSeconds = Math.floor(target.diff(now, 'seconds').seconds);
+
+      if (diffInSeconds <= 0) {
         setTimeLeft('Now');
         return;
       }
 
-      // Format like: 2h 15m
+      const hours = Math.floor(diffInSeconds / 3600);
+      const minutes = Math.floor((diffInSeconds % 3600) / 60);
+      const seconds = diffInSeconds % 60;
+
       if (hours > 0) {
         setTimeLeft(`${hours}h ${minutes}m`);
+      } else if (minutes > 0) {
+        setTimeLeft(`${minutes}m ${seconds}s`);
       } else {
-        setTimeLeft(`${minutes}m`);
+        setTimeLeft(`${seconds}s`);
       }
     };
 
     tick();
+
     const interval = setInterval(tick, 1000);
+
     return () => clearInterval(interval);
   }, [nextPrayerTime, timezone]);
 

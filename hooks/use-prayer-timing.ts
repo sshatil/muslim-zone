@@ -1,99 +1,166 @@
 import { useLocation } from '@/hooks/use-location';
 import { usePrayerTime } from '@/hooks/use-prayer-time';
 import { DateTime } from 'luxon';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-function todayDateKey(): string {
-  return new Date().toISOString().split('T')[0];
+function getDateKey(timezone?: string): string {
+  return DateTime.now()
+    .setZone(timezone || 'local')
+    .toFormat('yyyy-MM-dd');
+}
+
+function normalizePrayerName(name?: string) {
+  if (!name) return null;
+
+  const lower = name.toLowerCase();
+
+  if (lower === 'fajr') return 'Fajr';
+  if (lower === 'dhuhr') return 'Dhuhr';
+  if (lower === 'asr') return 'Asr';
+  if (lower === 'maghrib') return 'Maghrib';
+  if (lower === 'isha') return 'Isha';
+
+  return null;
 }
 
 export function usePrayerTiming() {
-  const [dateKey, setDateKey] = useState(todayDateKey);
-  const { data: locationData } = useLocation();
-  const { data: prayerData } = usePrayerTime(
-    locationData?.latitude ?? 0,
-    locationData?.longitude ?? 0,
-    dateKey,
-  );
+  const {
+    data: locationData,
+    isLoading: isLocationLoading,
+    isFetching: isLocationFetching,
+    error: locationError,
+  } = useLocation();
 
-  // Update date key only when the calendar day changes (e.g. after midnight)
+  const timezone = locationData?.timezone;
+
+  const [dateKey, setDateKey] = useState(() => getDateKey());
+
+  const refreshPrayerDateKey = useCallback(() => {
+    const nextDateKey = getDateKey(timezone);
+
+    setDateKey((previousDateKey) =>
+      previousDateKey !== nextDateKey ? nextDateKey : previousDateKey,
+    );
+  }, [timezone]);
+
+  useEffect(() => {
+    refreshPrayerDateKey();
+  }, [refreshPrayerDateKey]);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      const next = todayDateKey();
-      setDateKey((prev) => (next !== prev ? next : prev));
+      refreshPrayerDateKey();
     }, 60_000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [refreshPrayerDateKey]);
 
-  // Determine current and next prayer
+  const {
+    data: prayerData,
+    isLoading: isPrayerLoading,
+    isFetching: isPrayerFetching,
+    error: prayerError,
+  } = usePrayerTime(locationData?.latitude, locationData?.longitude, dateKey);
+
   const currentPrayerInfo = useMemo(() => {
-    if (!prayerData || !locationData?.timezone) return null;
+    if (!prayerData) return null;
 
-    const now = DateTime.now().setZone(locationData.timezone);
-    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-    let currentPrayer = 'Fajr';
+    const zone = timezone || undefined;
+
+    const now = zone ? DateTime.now().setZone(zone) : DateTime.now();
+
+    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const;
+
+    type PrayerName = (typeof prayerOrder)[number];
+
+    let currentPrayer: PrayerName =
+      normalizePrayerName(prayerData.currentPrayer) ?? 'Fajr';
+
+    let nextPrayerName: PrayerName =
+      normalizePrayerName(prayerData.nextPrayer) ?? 'Fajr';
+
     let nextPrayerTime: DateTime | null = null;
-    let nextPrayerName = '';
 
-    for (let i = 0; i < prayerOrder.length; i++) {
-      const key = prayerOrder[i] as keyof typeof prayerData.prayerTimes;
-      const prayerTime = DateTime.fromJSDate(
-        new Date(prayerData.prayerTimes[key]),
-      ).setZone(locationData.timezone);
+    for (const prayerName of prayerOrder) {
+      const prayerDate = prayerData.prayerTimes[prayerName];
+
+      if (!prayerDate) continue;
+
+      const prayerTime = zone
+        ? DateTime.fromJSDate(prayerDate).setZone(zone)
+        : DateTime.fromJSDate(prayerDate);
 
       if (now < prayerTime) {
+        nextPrayerName = prayerName;
         nextPrayerTime = prayerTime;
-        nextPrayerName = key;
         break;
-      } else {
-        currentPrayer = key;
       }
+
+      currentPrayer = prayerName;
     }
 
-    // Wrap to tomorrow's Fajr if all prayers are passed
     if (!nextPrayerTime) {
-      nextPrayerTime = DateTime.fromJSDate(
-        new Date(prayerData.prayerTimes['Fajr']),
-      )
-        .plus({ days: 1 })
-        .setZone(locationData.timezone);
+      const fajrDate = prayerData.prayerTimes.Fajr;
+
+      if (!fajrDate) return null;
+
       nextPrayerName = 'Fajr';
+
+      nextPrayerTime = zone
+        ? DateTime.fromJSDate(fajrDate).setZone(zone).plus({ days: 1 })
+        : DateTime.fromJSDate(fajrDate).plus({ days: 1 });
     }
+
+    const currentPrayerDate = prayerData.prayerTimes[currentPrayer];
+
+    if (!currentPrayerDate) return null;
+
+    const currentPrayerTime = zone
+      ? DateTime.fromJSDate(currentPrayerDate).setZone(zone)
+      : DateTime.fromJSDate(currentPrayerDate);
 
     return {
       currentPrayer,
       nextPrayerName,
-      currentPrayerTime: DateTime.fromJSDate(
-        new Date(
-          prayerData.prayerTimes[
-            currentPrayer as keyof typeof prayerData.prayerTimes
-          ],
-        ),
-      ).setZone(locationData.timezone),
+      currentPrayerTime,
       nextPrayerTime,
     };
-  }, [prayerData, locationData]);
+  }, [prayerData, timezone]);
 
-  // Arabic date, day and year
   const arabicDate = useMemo(() => {
-    if (!currentPrayerInfo || !locationData?.timezone) return '';
+    if (!currentPrayerInfo) return '';
 
-    const date = currentPrayerInfo.currentPrayerTime
-      .setZone(locationData.timezone)
-      .toJSDate();
-
-    return new Intl.DateTimeFormat('en-US-u-ca-islamic', {
+    const formatterOptions: Intl.DateTimeFormatOptions = {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-      timeZone: locationData.timezone,
-    }).format(date);
-  }, [currentPrayerInfo, locationData]);
+    };
+
+    if (timezone) {
+      formatterOptions.timeZone = timezone;
+    }
+
+    return new Intl.DateTimeFormat(
+      'en-US-u-ca-islamic',
+      formatterOptions,
+    ).format(currentPrayerInfo.currentPrayerTime.toJSDate());
+  }, [currentPrayerInfo, timezone]);
 
   return {
     locationData,
     prayerData,
     currentPrayerInfo,
     arabicDate,
+
+    dateKey,
+    refreshPrayerDateKey,
+
+    isLocationLoading,
+    isLocationFetching,
+    locationError,
+
+    isPrayerLoading,
+    isPrayerFetching,
+    prayerError,
   };
 }

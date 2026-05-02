@@ -1,17 +1,26 @@
 import { getTodayPrayerTimes } from '@/api/prayer-time';
 import { useQuery } from '@tanstack/react-query';
+import { DateTime } from 'luxon';
 
-export const usePrayerTime = (
-  lat: number,
-  lng: number,
-  dateKey: string, // only refetch in new day
-) => {
+export const usePrayerTime = (lat?: number, lng?: number, dateKey?: string) => {
   return useQuery({
     queryKey: ['prayer-time', lat, lng, dateKey],
-    enabled: !!lat && !!lng && !!dateKey,
-    staleTime: Infinity, // don’t refetch until key changes (e.g. new day)
+    enabled: typeof lat === 'number' && typeof lng === 'number' && !!dateKey,
+    staleTime: Infinity,
     queryFn: async () => {
-      const date = new Date(dateKey + 'T12:00:00');
+      if (typeof lat !== 'number' || typeof lng !== 'number' || !dateKey) {
+        throw new Error('Missing location or dateKey');
+      }
+
+      const date = DateTime.fromFormat(dateKey, 'yyyy-MM-dd')
+        .set({
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        })
+        .toJSDate();
+
       const data = await getTodayPrayerTimes(lat, lng, date);
 
       return {

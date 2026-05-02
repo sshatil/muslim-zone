@@ -19,10 +19,8 @@ import {
 } from '@/lib/firebase';
 import { ensurePrayerNotificationsScheduled } from '@/utils/notifications';
 import { StatusBar } from 'expo-status-bar';
-import { Component, type ReactNode, useEffect, useRef, useState } from 'react';
+import { Component, type ReactNode, useEffect, useRef } from 'react';
 import { AppState, AppStateStatus, Text, View } from 'react-native';
-
-// Crashlytics
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -61,24 +59,23 @@ class FirebaseErrorBoundary extends Component<
           <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
             Something went wrong
           </Text>
+
           <Text style={{ color: '#888', textAlign: 'center' }}>
             {this.state.error?.message ?? 'An unexpected error occurred.'}
           </Text>
         </View>
       );
     }
+
     return this.props.children;
   }
 }
-
-// Root layout
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
 export default function RootLayout() {
-  // Enable Crashlytics collection on startup
   useEffect(() => {
     setCrashlyticsCollectionEnabled(true);
   }, []);
@@ -96,7 +93,10 @@ export default function RootLayout() {
 
 function MainLayout() {
   const { colorScheme } = useTheme();
-  const { locationData, prayerData, currentPrayerInfo } = usePrayerTiming();
+
+  const { locationData, prayerData, currentPrayerInfo, refreshPrayerDateKey } =
+    usePrayerTiming();
+
   const appState = useRef<AppStateStatus>(AppState.currentState);
 
   useEffect(() => {
@@ -105,7 +105,9 @@ function MainLayout() {
     const lat = locationData.latitude;
     const lon = locationData.longitude;
 
-    ensurePrayerNotificationsScheduled(lat, lon);
+    ensurePrayerNotificationsScheduled(lat, lon).catch((error) => {
+      recordError(error, 'EnsurePrayerNotificationsScheduled');
+    });
 
     const subscription = AppState.addEventListener(
       'change',
@@ -114,22 +116,26 @@ function MainLayout() {
           appState.current.match(/inactive|background/) &&
           nextState === 'active'
         ) {
-          ensurePrayerNotificationsScheduled(lat, lon);
+          refreshPrayerDateKey();
+
+          ensurePrayerNotificationsScheduled(lat, lon).catch((error) => {
+            recordError(error, 'EnsurePrayerNotificationsScheduledOnResume');
+          });
         }
+
         appState.current = nextState;
       },
     );
 
     return () => subscription.remove();
-  }, [locationData?.latitude, locationData?.longitude]);
+  }, [locationData?.latitude, locationData?.longitude, refreshPrayerDateKey]);
 
-  const [isAppReady, setIsAppReady] = useState(false);
+  console.log('locationData', locationData);
+  console.log('prayerData', prayerData);
+  console.log('currentPrayerInfo', currentPrayerInfo);
 
-  useEffect(() => {
-    if (locationData && prayerData && currentPrayerInfo) {
-      setIsAppReady(true);
-    }
-  }, [locationData, prayerData, currentPrayerInfo]);
+  // const isAppReady = Boolean(locationData && prayerData);
+  const isAppReady = Boolean(locationData && prayerData && currentPrayerInfo);
 
   if (!isAppReady) {
     return <SplashLoading />;
@@ -143,6 +149,7 @@ function MainLayout() {
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         </Stack>
+
         <StatusBar style='auto' />
       </NavThemeProvider>
     </GluestackUIProvider>
