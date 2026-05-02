@@ -2,7 +2,7 @@
   "duas": [
     {
       "id": 1,
-      "categoryId": 4,
+      "categoryIds": [4],
       "key": "iftar-dua",
       "title": {
         "en": "Dua Before Iftar",

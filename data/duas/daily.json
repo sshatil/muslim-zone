@@ -2,75 +2,638 @@
   "duas": [
     {
       "id": 1,
-      "categoryId": 1,
-      "key": "before-sleep",
+      "categoryIds": [1, 2, 4],
+      "key": "dua-1",
       "title": {
-        "en": "Dua Before Sleeping",
-        "bn": "ঘুমানোর আগের দোয়া"
+        "en": "Ayat al-Kursi",
+        "bn": ""
       },
-      "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+      "arabic": "أَعُوْذُ بِاللّٰهِ مِنَ الشَّيْطَانِ الرَّجِيْمِ. اَللّٰهُ لَآ إِلٰهَ إِلَّا هُوَ الْحَىُّ الْقَيُّوْمُ ، لَا تَأْخُذُهُۥ سِنَةٌ وَّلَا نَوْمٌ ، لَهُ مَا فِى السَّمٰـوٰتِ وَمَا فِى الْأَرْضِ ، مَنْ ذَا الَّذِىْ يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِۦ ، يَعْلَمُ مَا بَيْنَ أَيْدِيْهِمْ وَمَا خَلْفَهُمْ ، وَلَا يُحِيْطُوْنَ بِشَىْءٍ مِّنْ عِلْمِهِٓ إِلَّا بِمَا شَآءَ ، وَسِعَ كُرْسِيُّهُ السَّمٰـوٰتِ وَالْأَرْضَ، وَلَا يَئُوْدُهُۥ حِفْظُهُمَا ، وَهُوَ الْعَلِىُّ الْعَظِيْمُ.",
       "transliteration": {
-        "en": "Bismika Allahumma amootu wa ahyaa"
+        "en": "Aʿūdhu bi-llāhi mina-sh-Shayṭāni-r-rajīm. Allāhu lā ilāha illā Huwa-l-Ḥayyu-l-Qayyūm, lā ta’khudhuhū sinatuw-wa lā nawm, lahū mā fi-s-samāwāti wa mā fi-l-arḍ, man dhā’lladhī yashfaʿu ʿindahū illā bi-idhnih, yaʿlamu mā bayna aydīhim wa mā khalfahum, wa lā yuḥīṭūna bi-shay’im-min ʿilmihī illā bi-mā shā’, wasiʿa kursiyyuhu-s-samāwāti wa-l-arḍ, wa lā ya’ūduhū ḥifẓuhumā wa Huwa-l-ʿAlliyu-l-ʿAẓīm."
       },
       "translation": {
-        "en": "In Your name, O Allah, I die and I live.",
-        "bn": "হে আল্লাহ! আপনার নামেই আমি মরি এবং বাঁচি।"
+        "en": "I seek the protection of Allah from the accursed Shayṭān. Allah, there is no god worthy of worship but He, the Ever Living, The Sustainer of all. Neither drowsiness overtakes Him nor sleep. To Him Alone belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except with His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursī extends over the heavens and the earth, and their preservation does not tire Him. And He is the Most High, the Magnificent.",
+        "bn": "আল্লাহ, তিনি ব্যতীত কোনো উপাস্য নেই, তিনি চিরঞ্জীব, সবকিছুর ধারক । তন্দ্রা বা নিদ্রা তাঁকে স্পর্শ করে না । আসমান ও জমিনে যা কিছু আছে সব তাঁরই । কে আছে এমন যে তাঁর অনুমতি ছাড়া তাঁর কাছে সুপারিশ করবে? । তাদের সামনে ও পেছনে যা কিছু আছে তা তিনি জানেন । তাঁর ইচ্ছা ছাড়া তাঁর জ্ঞানের কোনো কিছুই তারা আয়ত্ত করতে পারে না । তাঁর কুরসি আসমান ও জমিন জুড়ে পরিব্যাপ্ত এবং এ দুটির রক্ষণাবেক্ষণ তাঁকে ক্লান্ত করে না । আর তিনি অতি উচ্চ, অতি মহান"
       },
       "source": {
-        "type": "Hadith",
-        "reference": "Sahih al-Bukhari 6312"
+        "type": "quran",
+        "reference": "2:255"
       },
-      "tags": ["sleep", "night"],
+      "tags": ["morning", "evening"],
       "isFeatured": true,
       "order": 1
     },
     {
-      "id": 3,
-      "categoryId": 1,
-      "key": "before-sleep-2",
+      "id": 2,
+      "categoryIds": [1, 2],
+      "key": "dua-2",
       "title": {
-        "en": "Another Dua Before Sleeping",
-        "bn": "ঘুমানোর আগের অন্য একটি দোয়া"
+        "en": "3 Quls",
+        "bn": ""
       },
-      "arabic": "اَللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",
+      "arabic": "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ. قُلْ هُوَ اللهُ أَحَدٌ ، اللهُ الصَّمَدُ ، لَمْ يَلِدْ وَلَمْ يُولَدْ ، وَلَمْ يَكُنْ لَّهُ كُفُوًا أَحَدٌ \n\n بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ. قُلْ أَعُوْذُ بِرَبِّ الْفَلَقِ ، مِنْ شَرِّ مَا خَلَقَ ، وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ، وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ، وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ \n\n بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ. قُلْ أَعُوذُ بِرَبِّ النَّاسِ ، مَلِكِ النَّاسِ ، إِلهِ النَّاسِ ، مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ، الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ، مِنَ الْجِنَّةِ وَالنَّاسِ",
       "transliteration": {
-        "en": "Allahumma qinee 'adhabaka yawma tab'athu 'ibadak"
+        "en": "Bismi-llāhi-r-Raḥmāni-r-Raḥīm. Qul Huwa-llāhu Aḥad. Allāhu-ṣ-Ṣamad. Lam yalid wa lam yūlad. Wa lam yakul-lahū kufuwan aḥad. \n\n Bismi-llāhi-r-Raḥmāni-r-Raḥīm. Qul aʿūdhu bi-Rabbi-l-falaq. Min sharri mā khalaq. Wa min sharri ghāsiqin idhā waqab. Wa min sharri-n-naffāthāti fi-l-ʿuqad. Wa min sharri ḥāsidin idhā ḥasad. \n\n Bismi-llāhi-r-Raḥmāni-r-Raḥīm. Qul aʿūdhu bi-Rabbi-n-nās. Maliki-n-nās. Ilāh-hin-nās. Min sharri-l-waswāsi-l-khannās. Al-ladhī yuwaswisu fī ṣudūri-n-nās. Mina-l-jinnati wa-n-nās."
       },
       "translation": {
-        "en": "O Allah, protect me from Your punishment on the day You resurrect Your slaves.",
-        "bn": "হে আল্লাহ! যেদিন আপনি আপনার বান্দাদের পুনরুজ্জীবিত করবেন, সেদিন আমাকে আপনার শাস্তি থেকে রক্ষা করুন।"
+        "en": "In the name of Allah, the Most Gracious, the Most Merciful. Say: He is Allah, the One and Only. Allah, the Eternal, Absolute. He begets not, nor is He begotten. And there is none like unto Him. \n\n In the name of Allah, the Most Gracious, the Most Merciful. Say: I seek refuge with the Lord of the dawn. From the evil of what He has created. And from the evil of darkness as it intensifies. And from the evil of those who practice witchcraft. And from the evil of the envious when he envies. \n\n In the name of Allah, the Most Gracious, the Most Merciful. Say: I seek refuge with the Lord of mankind. The King of mankind. The God of mankind. From the evil of the whispering, retreating devil. Who whispers into the breasts of mankind. Of jinn and mankind.",
+        "bn": "বিসমিল্লাহির রাহমানির রাহিম। বলুন, তিনি আল্লাহ, এক-অদ্বিতীয়। আল্লাহ কারো মুখাপেক্ষী নন, সবাই তাঁর মুখাপেক্ষী। তিনি কাউকে জন্ম দেননি এবং তাঁকেও জন্ম দেওয়া হয়নি। তাঁর সমকক্ষ কেউ নেই। \n\n বিসমিল্লাহির রাহমানির রাহিম। বলুন, আমি প্রভাতের পালনকর্তার শরণাপন্ন হচ্ছি। তাঁর সৃষ্ট বস্তুর অমঙ্গল থেকে। রাতের অন্ধকারের অমঙ্গল থেকে, যখন তা গভীর হয়। গ্রন্থিতে ফুঁকদানকারী জাদুকারিণীদের অমঙ্গল থেকে। এবং হিংসুক যখন হিংসা করে, তার অমঙ্গল থেকে। \n\n বিসমিল্লাহির রাহমানির রাহিম। বলুন, আমি মানুষের পালনকর্তার শরণাপন্ন হচ্ছি। মানুষের অধিপতির শরণাপন্ন হচ্ছি। মানুষের উপাস্যের শরণাপন্ন হচ্ছি। কুমন্ত্রণাদাতার অমঙ্গল থেকে, যে মানুষের মনে কুমন্ত্রণা দেয়। জিন ও মানুষের মধ্য থেকে।"
       },
       "source": {
-        "type": "Hadith",
-        "reference": "Sahih Muslim 709"
+        "type": "quran",
+        "reference": "112, 113, 114"
       },
-      "tags": ["sleep", "protection"],
+      "tags": ["morning", "sleep", "protection"],
       "isFeatured": true,
       "order": 3
     },
     {
-      "id": 2,
-      "categoryId": 2,
-      "key": "after-salah",
+      "id": 3,
+      "categoryIds": [1, 10],
+      "key": "dua-3",
       "title": {
-        "en": "Dua After Salah",
-        "bn": "নামাজের পরের দোয়া"
+        "en": "Sayyid al-Istighfar",
+        "bn": "সাইয়িদুল ইস্তিগফার"
       },
-      "arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ",
+      "arabic": "اَللّٰهُمَّ أَنْتَ رَبِّيْ لَا إِلٰهَ إِلَّا أَنْتَ، خَلَقْتَنِيْ وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوْذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوْءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوْءُ لَكَ بِذَنْبِيْ، فَاغْفِرْ لِيْ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوْبَ إِلَّا أَنْتَ.",
       "transliteration": {
-        "en": "Allahumma anta as-salaam wa minka as-salaam"
+        "en": "Allāhumma anta rabbī, lā ilāha illā anta, khalaqtanī wa ana ʿabduk, wa ana ʿalā ʿahdika wa waʿdika mā istaṭaʿt, aʿūdhu bika min sharri mā ṣanaʿt, abū'u laka biniʿmatika ʿalayya, wa abū'u laka bidhanbī, faghfir lī fa innahū lā yaghfiru-dh-dhunūba illā anta."
       },
       "translation": {
-        "en": "O Allah, You are Peace and from You comes peace.",
-        "bn": "হে আল্লাহ! আপনি শান্তি এবং আপনার কাছ থেকেই শান্তি আসে।"
+        "en": "O Allah, You are my Lord. There is no god worthy of worship except You. You created me, and I am Your servant. I am faithful to Your covenant and Your promise as much as I am able. I seek refuge in You from the evil of what I have done. I acknowledge Your blessing upon me, and I acknowledge my sin. So forgive me, for none forgives sins except You.",
+        "bn": "হে আল্লাহ! আপনি আমার রব। আপনি ছাড়া কোনো সত্য ইলাহ নেই। আপনি আমাকে সৃষ্টি করেছেন এবং আমি আপনার বান্দা। আমি সাধ্যমত আপনার অঙ্গীকার ও প্রতিশ্রুতির উপর অবিচল আছি। আমি আমার কৃতকর্মের মন্দ থেকে আপনার আশ্রয় প্রার্থনা করছি। আমি আপনার নেয়ামত স্বীকার করছি এবং আমার পাপও স্বীকার করছি। অতএব আমাকে ক্ষমা করুন, কারণ আপনি ছাড়া পাপ ক্ষমা করার কেউ নেই।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih al-Bukhari 6306"
+      },
+      "tags": ["morning", "evening", "forgiveness", "istighfar"],
+      "isFeatured": true,
+      "order": 2
+    },
+    {
+      "id": 4,
+      "categoryIds": [2],
+      "key": "before-sleep-3",
+      "title": {
+        "en": "Dua before sleep",
+        "bn": "ঘুমানোর আগে দোয়া"
+      },
+      "arabic": "اللَّهُمَّ بِاسْـمِكَ أَمُوتُ وَأَحْيَا",
+      "transliteration": {
+        "en": "Allāhumma Bismika amūtu wa aḥyā"
+      },
+      "translation": {
+        "en": "In Your name, O Allah, I die and I live.",
+        "bn": "হে আল্লাহ! আমি আপনার নামেই মৃত্যুবরণ করি এবং আপনার নামেই জীবিত হই।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Al-Bukhari 11:113, Muslim 4:2083"
+      },
+      "tags": ["before-sleep"],
+      "isFeatured": true,
+      "order": 2
+    },
+    {
+      "id": 5,
+      "categoryIds": [2],
+      "key": "before-sleep-4",
+      "title": {
+        "en": "Another Dua before sleep",
+        "bn": "ঘুমানোর আগে দোয়া"
+      },
+      "arabic": "بِاسْمِكَ اللّٰهُمَّ أَمُوْتُ وَأَحْيَا",
+      "transliteration": {
+        "en": "Bismika Allāhumma amūtu wa aḥyā"
+      },
+      "translation": {
+        "en": "In Your name, O Allah, I die and I live.",
+        "bn": "হে আল্লাহ! আমি আপনার নামেই মৃত্যুবরণ করি এবং আপনার নামেই জীবিত হই।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih al-Bukhari 6314"
+      },
+      "tags": ["before-sleep"],
+      "order": 2
+    },
+    {
+      "id": 6,
+      "categoryIds": [3],
+      "key": "waking-up-1",
+      "title": {
+        "en": "After waking up",
+        "bn": "ঘুম থেকে উঠার পর দোয়া"
+      },
+      "arabic": "اَلْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي جَسَدِي، وَرَدَّ عَلَيَّ رُوحِي، وَأَذِنَ لِي بِذِكْرِهِ",
+      "transliteration": {
+        "en": "Alhamdu lillahil-lathee AAafanee fee jasadee waradda AAalayya roohee wa-athina lee bithikrih."
+      },
+      "translation": {
+        "en": "All praise is for Allah who restored to me my health and returned my soul and has allowed me to remember Him.",
+        "bn": "সকল প্রশংসা আল্লাহর, যিনি আমাকে সুস্থতা দান করেছেন, আমার আত্মাকে ফিরিয়ে দিয়েছেন এবং আমাকে তাঁর স্মরণ করার অনুমতি দিয়েছেন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "At-Tirmidhi 5:473"
+      },
+      "tags": ["waking-up"],
+      "isFeatured": true,
+      "order": 2
+    },
+    {
+      "id": 7,
+      "categoryIds": [3],
+      "key": "waking-up-2",
+      "title": {
+        "en": "After waking up 2",
+        "bn": "ঘুম থেকে উঠার পর দোয়া 2"
+      },
+      "arabic": "اَلْحَمْدُ لِلَّهِ الَّذي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ.",
+      "transliteration": {
+        "en": "Alhamdu lillahil-lathee ahyana baAAda ma amatana wa-ilayhin-nushoor."
+      },
+      "translation": {
+        "en": "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
+        "bn": "সকল প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত্যুর পর পুনরায় জীবন দান করেছেন, আর তাঁর কাছেই পুনরুত্থান।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Al-Bukhari 11:113, Muslim 4:2083"
+      },
+      "tags": ["waking-up"],
+      "order": 2
+    },
+    {
+      "id": 8,
+      "categoryIds": [4],
+      "key": "after-salah-1",
+      "title": {
+        "en": "Tasbih after Salah",
+        "bn": "সালাতের পর তাসবীহ"
+      },
+      "arabic": "سُبْحَانَ اللّٰهِ، اَلْحَمْدُ لِلّٰهِ، اَللّٰهُ أَكْبَرُ",
+      "transliteration": {
+        "en": "Subḥānallāh, alḥamdu lillāh, Allāhu akbar."
+      },
+      "translation": {
+        "en": "Glory be to Allah, all praise is for Allah, Allah is the Greatest.",
+        "bn": "আল্লাহ পবিত্র, সকল প্রশংসা আল্লাহর জন্য, আল্লাহ সর্বশ্রেষ্ঠ।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih Muslim 597"
+      },
+      "tags": ["after-salah", "dhikr", "tasbih"],
+      "count": {
+        "SubhanAllah": 33,
+        "Alhamdulillah": 33,
+        "AllahuAkbar": 33
+      },
+      "order": 2
+    },
+    {
+      "id": 9,
+      "categoryIds": [4],
+      "key": "after-salah-2",
+      "title": {
+        "en": "After Fajr & Maghrib 1",
+        "bn": "ফজর ও মাগরিবের পর ১"
+      },
+      "arabic": "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيْكَ لَهُ ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِيْ وَيُمِيْتُ ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيْرٌ.",
+      "transliteration": {
+        "en": "Lā ilāha illallāhu waḥdahu lā sharīka lahu, lahul-mulku wa lahul-ḥamdu yuḥyī wa yumītu, wa huwa ‘alā kulli shay’in qadīr."
+      },
+      "translation": {
+        "en": "None has the right to be worshipped except Allah, alone, without partner. To Him belongs sovereignty and praise, and He is over all things competent.",
+        "bn": "আল্লাহ ছাড়া আর কোনো সত্য ইলাহ নেই, তিনি একক, তাঁর কোনো শরীক নেই। তাঁরই জন্য সমগ্র রাজত্ব ও সমস্ত প্রশংসা। তিনি জীবন দান করেন এবং মৃত্যু ঘটান। আর তিনি সবকিছুর উপর সর্বশক্তিমান।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "At-Tirmidhi 3336"
+      },
+      "tags": ["after-salah"],
+      "order": 2
+    },
+    {
+      "id": 10,
+      "categoryIds": [4],
+      "key": "after-salah-3",
+      "title": {
+        "en": "After Fajr & Maghrib 2",
+        "bn": "ফজর ও মাগরিবের পর ২"
+      },
+      "arabic": "اَللّٰهُمَّ أَجِرْنِيْ مِنَ النَّارِ",
+      "transliteration": {
+        "en": "Allāhumma ajirnī minan-nār"
+      },
+      "translation": {
+        "en": "O Allah, save me from the Fire.",
+        "bn": "হে আল্লাহ! আমাকে জাহান্নাম থেকে রক্ষা করুন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Ahmad 22/331"
+      },
+      "tags": ["after-salah"],
+      "order": 2
+    },
+    {
+      "id": 11,
+      "categoryIds": [4],
+      "key": "after-salah-4",
+      "title": {
+        "en": "After Fajar",
+        "bn": "ফজর সালাতের পর"
+      },
+      "arabic": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ عِلْمًا نَافِعًا ، وَرِزْقًا طَيِّبًا ، وَعَمَلًا مُتَقَبَّلًا",
+      "transliteration": {
+        "en": "Allāhumma innī as’aluka ‘ilman nāfi‘an, wa rizqan ṭayyiban, wa ‘amalan mutaqabbalan"
+      },
+      "translation": {
+        "en": "O Allah, I ask You for beneficial knowledge, good provision, and acceptable deeds.",
+        "bn": "হে আল্লাহ! আমি আপনার কাছে উপকারী জ্ঞান, উত্তম রিযিক এবং কবুলযোগ্য আমল প্রার্থনা করছি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Ibn Majah 925"
+      },
+      "tags": ["after-salah"],
+      "order": 2
+    },
+    {
+      "id": 12,
+      "categoryIds": [4],
+      "key": "after-salah-5",
+      "title": {
+        "en": "After Witr",
+        "bn": "বিতর সালাতের পর"
+      },
+      "arabic": "سُبْحَانَ الْمَلِكِ الْقُدُّوْسِ",
+      "transliteration": {
+        "en": "Subḥāna al-Maliki al-Quddūs"
+      },
+      "translation": {
+        "en": "Glory be to the King, the Holy.",
+        "bn": "পবিত্র বাদশাহ, আপনি পবিত্র।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "At-Tirmidhi 468"
+      },
+      "tags": ["after-salah"],
+      "order": 2
+    },
+    {
+      "id": 13,
+      "categoryIds": [5],
+      "key": "before-eating-1",
+      "title": {
+        "en": "Before Eating",
+        "bn": "খাওয়ার আগে"
+      },
+      "arabic": "بِسْمِ اللّٰهِ",
+      "transliteration": {
+        "en": "Bismillāh."
+      },
+      "translation": {
+        "en": "In the Name of Allah.",
+        "bn": "আল্লাহর নামে।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sunan Abi Dawud 3767"
+      },
+      "tags": ["before-eating", "food", "bismillah"],
+      "order": 1
+    },
+    {
+      "id": 14,
+      "categoryIds": [5],
+      "key": "before-eating-2",
+      "title": {
+        "en": "Before Eating",
+        "bn": "খাওয়ার আগে"
+      },
+      "arabic": "اَللّٰهُمَّ بَارِكْ لَنَا فِيْهِ وَأَطْعِمْنَا خَيْرًا مِنْهُ",
+      "transliteration": {
+        "en": "Allāhumma bārik lanā fīhi wa aṭʿimnā khayran minhu."
+      },
+      "translation": {
+        "en": "O Allah, bless it for us and feed us with better than it.",
+        "bn": "হে আল্লাহ! এতে আমাদের জন্য বরকত দিন এবং আমাদেরকে এর চেয়ে উত্তম খাবার দান করুন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Jami' at-Tirmidhi 3455"
+      },
+      "tags": ["before-eating", "food", "barakah"],
+      "order": 2
+    },
+    {
+      "id": 15,
+      "categoryIds": [5],
+      "key": "before-eating-3",
+      "title": {
+        "en": "If One Forgets at the Beginning",
+        "bn": "যদি কেউ খাবারের শুরুতে বিসমিল্লাহ পড়তে ভুলে যায়"
+      },
+      "arabic": "بِسْمِ اللّٰهِ أَوَّلَهُ وَآخِرَهُ",
+      "transliteration": {
+        "en": "Bismillāhi awwalahu wa ākhirahu"
+      },
+      "translation": {
+        "en": "In the name of Allah at the beginning and at the end.",
+        "bn": "আল্লাহর নামে, শুরুতে এবং শেষে।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Abu Dawud 3767"
+      },
+      "tags": ["before-eating"],
+      "order": 2
+    },
+    {
+      "id": 16,
+      "categoryIds": [5],
+      "key": "after-eating-1",
+      "title": {
+        "en": "After Eating",
+        "bn": "খাওয়ার পরে"
+      },
+      "arabic": "اَلْحَمْدُ لِلّٰهِ الَّذِي أَطْعَمَنِيْ هٰذَا، وَرَزَقَنِيْهِ مِنْ غَيْرِ حَوْلٍ مِّنِّيْ وَلَا قُوَّةٍ",
+      "transliteration": {
+        "en": "Alḥamdu lillāhi-lladhī aṭʿamanī hādhā, wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah."
+      },
+      "translation": {
+        "en": "All praise is for Allah Who fed me this and provided it for me without any power or strength from me.",
+        "bn": "সকল প্রশংসা আল্লাহর জন্য, যিনি আমাকে এই খাবার খাইয়েছেন এবং আমার কোনো শক্তি বা ক্ষমতা ছাড়াই আমাকে তা দান করেছেন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Jami' at-Tirmidhi 3458; Sunan Ibn Majah 3285"
+      },
+      "tags": ["after-eating", "food", "gratitude"],
+      "order": 1
+    },
+    {
+      "id": 17,
+      "categoryIds": [7],
+      "key": "before-toilet-1",
+      "title": {
+        "en": "Before Entering Toilet",
+        "bn": "টয়লেটে প্রবেশের আগে"
+      },
+      "arabic": "(بِسْمِ اللَّهِ). اللَّهُـمَّ إِنِّي أَعُـوذُ بِـكَ مِـنَ الْخُـبْثِ وَالْخَبَائِثِ.",
+      "transliteration": {
+        "en": "(Bismil-lah) allahumma innee aAAoothu bika minal-khubthi wal-khaba-ith"
+      },
+      "translation": {
+        "en": "(In the name of Allah). O Allah, I seek refuge with You from the male and female evil spirits.",
+        "bn": "(আল্লাহর নামে). হে আল্লাহ! আমি আপনার কাছে পুরুষ ও মহিলা জিনদের থেকে আশ্রয় প্রার্থনা করছি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Al-Bukhari 142, Muslim 375"
+      },
+      "tags": ["before-toilet"],
+      "order": 2
+    },
+    {
+      "id": 18,
+      "categoryIds": [7],
+      "key": "after-toilet",
+      "title": {
+        "en": "After Exiting Toilet",
+        "bn": "টয়লেট থেকে বের হওয়ার পর"
+      },
+      "arabic": "غُفْرَانَكَ",
+      "transliteration": {
+        "en": "Ghufranak"
+      },
+      "translation": {
+        "en": "I seek Your forgiveness.",
+        "bn": "আমি আপনার কাছে ক্ষমা প্রার্থনা করছি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Abu Dawud 30"
+      },
+      "tags": ["after-toilet"],
+      "order": 2
+    },
+    {
+      "id": 19,
+      "categoryIds": [6],
+      "key": "wudu-1",
+      "title": {
+        "en": "Before Wudu",
+        "bn": "ওজুর আগে"
+      },
+      "arabic": "بِسْمِ اللّٰهِ",
+      "transliteration": {
+        "en": "Bismi-llāh"
+      },
+      "translation": {
+        "en": "In the Name of Allah",
+        "bn": "আল্লাহর নামে"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Abu Dawud: 101, Ibn Majah: 397, At-Tirmidhi: 25"
+      },
+      "tags": ["wudu", "sunnah"],
+      "order": 2
+    },
+    {
+      "id": 20,
+      "categoryIds": [6],
+      "key": "after-wudu",
+      "title": {
+        "en": "After Wudu",
+        "bn": "ওজুর পরে"
+      },
+      "arabic": "أَشْهَدُ أَنْ لَّا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيْكَ لَهُ ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ ورَسُوْلُهُ ، اَللّٰهُمَّ اجْعَلْنِيْ مِنَ التَّوَّابِيْنَ ، وَاجْعَلْنِيْ مِنَ المُتَطَهِّرِيْنَ.",
+      "transliteration": {
+        "en": "Ashhadu alla ilaha illallah wahdahu la sharika lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh. Allahummaj'alni minat-tawwabina, waj'alni minal-mutatahhirin."
+      },
+      "translation": {
+        "en": "I bear witness that none has the right to be worshipped but Allah alone, without any partner, and I bear witness that Muhammad is His slave and Messenger. O Allah, make me among those who repent frequently and make me among those who purify themselves.",
+        "bn": "আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া কোনো সত্য ইলাহ নেই, তিনি একক, তাঁর কোনো শরীক নেই। এবং আমি সাক্ষ্য দিচ্ছি যে, মুহাম্মদ (সাল্লাল্লাহু আলাইহি ওয়াসাল্লাম) তাঁর বান্দা ও রাসূল। হে আল্লাহ, আমাকে তওবাকারীদের অন্তর্ভুক্ত করুন এবং আমাকে পবিত্রতাকারীদের অন্তর্ভুক্ত করুন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih Muslim (Sahih Muslim 234)"
+      },
+      "tags": ["wudu", "shahada"],
+      "isFeatured": true,
+      "order": 2
+    },
+    {
+      "id": 21,
+      "categoryIds": [8],
+      "key": "home-1",
+      "title": {
+        "en": "Before Leaving Home",
+        "bn": "বাড়ি থেকে বের হওয়ার দুয়া"
+      },
+      "arabic": "بِسْمِ اللّٰهِ تَوَكَّلْتُ عَلَى اللّٰهِ ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ.",
+      "transliteration": {
+        "en": "Bismillahi tawakkaltu 'alallah, la hawla wa la quwwata illa billah."
+      },
+      "translation": {
+        "en": "In the Name of Allah, I put my trust in Allah. There is no might and no power except by Allah.",
+        "bn": "আল্লাহর নামে (শুরু করছি), আমি আল্লাহর উপর ভরসা করলাম। আল্লাহ ছাড়া কোনো শক্তি ও ক্ষমতা নেই।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sunan Abi Dawud 5095, At-Tirmidhi 3426, Sahih"
+      },
+      "tags": ["leaving-home", "travel", "tawakkul"],
+      "isFeatured": true,
+      "order": 2
+    },
+    {
+      "id": 22,
+      "categoryIds": [8],
+      "key": "home-2",
+      "title": {
+        "en": "Entering the Home",
+        "bn": "ঘরে প্রবেশের দুয়া"
+      },
+      "arabic": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ الْمَوْلَجِ ، وَخَيْرَ الْمَخْرَجِ ، بِسْمِ اللّٰهِ وَلَجْنَا ، وَبِسْمِ اللّٰهِ خَرَجْنَا ، وَعَلَى اللّٰهِ رَبِّنَا تَوَكَّلْنَا.",
+      "transliteration": {
+        "en": "Allahumma inni as'aluka khayral-mawlagi wa khayral-makhraji. Bismillahi walajna, wa bismillahi kharajna, wa 'alallahi rabbina tawakkalna."
+      },
+      "translation": {
+        "en": "O Allah, I ask You for the goodness of entering and the goodness of exiting. In the Name of Allah we enter, and in the Name of Allah we exit, and in Allah our Lord we put our trust.",
+        "bn": "হে আল্লাহ, নিশ্চয়ই আমি আপনার কাছে প্রবেশের কল্যাণ এবং বের হওয়ার কল্যাণ প্রার্থনা করি। আল্লাহর নামে আমরা প্রবেশ করি এবং আল্লাহর নামে আমরা বের হই এবং আমাদের রব আল্লাহর উপরই আমরা ভরসা করি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sunan Abi Dawud 5096 (Mursal), See also Al-Adab Al-Mufrad 1109"
+      },
+      "tags": ["home", "entering-home", "protection", "bismillah"],
+      "isFeatured": true,
+      "order": 2
+    },
+    {
+      "id": 23,
+      "categoryIds": [9],
+      "key": "mosque-1",
+      "title": {
+        "en": "Entering the Mosque",
+        "bn": "মসজিদে প্রবেশের দুয়া"
+      },
+      "arabic": "اَللّٰهُمَّ افْتَحْ لِيْ أَبْوَابَ رَحْمَتِكَ.",
+      "transliteration": {
+        "en": "Allahumma iftah li abwaba rahmatik."
+      },
+      "translation": {
+        "en": "O Allah, open for me the doors of Your mercy.",
+        "bn": "হে আল্লাহ, আমার জন্য আপনার রহমতের দরজাগুলো খুলে দিন।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih Muslim 713"
+      },
+      "tags": ["mosque", "entering-mosque", "mercy", "dua"],
+      "order": 1
+    },
+    {
+      "id": 24,
+      "categoryIds": [9],
+      "key": "mosque-2",
+      "title": {
+        "en": "Leaving the Mosque",
+        "bn": "মসজিদ থেকে বের হওয়ার দুয়া"
+      },
+      "arabic": "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ مِنْ فَضْلِكَ.",
+      "transliteration": {
+        "en": "Allahumma inni as'aluka min fadlik."
+      },
+      "translation": {
+        "en": "O Allah, I ask You from Your bounty.",
+        "bn": "হে আল্লাহ, নিশ্চয়ই আমি আপনার অনুগ্রহ প্রার্থনা করি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih Muslim 713"
+      },
+      "tags": ["mosque", "leaving-mosque", "bounty", "dua"],
+      "order": 2
+    },
+    {
+      "id": 25,
+      "categoryIds": [10],
+      "key": "istighfar-2",
+      "title": {
+        "en": "Seeking Forgiveness",
+        "bn": "ক্ষমা প্রার্থনা"
+      },
+      "arabic": "أَسْتَغْفِرُ اللّٰهَ وَأَتُوْبُ إِلَيْهِ",
+      "transliteration": {
+        "en": "Astaghfirullāha wa atūbu ilayh."
+      },
+      "translation": {
+        "en": "I seek Allah’s forgiveness and repent to Him.",
+        "bn": "আমি আল্লাহর কাছে ক্ষমা প্রার্থনা করছি এবং তাঁর কাছেই তওবা করছি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sahih al-Bukhari 6307; Sahih Muslim 2702"
+      },
+      "tags": ["istighfar", "forgiveness", "repentance"],
+      "order": 2
+    },
+    {
+      "id": 26,
+      "categoryIds": [10],
+      "key": "istighfar-3",
+      "title": {
+        "en": "Istighfar after Salah",
+        "bn": "সালাতের পর ইস্তিগফার"
+      },
+      "arabic": "أَسْتَغْفِرُ اللّٰهَ",
+      "transliteration": {
+        "en": "Astaghfirullāh."
+      },
+      "translation": {
+        "en": "I seek Allah’s forgiveness.",
+        "bn": "আমি আল্লাহর কাছে ক্ষমা প্রার্থনা করছি।"
       },
       "source": {
         "type": "Hadith",
         "reference": "Sahih Muslim 591"
       },
-      "tags": ["salah", "prayer"],
-      "isFeatured": true,
-      "order": 2
+      "tags": ["istighfar", "after-salah", "forgiveness"],
+      "count": 3,
+      "order": 3
+    },
+    {
+      "id": 27,
+      "categoryIds": [10],
+      "key": "istighfar-4",
+      "title": {
+        "en": "Seeking Forgiveness from the Ever-Living",
+        "bn": "চিরঞ্জীব আল্লাহর কাছে ক্ষমা প্রার্থনা"
+      },
+      "arabic": "أَسْتَغْفِرُ اللّٰهَ الَّذِيْ لَا إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّوْمُ وَأَتُوْبُ إِلَيْهِ",
+      "transliteration": {
+        "en": "Astaghfirullāha-lladhī lā ilāha illā huwa-l-ḥayyu-l-qayyūmu wa atūbu ilayh."
+      },
+      "translation": {
+        "en": "I seek forgiveness from Allah, besides Whom there is no god worthy of worship, the Ever-Living, the Sustainer of all, and I repent to Him.",
+        "bn": "আমি সেই আল্লাহর কাছে ক্ষমা প্রার্থনা করছি, যিনি ছাড়া কোনো সত্য ইলাহ নেই; তিনি চিরঞ্জীব, সবকিছুর ধারক। আর আমি তাঁর কাছেই তওবা করছি।"
+      },
+      "source": {
+        "type": "Hadith",
+        "reference": "Sunan Abi Dawud 1517; Jami' at-Tirmidhi 3577"
+      },
+      "tags": ["istighfar", "forgiveness", "repentance"],
+      "order": 4
     }
   ]
 }
