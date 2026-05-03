@@ -8,7 +8,7 @@ export default function PrayerScreen() {
   return (
     <AppGradient>
       <ScrollView className='min-h-screen'>
-        <View className='space-y-4'>
+        <View className='space-y-4 pb-20'>
           <PrayerTime />
         </View>
       </ScrollView>

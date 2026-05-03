@@ -10,8 +10,8 @@ export default function HomeScreen() {
   useAnalytics('Home');
   return (
     <AppGradient>
-      <ScrollView className='min-h-screen'>
-        <View className='space-y-4'>
+      <ScrollView className='min-h-screen' showsVerticalScrollIndicator={false}>
+        <View className='space-y-4 pb-8'>
           <PrayerTimeCard />
           <FeaturedDuaList />
         </View>

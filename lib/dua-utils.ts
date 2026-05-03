@@ -6,7 +6,7 @@ export function getDuasByCategory(
   categoryId: number,
 ): Dua[] {
   return getDuasByModule(moduleKey).filter(
-    (dua) => dua.categoryId === categoryId,
+    (dua) => dua.categoryIds.includes(categoryId),
   );
 }
 

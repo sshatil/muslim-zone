@@ -1,24 +1,6 @@
 [
   {
     "id": 1,
-    "key": "sleep",
-    "name": {
-      "en": "Sleep",
-      "bn": "ঘুম"
-    },
-    "icon": "bed-outline"
-  },
-  {
-    "id": 2,
-    "key": "salah",
-    "name": {
-      "en": "After Salah",
-      "bn": "নামাজের পর"
-    },
-    "icon": "time-outline"
-  },
-  {
-    "id": 3,
     "key": "morning",
     "name": {
       "en": "Morning",
@@ -27,12 +9,84 @@
     "icon": "sunny-outline"
   },
   {
-    "id": 4,
-    "key": "other",
+    "id": 2,
+    "key": "before-leep",
     "name": {
-      "en": "Other Duas",
-      "bn": "অন্যান্য দোয়া"
+      "en": "Before Sleep",
+      "bn": "ঘুমানোর আগে"
     },
-    "icon": "book-outline"
+    "icon": "bed-outline"
+  },
+  {
+    "id": 3,
+    "key": "waking-up",
+    "name": {
+      "en": "Waking Up",
+      "bn": "ঘুম থেকে উঠার পর"
+    },
+    "icon": "sunny-outline"
+  },
+  {
+    "id": 4,
+    "key": "after-salah",
+    "name": {
+      "en": "After Salah",
+      "bn": "সালাতের পর"
+    },
+    "icon": "sunny-outline"
+  },
+  {
+    "id": 5,
+    "key": "eating",
+    "name": {
+      "en": "Eating",
+      "bn": "খাওয়া"
+    },
+    "icon": "fast-food-outline"
+  },
+  {
+    "id": 7,
+    "key": "toilet",
+    "name": {
+      "en": "Toilet",
+      "bn": "টয়লেট"
+    },
+    "icon": "water-outline"
+  },
+  {
+    "id": 6,
+    "key": "wudu",
+    "name": {
+      "en": "Wudu",
+      "bn": "ওজু"
+    },
+    "icon": "water-outline"
+  },
+  {
+    "id": 8,
+    "key": "home",
+    "name": {
+      "en": "Home",
+      "bn": "বাড়ি"
+    },
+    "icon": "home-outline"
+  },
+  {
+    "id": 9,
+    "key": "mosque",
+    "name": {
+      "en": "Mosque",
+      "bn": "মসজিদ"
+    },
+    "icon": "business-outline"
+  },
+  {
+    "id": 10,
+    "key": "istighfar",
+    "name": {
+      "en": "Istighfar",
+      "bn": "ইস্তিগফার"
+    },
+    "icon": "refresh-circle-outline"
   }
 ]
