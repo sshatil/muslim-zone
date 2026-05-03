@@ -1,13 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 
 export default function AboutScreen() {
   return (
     <ScrollView className='flex-1 px-4 pt-16'>
       {/* App header */}
       <View className='mb-6 items-center'>
-        <View className='mb-3 rounded-full bg-tertiary-500/20 p-4'>
-          <Ionicons name='moon-outline' size={32} color='#FED65B' />
+        <View className='mb-3 rounded-full bg-tertiary-500/20'>
+          {/* <Ionicons name='moon-outline' size={32} color='#FED65B' /> */}
+          <Image
+            source={require('@/assets/images/icon.png')}
+            style={{ width: 100, height: 100 }}
+          />
         </View>
 
         <Text className='text-xl font-bold text-typography-950 dark:text-white'>
