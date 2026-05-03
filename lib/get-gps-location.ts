@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import tzLookup from 'tz-lookup';
 
-const countryCodeToFlag = (countryCode: string): string => {
+const countryCodeToFlag = (countryCode?: string): string => {
   if (!countryCode || countryCode.length !== 2) return '';
 
   return countryCode
@@ -16,7 +16,7 @@ export const getGPSLocation = async () => {
   }
 
   const location = await Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.BestForNavigation,
+    accuracy: Location.Accuracy.Balanced, // Use Balanced accuracy for general usage
   });
 
   const { latitude, longitude } = location.coords;
@@ -30,9 +30,7 @@ export const getGPSLocation = async () => {
   const countryCode = place?.isoCountryCode ?? '';
   const flag = countryCodeToFlag(countryCode);
 
-  // ✅ TIMEZONE FROM LAT/LNG
   const timezone = tzLookup(latitude, longitude);
-  console.log('timezone', timezone);
 
   return {
     latitude,
@@ -41,6 +39,7 @@ export const getGPSLocation = async () => {
     country: place?.country ?? '',
     countryCode,
     flag,
-    timezone, // 👈 THIS IS WHAT YOU NEED
+    timezone, // Correct timezone data
+    source: 'gps',
   };
 };

@@ -13,6 +13,14 @@ export type UserLocation = {
   source: 'gps' | 'ip';
 };
 
+export const countryCodeToFlag = (countryCode: string): string => {
+  if (!countryCode || countryCode.length !== 2) return '';
+
+  return countryCode
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+};
+
 const getUserLocation = async (): Promise<UserLocation> => {
   try {
     // Try GPS first
@@ -24,15 +32,7 @@ const getUserLocation = async (): Promise<UserLocation> => {
   } catch {
     // Fallback to IP
     const ip = await fetchLocationByIP();
-    const countryCodeToFlag = (countryCode: string): string => {
-      if (!countryCode || countryCode.length !== 2) return '';
 
-      return countryCode
-        .toUpperCase()
-        .replace(/./g, (char) =>
-          String.fromCodePoint(127397 + char.charCodeAt(0)),
-        );
-    };
     const flag = countryCodeToFlag(ip.countryCode);
     return {
       latitude: ip.latitude,
