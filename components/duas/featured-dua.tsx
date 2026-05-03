@@ -11,7 +11,7 @@ export default function FeaturedDuaList() {
   return (
     <View className='mx-4 mb-20 p-2'>
       <View className='mb-4 flex-row items-center justify-between pb-2'>
-        <Text className='text-xl font-bold text-typography-950'>
+        <Text className='text-xl font-bold text-typography-950 dark:text-white'>
           Useful Duas
         </Text>
 
@@ -37,14 +37,14 @@ export default function FeaturedDuaList() {
                 <View className='flex-1'>
                   <Text
                     numberOfLines={1}
-                    className='text-[16px] font-bold text-typography-950'
+                    className='text-[16px] font-bold text-typography-950 dark:text-white'
                   >
                     {dua.title.en}
                   </Text>
 
                   <Text
                     numberOfLines={1}
-                    className='mt-1 text-xs text-typography-950/60'
+                    className='mt-1 text-xs text-typography-950/70 dark:text-white/50'
                   >
                     {dua.source?.reference || 'Dua'}
                   </Text>

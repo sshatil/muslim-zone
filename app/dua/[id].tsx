@@ -34,18 +34,18 @@ export default function DuaDetail() {
           }}
         />
         <ScrollView className='flex-1'>
-          <View className='space-y-6 p-6'>
+          <View className='space-y-6 py-4'>
             {/* Card Container */}
-            <View className='mt-6 rounded-2xl border border-outline-200 bg-background-0 p-6 shadow-sm'>
+            <View className='mt-6 rounded-2xl bg-background-0 px-4 py-6'>
               {/* Arabic */}
-              <Text className='mb-6 text-center text-3xl font-bold leading-loose text-typography-950 dark:text-[#ECFDF5]'>
+              <Text className='mb-6 text-center text-3xl leading-loose text-black dark:text-[#ECFDF5]'>
                 {dua.arabic}
               </Text>
 
               {/* Transliteration */}
               {dua.transliteration?.en && (
                 <View className='bg-surface-50 mb-6 rounded-xl p-4'>
-                  <Text className='text-center text-xl italic text-typography-950 dark:text-[#ECFDF5]'>
+                  <Text className='text-center text-xl italic leading-relaxed text-black dark:text-[#ECFDF5]'>
                     {dua.transliteration.en}
                   </Text>
                 </View>
@@ -53,7 +53,7 @@ export default function DuaDetail() {
 
               {/* Translation */}
               <View className='mb-4'>
-                <Text className='text-center text-xl leading-relaxed text-typography-950 dark:text-[#ECFDF5]'>
+                <Text className='text-center text-xl leading-relaxed text-black dark:text-[#ECFDF5]'>
                   {dua.translation.en}
                 </Text>
               </View>
@@ -61,7 +61,7 @@ export default function DuaDetail() {
               {/* Source */}
               {dua.source && (
                 <View className='mt-4 flex-row items-center justify-between border-t border-outline-200 pt-4'>
-                  <Text className='text-sm font-medium text-typography-500 dark:text-[#6B7280]'>
+                  <Text className='text-sm font-medium text-black dark:text-[#6B7280]'>
                     {dua.source.reference}
                   </Text>
                   <TouchableOpacity onPress={copyToClipboard} className='p-2'>
