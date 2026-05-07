@@ -130,9 +130,9 @@ function MainLayout() {
     return () => subscription.remove();
   }, [locationData?.latitude, locationData?.longitude, refreshPrayerDateKey]);
 
-  console.log('locationData', locationData);
-  console.log('prayerData', prayerData);
-  console.log('currentPrayerInfo', currentPrayerInfo);
+  // console.log('locationData', locationData);
+  // console.log('prayerData', prayerData);
+  // console.log('currentPrayerInfo', currentPrayerInfo);
 
   // const isAppReady = Boolean(locationData && prayerData);
   const isAppReady = Boolean(locationData && prayerData && currentPrayerInfo);

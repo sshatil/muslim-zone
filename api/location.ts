@@ -1,4 +1,4 @@
-import { countryCodeToFlag } from '@/hooks/use-location';
+import { countryCodeToFlag } from '@/utils/utils';
 import axios from 'axios';
 
 export const fetchLocationByIP = async () => {
