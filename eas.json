@@ -19,7 +19,8 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "./eas-submit-file.json",
-        "track": "internal"
+        "track": "alpha",
+        "releaseStatus": "completed"
       }
     }
   }
