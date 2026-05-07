@@ -3,11 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-/**
- * IOS: 12 days × 5 prayers = 60.
- * Android: 30 days.
- */
-const DAYS_TO_SCHEDULE = Platform.OS === 'ios' ? 12 : 30;
+const DAYS_TO_SCHEDULE = Platform.OS === 'ios' ? 12 : 30; // iOS: 7 days, Android: 15 days
 const PRAYERS = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const;
 const SETTINGS_STORAGE_KEY = 'prayer_notifications_settings';
 
@@ -49,8 +45,6 @@ export async function savePrayerNotificationSettings(
   }
 }
 
-// Notification handler (foreground behaviour).
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldPlaySound: true,
@@ -60,8 +54,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// Permissions.
-
+// Request Notification Permissions
 export async function requestNotificationPermissions(): Promise<boolean> {
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('prayer-times', {
@@ -121,6 +114,7 @@ async function saveLastScheduleState(
   }
 }
 
+// Scheduling notifications
 export async function schedulePrayerNotifications(
   latitude: number,
   longitude: number,
@@ -131,8 +125,7 @@ export async function schedulePrayerNotifications(
     return;
   }
 
-  // Cancel whatever was previously scheduled so we always get a fresh window.
-  await Notifications.cancelAllScheduledNotificationsAsync();
+  await Notifications.cancelAllScheduledNotificationsAsync(); // Cancel previous notifications
 
   const now = new Date();
   let scheduledCount = 0;
@@ -140,21 +133,21 @@ export async function schedulePrayerNotifications(
   for (let i = 0; i < DAYS_TO_SCHEDULE; i++) {
     const date = new Date(now);
     date.setDate(now.getDate() + i);
-    // Normalise to midnight so adhan computes for the correct calendar day.
-    date.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0); // Normalize to midnight
 
-    // adhan returns proper Date objects — no string parsing needed.
-    const { prayerTimes } = getTodayPrayerTimes(latitude, longitude, date);
+    const { prayerTimes } = await getTodayPrayerTimes(
+      latitude,
+      longitude,
+      date,
+    );
     const settings = await getPrayerNotificationSettings();
 
     for (const prayer of PRAYERS) {
-      // prayerTimes values are ISO strings from api/prayer-time.ts
       const prayerTime = new Date(prayerTimes[prayer]);
 
-      // Skip any prayer that has already passed or is disabled in settings.
       if (
-        prayerTime.getTime() <= Date.now() ||
-        !settings[prayer as keyof PrayerNotificationSettings]
+        prayerTime.getTime() <= Date.now() || // Skip past prayers
+        !settings[prayer as keyof PrayerNotificationSettings] // Skip disabled prayers
       ) {
         continue;
       }
@@ -183,22 +176,11 @@ export async function schedulePrayerNotifications(
     }
   }
 
-  await saveLastScheduleState(latitude, longitude);
-  console.log(
-    `[Notifications] Scheduled ${scheduledCount} notifications across ${DAYS_TO_SCHEDULE} days.`,
-  );
+  console.log(`[Notifications] Scheduled ${scheduledCount} notifications.`);
+  await saveLastScheduleState(latitude, longitude); // Save state after scheduling
 }
 
-// Smart entry-point (used by _layout).
-
-/**
- * Schedules notifications only when necessary:
- *   • First launch ever (no stored state)
- *   • Location has changed significantly (> ~1km)
- *   • We are running low on scheduled days memory buffer
- *
- * Safe to call every time the app comes to the foreground.
- */
+// Ensure prayer notifications are scheduled as needed
 export async function ensurePrayerNotificationsScheduled(
   latitude: number,
   longitude: number,
@@ -214,13 +196,10 @@ export async function ensurePrayerNotificationsScheduled(
     console.log('[Notifications] No previous schedule state found.');
     needsReschedule = true;
   } else {
-    // 1. Check if location changed significantly (e.g. > ~5km, ~0.05 degrees)
     const latDiff = Math.abs(lastState.latitude - latitude);
     const lonDiff = Math.abs(lastState.longitude - longitude);
     const locationChanged = latDiff > 0.05 || lonDiff > 0.05;
 
-    // 2. Check if we need to refresh based on time elapsed
-    // Buffer logic: iOS 12 days -> refresh after 7 days. Android 30 days -> refresh after 15 days.
     const REFRESH_AFTER_DAYS = Platform.OS === 'ios' ? 7 : 15;
 
     const lastDateObj = new Date(lastState.date);
@@ -229,23 +208,21 @@ export async function ensurePrayerNotificationsScheduled(
     const daysElapsed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
     if (locationChanged) {
-      console.log(
-        '[Notifications] Location changed significantly. Rescheduling…',
-      );
+      console.log('[Notifications] Location changed. Rescheduling…');
       needsReschedule = true;
     } else if (daysElapsed >= REFRESH_AFTER_DAYS) {
       console.log(
-        `[Notifications] Schedule is ${daysElapsed} days old. Rescheduling for another batch…`,
+        `[Notifications] Schedule is ${daysElapsed} days old. Rescheduling…`,
       );
       needsReschedule = true;
     } else {
       console.log(
-        `[Notifications] Schedule up to date (${daysElapsed} days old, max ${REFRESH_AFTER_DAYS}). Skipping.`,
+        `[Notifications] Schedule up to date (${daysElapsed} days old). max ${REFRESH_AFTER_DAYS}) Skipping.`,
       );
     }
   }
 
   if (needsReschedule) {
-    await schedulePrayerNotifications(latitude, longitude);
+    await schedulePrayerNotifications(latitude, longitude); // Re-schedule notifications
   }
 }
