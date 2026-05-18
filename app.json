@@ -72,6 +72,12 @@
         "projectId": "dc504975-9c58-43da-84c7-fee01e3baf28"
       }
     },
-    "owner": "sshatil"
+    "owner": "sshatil",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/dc504975-9c58-43da-84c7-fee01e3baf28"
+    }
   }
 }
