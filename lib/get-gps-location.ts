@@ -16,7 +16,8 @@ export const getGPSLocation = async () => {
   }
 
   const location = await Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.Balanced, // Use Balanced accuracy for general usage
+    // accuracy: Location.Accuracy.Balanced, // Use Balanced accuracy for general usage
+    accuracy: Location.Accuracy.Lowest,
   });
 
   const { latitude, longitude } = location.coords;
