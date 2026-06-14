@@ -1,3 +1,4 @@
+import { FeaturedDuasProvider } from '@/context/FeaturedDuasContext';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import {
   DarkTheme,
@@ -83,9 +84,11 @@ export default function RootLayout() {
   return (
     <FirebaseErrorBoundary>
       <ThemeProvider>
-        <QueryClientProvider>
-          <MainLayout />
-        </QueryClientProvider>
+        <FeaturedDuasProvider>
+          <QueryClientProvider>
+            <MainLayout />
+          </QueryClientProvider>
+        </FeaturedDuasProvider>
       </ThemeProvider>
     </FirebaseErrorBoundary>
   );
