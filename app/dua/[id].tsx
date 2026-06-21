@@ -1,4 +1,5 @@
 import AppGradient from '@/components/app-gradient';
+import { useFeaturedDuas } from '@/context/FeaturedDuasContext';
 import { getDuaById } from '@/lib/dua-utils';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -8,7 +9,10 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 export default function DuaDetail() {
   const { id } = useLocalSearchParams();
   const duaId = Number(id);
-  const dua = getDuaById('daily', duaId); // Assuming 'daily'
+  const dua = getDuaById('daily', duaId);
+
+  const { isFavourited, toggle } = useFeaturedDuas();
+  const bookmarked = dua ? isFavourited(dua.id) : false;
 
   if (!dua) {
     return (
@@ -24,6 +28,10 @@ export default function DuaDetail() {
     );
   };
 
+  const handleBookmark = () => {
+    toggle(dua.id);
+  };
+
   return (
     <>
       <AppGradient>
@@ -31,6 +39,15 @@ export default function DuaDetail() {
           options={{
             title: dua.title.en,
             headerBackTitle: 'Back',
+            headerRight: () => (
+              <TouchableOpacity onPress={handleBookmark} className='p-2'>
+                <Ionicons
+                  name={bookmarked ? 'bookmark' : 'bookmark-outline'}
+                  size={22}
+                  color={bookmarked ? '#10B981' : '#6B7280'}
+                />
+              </TouchableOpacity>
+            ),
           }}
         />
         <ScrollView className='flex-1'>
@@ -64,9 +81,25 @@ export default function DuaDetail() {
                   <Text className='text-sm font-medium text-black dark:text-[#6B7280]'>
                     {dua.source.reference}
                   </Text>
-                  <TouchableOpacity onPress={copyToClipboard} className='p-2'>
-                    <Ionicons name='copy-outline' size={18} color='#6B7280' />
-                  </TouchableOpacity>
+                  <View className='flex-row items-center gap-2'>
+                    <TouchableOpacity onPress={handleBookmark} className='p-2'>
+                      <Ionicons
+                        name={bookmarked ? 'bookmark' : 'bookmark-outline'}
+                        size={18}
+                        color={bookmarked ? '#10B981' : '#6B7280'}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={copyToClipboard}
+                      className='p-2'
+                    >
+                      <Ionicons
+                        name='copy-outline'
+                        size={18}
+                        color='#6B7280'
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )}
             </View>

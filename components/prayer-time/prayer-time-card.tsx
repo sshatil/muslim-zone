@@ -54,19 +54,20 @@ export default function PrayerTimeCard() {
                     {currentPrayerInfo.nextPrayerName}
                   </Text>
                 </View>
-                <View className='mt-2 flex-row items-center gap-1'>
+                <View className='mt-2 flex-row items-center gap-2'>
                   <CountdownDisplay
                     nextPrayerTime={currentPrayerInfo.nextPrayerTime}
                     timezone={locationData.timezone ?? ''}
-                    className='text-2xl font-medium text-typography-950 dark:text-[#FED65B]'
+                    className='text-2xl font-semibold text-typography-950 dark:text-[#FED65B]'
                   />
-                  <Text className='text-sm text-typography-950/60 dark:text-white/60'>
+                  <Text className='text-sm font-medium text-typography-950/80 dark:text-white/60'>
                     Remaining
                   </Text>
                 </View>
               </View>
               <View className='grid items-center'>
-                <Text className='text-xl font-medium leading-8 text-typography-950 dark:text-white'>
+                <Text className='py-1.5 text-[20px] font-bold leading-8 text-typography-950 dark:text-white'>
+                  {currentPrayerInfo.currentPrayer}:{' '}
                   {currentPrayerInfo.currentPrayerTime.toFormat('hh:mm a')}
                 </Text>
                 <View className='flex-row items-center gap-1'>

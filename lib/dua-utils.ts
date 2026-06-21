@@ -10,10 +10,21 @@ export function getDuasByCategory(
   );
 }
 
-export function getFeaturedDuas(moduleKey: string): Dua[] {
+export function getDefaultFeaturedIds(moduleKey: string): number[] {
   return getDuasByModule(moduleKey)
     .filter((dua) => dua.isFeatured)
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    .map((dua) => dua.id);
+}
+
+export function getFeaturedDuasByIds(
+  moduleKey: string,
+  ids: number[],
+): Dua[] {
+  const all = getDuasByModule(moduleKey);
+  return ids
+    .map((id) => all.find((d) => d.id === id))
+    .filter((d): d is Dua => d !== undefined);
 }
 
 export function getDuaById(moduleKey: string, duaId: number): Dua | undefined {
