@@ -10,7 +10,12 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "adhan": "^4.4.3",
+    "luxon": "^3.7.2"
+  },
   "devDependencies": {
+    "@types/luxon": "^3.7.1",
     "typescript": "~5.9.2"
   }
 }

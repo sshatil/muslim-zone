@@ -1,27 +1,16 @@
+import {
+  getPrayerDateKey,
+  normalizePrayerName,
+  PRAYER_ORDER,
+  type PrayerName,
+} from '@muslim-zone/core';
+
 import { useLocation } from '@/hooks/use-location';
 import { usePrayerTime } from '@/hooks/use-prayer-time';
+
 import { DateTime } from 'luxon';
+
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
-function getDateKey(timezone?: string): string {
-  return DateTime.now()
-    .setZone(timezone || 'local')
-    .toFormat('yyyy-MM-dd');
-}
-
-function normalizePrayerName(name?: string) {
-  if (!name) return null;
-
-  const lower = name.toLowerCase();
-
-  if (lower === 'fajr') return 'Fajr';
-  if (lower === 'dhuhr') return 'Dhuhr';
-  if (lower === 'asr') return 'Asr';
-  if (lower === 'maghrib') return 'Maghrib';
-  if (lower === 'isha') return 'Isha';
-
-  return null;
-}
 
 export function usePrayerTiming() {
   const {
@@ -33,10 +22,10 @@ export function usePrayerTiming() {
 
   const timezone = locationData?.timezone;
 
-  const [dateKey, setDateKey] = useState(() => getDateKey());
+  const [dateKey, setDateKey] = useState(() => getPrayerDateKey());
 
   const refreshPrayerDateKey = useCallback(() => {
-    const nextDateKey = getDateKey(timezone);
+    const nextDateKey = getPrayerDateKey(timezone);
 
     setDateKey((previousDateKey) =>
       previousDateKey !== nextDateKey ? nextDateKey : previousDateKey,
@@ -63,15 +52,13 @@ export function usePrayerTiming() {
   } = usePrayerTime(locationData?.latitude, locationData?.longitude, dateKey);
 
   const currentPrayerInfo = useMemo(() => {
-    if (!prayerData) return null;
+    if (!prayerData) {
+      return null;
+    }
 
     const zone = timezone || undefined;
 
     const now = zone ? DateTime.now().setZone(zone) : DateTime.now();
-
-    const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'] as const;
-
-    type PrayerName = (typeof prayerOrder)[number];
 
     let currentPrayer: PrayerName =
       normalizePrayerName(prayerData.currentPrayer) ?? 'Fajr';
@@ -81,10 +68,12 @@ export function usePrayerTiming() {
 
     let nextPrayerTime: DateTime | null = null;
 
-    for (const prayerName of prayerOrder) {
+    for (const prayerName of PRAYER_ORDER) {
       const prayerDate = prayerData.prayerTimes[prayerName];
 
-      if (!prayerDate) continue;
+      if (!prayerDate) {
+        continue;
+      }
 
       const prayerTime = zone
         ? DateTime.fromJSDate(prayerDate).setZone(zone)
@@ -92,7 +81,9 @@ export function usePrayerTiming() {
 
       if (now < prayerTime) {
         nextPrayerName = prayerName;
+
         nextPrayerTime = prayerTime;
+
         break;
       }
 
@@ -102,18 +93,26 @@ export function usePrayerTiming() {
     if (!nextPrayerTime) {
       const fajrDate = prayerData.prayerTimes.Fajr;
 
-      if (!fajrDate) return null;
+      if (!fajrDate) {
+        return null;
+      }
 
       nextPrayerName = 'Fajr';
 
       nextPrayerTime = zone
-        ? DateTime.fromJSDate(fajrDate).setZone(zone).plus({ days: 1 })
-        : DateTime.fromJSDate(fajrDate).plus({ days: 1 });
+        ? DateTime.fromJSDate(fajrDate).setZone(zone).plus({
+            days: 1,
+          })
+        : DateTime.fromJSDate(fajrDate).plus({
+            days: 1,
+          });
     }
 
     const currentPrayerDate = prayerData.prayerTimes[currentPrayer];
 
-    if (!currentPrayerDate) return null;
+    if (!currentPrayerDate) {
+      return null;
+    }
 
     const currentPrayerTime = zone
       ? DateTime.fromJSDate(currentPrayerDate).setZone(zone)
@@ -128,7 +127,9 @@ export function usePrayerTiming() {
   }, [prayerData, timezone]);
 
   const arabicDate = useMemo(() => {
-    if (!currentPrayerInfo) return '';
+    if (!currentPrayerInfo) {
+      return '';
+    }
 
     const formatterOptions: Intl.DateTimeFormatOptions = {
       day: 'numeric',

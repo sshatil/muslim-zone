@@ -21,3 +21,15 @@ export {
   getFeaturedDuasByIds,
   searchDuas,
 } from './dua/utils';
+
+export { PRAYER_ORDER } from './prayer/types';
+
+export type { PrayerName, PrayerTimesIso } from './prayer/types';
+
+export { getTodayPrayerTimes } from './prayer/calculate';
+
+export {
+  getPrayerCalculationDate,
+  getPrayerDateKey,
+  normalizePrayerName,
+} from './prayer/date';
