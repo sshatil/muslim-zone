@@ -1,13 +1,15 @@
 {
-  "name": "muslim-zone",
+  "name": "@muslim-zone/mobile",
   "main": "expo-router/entry",
   "version": "0.1.3",
   "scripts": {
+    "dev": "expo start",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
   },
   "dependencies": {
