@@ -5,7 +5,7 @@ export type LanguageMap = {
 };
 
 export type DuaSource = {
-  type: 'Hadith' | 'Quran' | 'Other';
+  type: 'Hadith' | 'Quran' | 'quran' | 'Other';
   reference: string;
 };
 

@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 
-import { getDefaultFeaturedIds } from '@/lib/dua-utils';
+import { getDefaultFeaturedIds } from '@muslim-zone/core';
 
 const STORAGE_KEY = 'user-featured-dua-ids';
 

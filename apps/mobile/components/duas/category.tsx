@@ -1,5 +1,5 @@
-import { getCategories } from '@/lib/dua-loader';
 import { Ionicons } from '@expo/vector-icons';
+import { getCategories } from '@muslim-zone/core';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { CategoryList } from './category-list';
@@ -15,12 +15,12 @@ export default function Category() {
   return (
     <ScrollView className='flex-1 px-3 pt-20'>
       <View className='flex-row items-center justify-between'>
-        <Text className='text-[48px] font-bold text-typography-950 dark:text-white'>
+        <Text className='text-typography-950 text-[48px] font-bold dark:text-white'>
           Duas List
         </Text>
       </View>
       {/* Search */}
-      <View className='mb-4 mt-4 flex-row items-center rounded-2xl border border-outline-200 bg-background-0 px-4 py-3 dark:border-white/10 dark:bg-white/5'>
+      <View className='border-outline-200 bg-background-0 mb-4 mt-4 flex-row items-center rounded-2xl border px-4 py-3 dark:border-white/10 dark:bg-white/5'>
         <Ionicons name='search-outline' size={18} color='#9CA3AF' />
 
         <TextInput
@@ -28,7 +28,7 @@ export default function Category() {
           placeholderTextColor='#9CA3AF'
           value={search}
           onChangeText={setSearch}
-          className='ml-2 flex-1 py-0 text-xl text-typography-950 dark:text-white'
+          className='text-typography-950 ml-2 flex-1 py-0 text-xl dark:text-white'
         />
 
         {search.length > 0 && (
@@ -49,7 +49,7 @@ export default function Category() {
       {filtered.length === 0 && (
         <View className='mt-10 items-center'>
           <Ionicons name='search-outline' size={40} color='#9CA3AF' />
-          <Text className='mt-3 text-sm text-typography-500'>
+          <Text className='text-typography-500 mt-3 text-sm'>
             No results found
           </Text>
         </View>

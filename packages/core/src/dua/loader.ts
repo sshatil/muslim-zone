@@ -1,11 +1,14 @@
-import categories from '@/data/categories.json';
-import modules from '@/data/module.json';
+import categories from '../../data/categories.json';
+import modules from '../../data/module.json';
 
-import daily from '@/data/duas/daily.json';
-import ramadan from '@/data/duas/ramadan.json';
+import daily from '../../data/duas/daily.json';
+import ramadan from '../../data/duas/ramadan.json';
 
-import { Dua, DuaCategory, DuaModule } from '@/types/dua';
-type DuaModuleData = { duas: Dua[] };
+import type { Dua, DuaCategory, DuaModule } from './types';
+
+type DuaModuleData = {
+  duas: Dua[];
+};
 
 export const MODULE_DATA_MAP: Record<string, DuaModuleData> = {
   daily: daily as DuaModuleData,
@@ -21,7 +24,7 @@ export function getCategories(): DuaCategory[] {
 }
 
 export function getModuleByKey(key: string): DuaModule | undefined {
-  return getModules().find((m) => m.key === key);
+  return getModules().find((module) => module.key === key);
 }
 
 export function getDuasByModule(moduleKey: string): Dua[] {
