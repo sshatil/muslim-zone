@@ -1,5 +1,6 @@
+import { usePrayerTimingState } from '@muslim-zone/react';
+
 import { useLocation } from '@/hooks/use-location';
-import { usePrayerTimingState } from '@/hooks/use-prayer-timing-state';
 
 export function usePrayerTiming() {
   const {

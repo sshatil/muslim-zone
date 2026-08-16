@@ -6,11 +6,11 @@ import {
   type UserLocation,
 } from '@muslim-zone/core';
 
-import { usePrayerTime } from '@/hooks/use-prayer-time';
-
 import { DateTime } from 'luxon';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { usePrayerTime } from './use-prayer-time';
 
 export function usePrayerTimingState(location?: UserLocation) {
   const timezone = location?.timezone;
@@ -76,7 +76,9 @@ export function usePrayerTimingState(location?: UserLocation) {
 
       if (now < prayerTime) {
         nextPrayerName = prayerName;
+
         nextPrayerTime = prayerTime;
+
         break;
       }
 
@@ -93,8 +95,12 @@ export function usePrayerTimingState(location?: UserLocation) {
       nextPrayerName = 'Fajr';
 
       nextPrayerTime = zone
-        ? DateTime.fromJSDate(fajrDate).setZone(zone).plus({ days: 1 })
-        : DateTime.fromJSDate(fajrDate).plus({ days: 1 });
+        ? DateTime.fromJSDate(fajrDate).setZone(zone).plus({
+            days: 1,
+          })
+        : DateTime.fromJSDate(fajrDate).plus({
+            days: 1,
+          });
     }
 
     const currentPrayerDate = prayerData.prayerTimes[currentPrayer];

@@ -19,6 +19,7 @@
     "@gluestack-ui/utils": "^3.0.13",
     "@legendapp/motion": "^2.5.3",
     "@muslim-zone/core": "workspace:*",
+    "@muslim-zone/react": "workspace:*",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-firebase/analytics": "^24.0.0",
     "@react-native-firebase/app": "^24.0.0",

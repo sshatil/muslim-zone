@@ -32,6 +32,9 @@ importers:
       '@muslim-zone/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@muslim-zone/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       '@react-native-async-storage/async-storage':
         specifier: ^2.2.0
         version: 2.2.0(react-native@0.81.5(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.1.17)(react@19.1.0)(supports-color@8.1.1))
@@ -211,6 +214,31 @@ importers:
       '@types/tz-lookup':
         specifier: ^6.1.2
         version: 6.1.2
+      typescript:
+        specifier: ~5.9.2
+        version: 5.9.3
+
+  packages/react:
+    dependencies:
+      '@muslim-zone/core':
+        specifier: workspace:*
+        version: link:../core
+      luxon:
+        specifier: ^3.7.2
+        version: 3.7.2
+    devDependencies:
+      '@tanstack/react-query':
+        specifier: ^5.90.12
+        version: 5.101.4(react@19.1.0)
+      '@types/luxon':
+        specifier: ^3.7.1
+        version: 3.7.4
+      '@types/react':
+        specifier: ~19.1.0
+        version: 19.1.17
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
       typescript:
         specifier: ~5.9.2
         version: 5.9.3

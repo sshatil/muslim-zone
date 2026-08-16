@@ -5,22 +5,33 @@ import {
 
 import { useQuery } from '@tanstack/react-query';
 
-export const usePrayerTime = (lat?: number, lng?: number, dateKey?: string) => {
+export function usePrayerTime(
+  latitude?: number,
+  longitude?: number,
+  dateKey?: string,
+) {
   return useQuery({
-    queryKey: ['prayer-time', lat, lng, dateKey],
+    queryKey: ['prayer-time', latitude, longitude, dateKey],
 
-    enabled: typeof lat === 'number' && typeof lng === 'number' && !!dateKey,
+    enabled:
+      typeof latitude === 'number' &&
+      typeof longitude === 'number' &&
+      !!dateKey,
 
     staleTime: Infinity,
 
     queryFn: async () => {
-      if (typeof lat !== 'number' || typeof lng !== 'number' || !dateKey) {
+      if (
+        typeof latitude !== 'number' ||
+        typeof longitude !== 'number' ||
+        !dateKey
+      ) {
         throw new Error('Missing location or dateKey');
       }
 
       const date = getPrayerCalculationDate(dateKey);
 
-      const data = await getTodayPrayerTimes(lat, lng, date);
+      const data = await getTodayPrayerTimes(latitude, longitude, date);
 
       return {
         ...data,
@@ -39,4 +50,4 @@ export const usePrayerTime = (lat?: number, lng?: number, dateKey?: string) => {
       };
     },
   });
-};
+}
