@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "turbo run dev",
     "dev:mobile": "turbo run dev --filter=@muslim-zone/mobile",
+    "dev:desktop": "turbo run tauri:dev --filter=@muslim-zone/desktop",
     "android": "turbo run android --filter=@muslim-zone/mobile",
     "ios": "turbo run ios --filter=@muslim-zone/mobile",
     "web": "turbo run web --filter=@muslim-zone/mobile",
+    "build:desktop": "turbo run tauri:build --filter=@muslim-zone/desktop",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "turbo run format"
