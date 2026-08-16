@@ -1,22 +1,19 @@
+import {
+  countryCodeToFlag,
+  getTimezoneFromCoordinates,
+  type UserLocation,
+} from '@muslim-zone/core';
+
 import * as Location from 'expo-location';
-import tzLookup from 'tz-lookup';
 
-const countryCodeToFlag = (countryCode?: string): string => {
-  if (!countryCode || countryCode.length !== 2) return '';
-
-  return countryCode
-    .toUpperCase()
-    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
-};
-
-export const getGPSLocation = async () => {
+export const getGPSLocation = async (): Promise<UserLocation> => {
   const { status } = await Location.requestForegroundPermissionsAsync();
+
   if (status !== 'granted') {
     throw new Error('Location permission denied');
   }
 
   const location = await Location.getCurrentPositionAsync({
-    // accuracy: Location.Accuracy.Balanced, // Use Balanced accuracy for general usage
     accuracy: Location.Accuracy.Lowest,
   });
 
@@ -28,19 +25,21 @@ export const getGPSLocation = async () => {
   });
 
   const place = address?.[0];
-  const countryCode = place?.isoCountryCode ?? '';
-  const flag = countryCodeToFlag(countryCode);
 
-  const timezone = tzLookup(latitude, longitude);
+  const countryCode = place?.isoCountryCode ?? '';
 
   return {
     latitude,
     longitude,
+
     city: place?.city ?? '',
     country: place?.country ?? '',
     countryCode,
-    flag,
-    timezone, // Correct timezone data
+
+    flag: countryCodeToFlag(countryCode),
+
+    timezone: getTimezoneFromCoordinates(latitude, longitude),
+
     source: 'gps',
   };
 };

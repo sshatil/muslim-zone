@@ -56,9 +56,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.90.12
         version: 5.101.4(react@19.1.0)
-      axios:
-        specifier: ^1.13.2
-        version: 1.19.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       expo:
         specifier: ~54.0.34
         version: 54.0.36(@babel/core@7.29.7(supports-color@8.1.1))(@expo/metro-runtime@6.1.2)(expo-router@6.0.24)(react-native@0.81.5(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.1.17)(react@19.1.0)(supports-color@8.1.1))(react@19.1.0)(supports-color@8.1.1)(typescript@5.9.3)
@@ -164,9 +161,6 @@ importers:
       tailwind-variants:
         specifier: ^0.1.20
         version: 0.1.20(tailwindcss@3.4.19(yaml@2.9.0))
-      tz-lookup:
-        specifier: ^6.1.25
-        version: 6.1.25
     devDependencies:
       '@types/luxon':
         specifier: ^3.7.1
@@ -174,9 +168,6 @@ importers:
       '@types/react':
         specifier: ~19.1.0
         version: 19.1.17
-      '@types/tz-lookup':
-        specifier: ^6.1.2
-        version: 6.1.2
       babel-plugin-module-resolver:
         specifier: ^5.0.2
         version: 5.0.3
@@ -204,13 +195,22 @@ importers:
       adhan:
         specifier: ^4.4.3
         version: 4.4.4
+      axios:
+        specifier: ^1.19.0
+        version: 1.19.0(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)
       luxon:
         specifier: ^3.7.2
         version: 3.7.2
+      tz-lookup:
+        specifier: ^6.1.25
+        version: 6.1.25
     devDependencies:
       '@types/luxon':
         specifier: ^3.7.1
         version: 3.7.4
+      '@types/tz-lookup':
+        specifier: ^6.1.2
+        version: 6.1.2
       typescript:
         specifier: ~5.9.2
         version: 5.9.3

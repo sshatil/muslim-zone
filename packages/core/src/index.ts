@@ -33,3 +33,12 @@ export {
   getPrayerDateKey,
   normalizePrayerName,
 } from './prayer/date';
+
+export type { LocationSource, UserLocation } from './location/types';
+
+export {
+  countryCodeToFlag,
+  getTimezoneFromCoordinates,
+} from './location/utils';
+
+export { fetchLocationByIP } from './location/ip-location';

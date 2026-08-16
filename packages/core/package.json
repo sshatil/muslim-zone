@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "adhan": "^4.4.3",
-    "luxon": "^3.7.2"
+    "axios": "^1.19.0",
+    "luxon": "^3.7.2",
+    "tz-lookup": "^6.1.25"
   },
   "devDependencies": {
     "@types/luxon": "^3.7.1",
+    "@types/tz-lookup": "^6.1.2",
     "typescript": "~5.9.2"
   }
 }
