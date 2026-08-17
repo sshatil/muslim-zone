@@ -1,1 +1,124 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: #f7faf8;
+  --foreground: #152019;
+
+  --card: #ffffff;
+  --card-foreground: #152019;
+
+  --popover: #ffffff;
+  --popover-foreground: #152019;
+
+  --primary: #27844e;
+  --primary-foreground: #ffffff;
+
+  --secondary: #edf4ef;
+  --secondary-foreground: #1d3325;
+
+  --muted: #eef3ef;
+  --muted-foreground: #68756c;
+
+  --accent: #e3f2e8;
+  --accent-foreground: #1c5c38;
+
+  --destructive: #dc2626;
+
+  --border: #dce5df;
+  --input: #dce5df;
+  --ring: #35a564;
+}
+
+.dark {
+  --background: #08110d;
+  --foreground: #edf6f0;
+
+  --card: #0d1812;
+  --card-foreground: #edf6f0;
+
+  --popover: #101b15;
+  --popover-foreground: #edf6f0;
+
+  --primary: #7ed5a7;
+  --primary-foreground: #092416;
+
+  --secondary: #132219;
+  --secondary-foreground: #e5f3e9;
+
+  --muted: #111e16;
+  --muted-foreground: #89978f;
+
+  --accent: #173020;
+  --accent-foreground: #bceaca;
+
+  --destructive: #ef5350;
+
+  --border: #1c2a22;
+  --input: #26352c;
+  --ring: #58bf80;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
