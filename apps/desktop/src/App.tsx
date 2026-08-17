@@ -1,51 +1,60 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { Badge } from '@muslim-zone/ui/components/badge';
+import { Button } from '@muslim-zone/ui/components/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@muslim-zone/ui/components/card';
+import { Input } from '@muslim-zone/ui/components/input';
+import { Separator } from '@muslim-zone/ui/components/separator';
+import { Switch } from '@muslim-zone/ui/components/switch';
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
+export default function App() {
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <main className='bg-muslim-bg text-muslim-text min-h-screen p-10'>
+      <div className='mx-auto max-w-3xl space-y-6'>
+        <div>
+          <Badge variant='secondary'>Muslim Zone</Badge>
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+          <h1 className='mt-3 text-3xl font-semibold'>Shared UI system</h1>
+
+          <p className='text-muslim-muted mt-2'>
+            Tauri + Tailwind + shadcn + packages/ui
+          </p>
+        </div>
+
+        <Separator />
+
+        <Card className='border-muslim-border bg-muslim-surface'>
+          <CardHeader>
+            <CardTitle>Desktop UI foundation</CardTitle>
+
+            <CardDescription>
+              These components come from @muslim-zone/ui.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className='space-y-5'>
+            <Input placeholder='Search duas...' />
+
+            <div className='flex items-center justify-between'>
+              <div>
+                <p className='font-medium'>Prayer notifications</p>
+
+                <p className='text-muslim-muted text-sm'>
+                  Notify me at prayer time
+                </p>
+              </div>
+
+              <Switch />
+            </div>
+
+            <Button>Save settings</Button>
+          </CardContent>
+        </Card>
       </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
     </main>
   );
 }
-
-export default App;
