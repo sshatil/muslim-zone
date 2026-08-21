@@ -1,69 +1,30 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@muslim-zone/ui/components/card';
+import { useState } from 'react';
 
-import { ThemeSelector } from '@muslim-zone/ui/components/theme-selector';
+import { AppSidebar } from './components/app-sidebar';
 
-import { ThemeToggle } from '@muslim-zone/ui/components/theme-toggle';
+import { HomePage } from './pages/home-page';
 
-import { useTheme } from '@muslim-zone/ui/components/theme-provider';
+import type { AppPage } from './types/navigation';
+
+function renderPage(page: AppPage) {
+  switch (page) {
+    case 'home':
+      return <HomePage />;
+  }
+}
 
 export default function App() {
-  const { theme, resolvedTheme } = useTheme();
+  const [activePage, setActivePage] = useState<AppPage>('home');
 
   return (
-    <main className='bg-background text-foreground min-h-screen p-10 transition-colors'>
-      <div className='mx-auto max-w-3xl'>
-        <header className='mb-8 flex items-start justify-between'>
-          <div>
-            <p className='text-primary text-sm font-medium'>Muslim Zone</p>
+    <div className='bg-background text-foreground flex h-screen overflow-hidden'>
+      <AppSidebar activePage={activePage} onPageChange={setActivePage} />
 
-            <h1 className='mt-1 text-3xl font-semibold tracking-tight'>
-              Appearance
-            </h1>
-
-            <p className='text-muted-foreground mt-2'>
-              Customize how Muslim Zone looks on this device.
-            </p>
-          </div>
-
-          <ThemeToggle />
-        </header>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Theme</CardTitle>
-
-            <CardDescription>
-              Choose Light, Dark, or follow your system appearance.
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent className='space-y-6'>
-            <ThemeSelector />
-
-            <div className='bg-muted/40 rounded-lg border p-4 text-sm'>
-              <div className='flex justify-between gap-6'>
-                <span className='text-muted-foreground'>Preference</span>
-
-                <span className='font-medium capitalize'>{theme}</span>
-              </div>
-
-              <div className='mt-2 flex justify-between gap-6'>
-                <span className='text-muted-foreground'>
-                  Current appearance
-                </span>
-
-                <span className='font-medium capitalize'>{resolvedTheme}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </main>
+      <main className='min-w-0 flex-1 overflow-y-auto'>
+        <div className='mx-auto w-full max-w-7xl p-8 lg:p-10'>
+          {renderPage(activePage)}
+        </div>
+      </main>
+    </div>
   );
 }
