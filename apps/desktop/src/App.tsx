@@ -1,5 +1,3 @@
-import { Badge } from '@muslim-zone/ui/components/badge';
-import { Button } from '@muslim-zone/ui/components/button';
 import {
   Card,
   CardContent,
@@ -7,51 +5,62 @@ import {
   CardHeader,
   CardTitle,
 } from '@muslim-zone/ui/components/card';
-import { Input } from '@muslim-zone/ui/components/input';
-import { Separator } from '@muslim-zone/ui/components/separator';
-import { Switch } from '@muslim-zone/ui/components/switch';
+
+import { ThemeSelector } from '@muslim-zone/ui/components/theme-selector';
+
+import { ThemeToggle } from '@muslim-zone/ui/components/theme-toggle';
+
+import { useTheme } from '@muslim-zone/ui/components/theme-provider';
 
 export default function App() {
+  const { theme, resolvedTheme } = useTheme();
+
   return (
-    <main className='bg-muslim-bg text-muslim-text min-h-screen p-10'>
-      <div className='mx-auto max-w-3xl space-y-6'>
-        <div>
-          <Badge variant='secondary'>Muslim Zone</Badge>
+    <main className='bg-background text-foreground min-h-screen p-10 transition-colors'>
+      <div className='mx-auto max-w-3xl'>
+        <header className='mb-8 flex items-start justify-between'>
+          <div>
+            <p className='text-primary text-sm font-medium'>Muslim Zone</p>
 
-          <h1 className='mt-3 text-3xl font-semibold'>Shared UI system</h1>
+            <h1 className='mt-1 text-3xl font-semibold tracking-tight'>
+              Appearance
+            </h1>
 
-          <p className='text-muslim-muted mt-2'>
-            Tauri + Tailwind + shadcn + packages/ui
-          </p>
-        </div>
+            <p className='text-muted-foreground mt-2'>
+              Customize how Muslim Zone looks on this device.
+            </p>
+          </div>
 
-        <Separator />
+          <ThemeToggle />
+        </header>
 
-        <Card className='border-muslim-border bg-muslim-surface'>
+        <Card>
           <CardHeader>
-            <CardTitle>Desktop UI foundation</CardTitle>
+            <CardTitle>Theme</CardTitle>
 
             <CardDescription>
-              These components come from @muslim-zone/ui.
+              Choose Light, Dark, or follow your system appearance.
             </CardDescription>
           </CardHeader>
 
-          <CardContent className='space-y-5'>
-            <Input placeholder='Search duas...' />
+          <CardContent className='space-y-6'>
+            <ThemeSelector />
 
-            <div className='flex items-center justify-between'>
-              <div>
-                <p className='font-medium'>Prayer notifications</p>
+            <div className='bg-muted/40 rounded-lg border p-4 text-sm'>
+              <div className='flex justify-between gap-6'>
+                <span className='text-muted-foreground'>Preference</span>
 
-                <p className='text-muslim-muted text-sm'>
-                  Notify me at prayer time
-                </p>
+                <span className='font-medium capitalize'>{theme}</span>
               </div>
 
-              <Switch />
-            </div>
+              <div className='mt-2 flex justify-between gap-6'>
+                <span className='text-muted-foreground'>
+                  Current appearance
+                </span>
 
-            <Button>Save settings</Button>
+                <span className='font-medium capitalize'>{resolvedTheme}</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

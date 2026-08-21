@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@muslim-zone/ui/components/theme-provider';
 import { TooltipProvider } from '@muslim-zone/ui/components/tooltip';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -6,8 +7,10 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <TooltipProvider>
-      <App />
-    </TooltipProvider>
+    <ThemeProvider defaultTheme='system' storageKey='muslim-zone-desktop-theme'>
+      <TooltipProvider>
+        <App />
+      </TooltipProvider>
+    </ThemeProvider>
   </React.StrictMode>,
 );

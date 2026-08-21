@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -25,48 +25,78 @@
   --color-accent-foreground: var(--accent-foreground);
 
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
+/*
+ * Muslim Zone — Light
+ */
 :root {
   --radius: 0.75rem;
 
   --background: #f7faf8;
-  --foreground: #152019;
+  --foreground: #162019;
 
   --card: #ffffff;
-  --card-foreground: #152019;
+  --card-foreground: #162019;
 
   --popover: #ffffff;
-  --popover-foreground: #152019;
+  --popover-foreground: #162019;
 
-  --primary: #27844e;
+  --primary: #26764a;
   --primary-foreground: #ffffff;
 
-  --secondary: #edf4ef;
-  --secondary-foreground: #1d3325;
+  --secondary: #eaf3ed;
+  --secondary-foreground: #1c3426;
 
-  --muted: #eef3ef;
-  --muted-foreground: #68756c;
+  --muted: #edf3ef;
+  --muted-foreground: #66736a;
 
-  --accent: #e3f2e8;
-  --accent-foreground: #1c5c38;
+  --accent: #dff1e5;
+  --accent-foreground: #195d38;
 
   --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
 
   --border: #dce5df;
-  --input: #dce5df;
-  --ring: #35a564;
+  --input: #d5e0d8;
+  --ring: #32935d;
+
+  --sidebar: #f1f6f3;
+  --sidebar-foreground: #233128;
+
+  --sidebar-primary: #26764a;
+  --sidebar-primary-foreground: #ffffff;
+
+  --sidebar-accent: #e2eee6;
+  --sidebar-accent-foreground: #17472d;
+
+  --sidebar-border: #d9e4dc;
+  --sidebar-ring: #32935d;
 }
 
+/*
+ * Muslim Zone — Dark
+ */
 .dark {
   --background: #08110d;
   --foreground: #edf6f0;
@@ -74,13 +104,13 @@
   --card: #0d1812;
   --card-foreground: #edf6f0;
 
-  --popover: #101b15;
+  --popover: #101c15;
   --popover-foreground: #edf6f0;
 
   --primary: #7ed5a7;
   --primary-foreground: #092416;
 
-  --secondary: #132219;
+  --secondary: #14231a;
   --secondary-foreground: #e5f3e9;
 
   --muted: #111e16;
@@ -90,10 +120,23 @@
   --accent-foreground: #bceaca;
 
   --destructive: #ef5350;
+  --destructive-foreground: #ffffff;
 
-  --border: #1c2a22;
-  --input: #26352c;
+  --border: #1d2d23;
+  --input: #26382d;
   --ring: #58bf80;
+
+  --sidebar: #0a140f;
+  --sidebar-foreground: #dfeae3;
+
+  --sidebar-primary: #7ed5a7;
+  --sidebar-primary-foreground: #092416;
+
+  --sidebar-accent: #14251a;
+  --sidebar-accent-foreground: #bceaca;
+
+  --sidebar-border: #1c2c22;
+  --sidebar-ring: #58bf80;
 }
 
 @layer base {
