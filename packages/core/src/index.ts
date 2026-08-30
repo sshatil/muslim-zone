@@ -42,3 +42,6 @@ export {
 } from './location/utils';
 
 export { fetchLocationByIP } from './location/ip-location';
+
+export * from './location/search-location';
+export * from './location/search-types';
