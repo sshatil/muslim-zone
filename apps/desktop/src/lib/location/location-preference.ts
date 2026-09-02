@@ -1,12 +1,14 @@
+import { emitDesktopLocationChanged } from './location-events';
+
 export type LocationMode = 'automatic' | 'manual';
 
 export const LOCATION_MODE_STORAGE_KEY = 'muslim-zone-location-mode';
 
 export function getSavedLocationMode(): LocationMode {
   try {
-    const value = localStorage.getItem(LOCATION_MODE_STORAGE_KEY);
+    const value = window.localStorage.getItem(LOCATION_MODE_STORAGE_KEY);
 
-    if (value === 'manual' || value === 'automatic') {
+    if (value === 'automatic' || value === 'manual') {
       return value;
     }
 
@@ -17,5 +19,7 @@ export function getSavedLocationMode(): LocationMode {
 }
 
 export function saveLocationMode(mode: LocationMode) {
-  localStorage.setItem(LOCATION_MODE_STORAGE_KEY, mode);
+  window.localStorage.setItem(LOCATION_MODE_STORAGE_KEY, mode);
+
+  emitDesktopLocationChanged();
 }

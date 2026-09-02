@@ -4,12 +4,15 @@ import { AppSidebar } from './components/app-sidebar';
 
 import { HomePage } from './pages/home-page';
 
+import { SettingsPage } from './pages/settings-page';
 import type { AppPage } from './types/navigation';
 
 function renderPage(page: AppPage) {
   switch (page) {
     case 'home':
       return <HomePage />;
+    case 'settings':
+      return <SettingsPage />;
   }
 }
 

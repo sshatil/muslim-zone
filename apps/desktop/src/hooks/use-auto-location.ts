@@ -8,11 +8,13 @@ export const autoLocationQueryKey = [
   'automatic',
 ] as const;
 
-export function useAutoLocation() {
+export function useAutoLocation(enabled = true) {
   return useQuery({
     queryKey: autoLocationQueryKey,
 
     queryFn: getAutoLocation,
+
+    enabled,
 
     staleTime: 30 * 60 * 1000,
 

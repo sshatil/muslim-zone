@@ -1,5 +1,7 @@
 import type { UserLocation } from '@muslim-zone/core';
 
+import { emitDesktopLocationChanged } from './location-events';
+
 export const MANUAL_LOCATION_STORAGE_KEY =
   'muslim-zone-desktop-manual-location';
 
@@ -50,8 +52,12 @@ export function saveManualLocation(location: UserLocation) {
     MANUAL_LOCATION_STORAGE_KEY,
     JSON.stringify(location),
   );
+
+  emitDesktopLocationChanged();
 }
 
 export function clearManualLocation() {
   window.localStorage.removeItem(MANUAL_LOCATION_STORAGE_KEY);
+
+  emitDesktopLocationChanged();
 }
