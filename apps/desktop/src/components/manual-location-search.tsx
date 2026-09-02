@@ -22,6 +22,8 @@ import { formatSearchLocation } from '../lib/location/location-display';
 
 import { saveManualLocation } from '../lib/location/manual-location-storage';
 
+import { saveLocationMode } from '../lib/location/location-preference';
+
 type ManualLocationSearchProps = {
   onLocationSelected?: (location: UserLocation) => void;
 };
@@ -45,6 +47,8 @@ export function ManualLocationSearch({
     const manualLocation = locationSearchResultToManualLocation(result);
 
     saveManualLocation(manualLocation);
+
+    saveLocationMode('manual');
 
     setSelectedId(result.id);
 

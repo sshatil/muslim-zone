@@ -1,22 +1,33 @@
-import { fetchLocationByIP } from '@muslim-zone/core';
-import { useQuery } from '@tanstack/react-query';
+import { useAutoLocation } from './use-auto-location';
 
-export const desktopLocationQueryKey = ['desktop', 'location', 'ip'] as const;
+import { getSavedManualLocation } from '../lib/location/manual-location-storage';
+
+import { useLocationPreference } from './use-location-preference';
 
 export function useDesktopLocation() {
-  return useQuery({
-    queryKey: desktopLocationQueryKey,
+  const { mode } = useLocationPreference();
 
-    queryFn: fetchLocationByIP,
+  const autoLocation = useAutoLocation();
 
-    staleTime: 30 * 60 * 1000,
+  const manualLocation = getSavedManualLocation();
 
-    gcTime: 24 * 60 * 60 * 1000,
+  if (mode === 'manual' && manualLocation) {
+    return {
+      data: manualLocation,
 
-    refetchOnWindowFocus: false,
+      isLoading: false,
+      isFetching: false,
+      error: null,
 
-    refetchOnReconnect: true,
+      refetch: async () => ({
+        data: manualLocation,
+      }),
+    };
+  }
 
-    retry: 2,
-  });
+  return {
+    ...autoLocation,
+
+    data: autoLocation.data?.location,
+  };
 }
