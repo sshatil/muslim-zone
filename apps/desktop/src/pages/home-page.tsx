@@ -1,109 +1,126 @@
-import { useState } from 'react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 
-import type { UserLocation } from '@muslim-zone/core';
+import { Button } from '@muslim-zone/ui/components/button';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@muslim-zone/ui/components/card';
+import { Card, CardContent } from '@muslim-zone/ui/components/card';
 
-import { ManualLocationSearch } from '../components/manual-location-search';
+import { CurrentPrayerCard } from '../components/home/current-prayer-card';
 
-import { getSavedManualLocation } from '../lib/location/manual-location-storage';
+import { useDesktopPrayer } from '../hooks/use-desktop-prayer';
+
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return 'Something went wrong.';
+}
 
 export function HomePage() {
-  const [selectedLocation, setSelectedLocation] = useState<UserLocation | null>(
-    () => getSavedManualLocation(),
-  );
+  const {
+    locationData,
 
-  return (
-    <div className='mx-auto max-w-2xl space-y-6'>
-      <div>
-        <p className='text-primary text-sm font-medium'>Muslim Zone</p>
+    prayerData,
+    currentPrayerInfo,
+    // arabicDate,
 
-        <h1 className='mt-1 text-3xl font-semibold tracking-tight'>
-          Choose location
-        </h1>
+    isLocationLoading,
+    isLocationFetching,
 
-        <p className='text-muted-foreground mt-2'>
-          Search for the city whose prayer times you want to use.
-        </p>
-      </div>
+    isPrayerLoading,
+    isPrayerFetching,
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Manual location</CardTitle>
+    locationError,
+    prayerError,
 
-          <CardDescription>
-            Manual location is useful when a VPN, proxy, or network location
-            gives an incorrect result.
-          </CardDescription>
-        </CardHeader>
+    refetchLocation,
 
-        <CardContent>
-          <ManualLocationSearch onLocationSelected={setSelectedLocation} />
-        </CardContent>
-      </Card>
+    // automaticFallbackUsed,
+  } = useDesktopPrayer();
 
-      {selectedLocation && (
+  const isInitialLoading =
+    isLocationLoading || (Boolean(locationData) && isPrayerLoading);
+
+  const isRefreshing = isLocationFetching || isPrayerFetching;
+
+  if (isInitialLoading && !prayerData) {
+    return <p>Loading</p>;
+  }
+
+  if (locationError && !locationData) {
+    return (
+      <div className='mx-auto max-w-xl py-20'>
         <Card>
-          <CardHeader>
-            <CardTitle>Saved location</CardTitle>
-
-            <CardDescription>
-              This location will become the manual location preference in the
-              next stage.
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent className='space-y-2 text-sm'>
-            <div className='flex justify-between gap-6'>
-              <span className='text-muted-foreground'>City</span>
-
-              <span className='font-medium'>{selectedLocation.city}</span>
+          <CardContent className='flex flex-col items-center p-8 text-center'>
+            <div className='bg-destructive/10 text-destructive flex size-12 items-center justify-center rounded-full'>
+              <AlertCircle className='size-6' />
             </div>
 
-            <div className='flex justify-between gap-6'>
-              <span className='text-muted-foreground'>Country</span>
+            <h2 className='mt-5 text-xl font-semibold'>Location unavailable</h2>
 
-              <span className='font-medium'>
-                {selectedLocation.flag} {selectedLocation.country}
-              </span>
-            </div>
+            <p className='text-muted-foreground mt-2 text-sm leading-6'>
+              {getErrorMessage(locationError)}
+            </p>
 
-            <div className='flex justify-between gap-6'>
-              <span className='text-muted-foreground'>Timezone</span>
-
-              <span className='font-medium'>{selectedLocation.timezone}</span>
-            </div>
-
-            <div className='flex justify-between gap-6'>
-              <span className='text-muted-foreground'>Latitude</span>
-
-              <span className='font-medium tabular-nums'>
-                {selectedLocation.latitude.toFixed(5)}
-              </span>
-            </div>
-
-            <div className='flex justify-between gap-6'>
-              <span className='text-muted-foreground'>Longitude</span>
-
-              <span className='font-medium tabular-nums'>
-                {selectedLocation.longitude.toFixed(5)}
-              </span>
-            </div>
-
-            <div className='flex justify-between gap-6'>
-              <span className='text-muted-foreground'>Source</span>
-
-              <span className='font-medium'>{selectedLocation.source}</span>
-            </div>
+            <Button className='mt-6' onClick={() => void refetchLocation()}>
+              <RefreshCw className='size-4' />
+              Try again
+            </Button>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  const currentPrayer = currentPrayerInfo?.currentPrayer;
+
+  const nextPrayer = currentPrayerInfo?.nextPrayerName;
+
+  const currentPrayerTime = currentPrayerInfo?.currentPrayerTime?.toJSDate?.();
+
+  const nextPrayerTime = currentPrayerInfo?.nextPrayerTime?.toJSDate?.();
+
+  const nextPrayerTimestamp = currentPrayerInfo?.nextPrayerTime?.toMillis?.();
+
+  return (
+    <div className='space-y-7'>
+      <header className='flex items-start justify-between gap-6'>
+        <div>
+          <p className='text-primary text-sm font-medium'>Assalamu Alaikum</p>
+
+          <h1 className='mt-1 text-3xl font-semibold tracking-tight'>
+            Today's Prayer
+          </h1>
+
+          <p className='text-muted-foreground mt-2'>
+            Your daily prayer and spiritual overview.
+          </p>
+        </div>
+
+        {isRefreshing && (
+          <div className='text-muted-foreground flex items-center gap-2 text-sm'>
+            <RefreshCw className='size-4 animate-spin' />
+            Updating
+          </div>
+        )}
+      </header>
+
+      {prayerError && (
+        <div className='border-destructive/30 bg-destructive/5 text-destructive flex items-center gap-3 rounded-xl border px-4 py-3 text-sm'>
+          <AlertCircle className='size-4 shrink-0' />
+
+          {getErrorMessage(prayerError)}
+        </div>
       )}
+
+      <CurrentPrayerCard
+        currentPrayer={currentPrayer}
+        nextPrayer={nextPrayer}
+        currentPrayerTime={currentPrayerTime}
+        nextPrayerTime={nextPrayerTime}
+        nextPrayerTimestamp={nextPrayerTimestamp}
+        timezone={locationData?.timezone}
+      />
     </div>
   );
 }

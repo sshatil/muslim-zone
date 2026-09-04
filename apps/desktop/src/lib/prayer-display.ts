@@ -38,18 +38,26 @@ export function formatPrayerTime(
   }
 }
 
-export function formatLocationName(city?: string, country?: string) {
+export function formatLocation(city?: string, country?: string) {
   if (city && country) {
     return `${city}, ${country}`;
   }
 
-  if (city) {
-    return city;
-  }
+  return city ?? country ?? 'Current location';
+}
 
-  if (country) {
-    return country;
-  }
+export function getLocationSourceLabel(source?: string) {
+  switch (source) {
+    case 'manual':
+      return 'Manual';
 
-  return 'Current location';
+    case 'gps':
+      return 'Device';
+
+    case 'ip':
+      return 'IP';
+
+    default:
+      return 'Unknown';
+  }
 }

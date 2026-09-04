@@ -1,30 +1,31 @@
 import { usePrayerTimingState } from '@muslim-zone/react';
+
 import { useDesktopLocation } from './use-desktop-location';
 
 export function useDesktopPrayer() {
-  const {
-    data: locationData,
-    isLoading: isLocationLoading,
-    isFetching: isLocationFetching,
-    error: locationError,
-    refetch: refetchLocation,
-  } = useDesktopLocation();
+  const location = useDesktopLocation();
 
-  console.log('locationData', locationData);
-
-  const prayerTiming = usePrayerTimingState(locationData);
+  const prayerTiming = usePrayerTimingState(location.data);
 
   return {
-    locationData,
+    locationData: location.data,
 
     ...prayerTiming,
 
-    isLocationLoading,
-    isLocationFetching,
-    locationError,
+    isLocationLoading: location.isLoading,
 
-    refetchLocation,
+    isLocationFetching: location.isFetching,
+
+    locationError: location.error,
+
+    refetchLocation: location.refetch,
+
+    locationMode: location.mode,
+
+    isManualLocation: location.isManual,
+
+    automaticFallbackUsed: location.automaticFallbackUsed,
+
+    deviceLocationError: location.deviceError,
   };
 }
-
-export type DesktopPrayerState = ReturnType<typeof useDesktopPrayer>;
