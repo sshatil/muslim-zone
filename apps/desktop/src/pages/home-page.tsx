@@ -1,12 +1,13 @@
 import { AlertCircle, RefreshCw } from 'lucide-react';
 
 import { Button } from '@muslim-zone/ui/components/button';
-
 import { Card, CardContent } from '@muslim-zone/ui/components/card';
 
-import { CurrentPrayerCard } from '../components/home/current-prayer-card';
-
+import { HomeDashboardSkeleton } from '../components/home-dashboard-skeleton';
+import { CurrentPrayerCard } from '../components/home/hero/current-prayer-card';
 import { useDesktopPrayer } from '../hooks/use-desktop-prayer';
+
+import { formatLocation } from '../lib/prayer-display';
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) {
@@ -16,13 +17,37 @@ function getErrorMessage(error: unknown) {
   return 'Something went wrong.';
 }
 
+function formatEnglishDate(timezone?: string) {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  };
+
+  if (timezone) {
+    options.timeZone = timezone;
+  }
+
+  try {
+    return new Intl.DateTimeFormat('en-US', options).format(new Date());
+  } catch {
+    return new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date());
+  }
+}
+
 export function HomePage() {
   const {
     locationData,
 
     prayerData,
     currentPrayerInfo,
-    // arabicDate,
+    arabicDate,
 
     isLocationLoading,
     isLocationFetching,
@@ -34,8 +59,6 @@ export function HomePage() {
     prayerError,
 
     refetchLocation,
-
-    // automaticFallbackUsed,
   } = useDesktopPrayer();
 
   const isInitialLoading =
@@ -44,7 +67,7 @@ export function HomePage() {
   const isRefreshing = isLocationFetching || isPrayerFetching;
 
   if (isInitialLoading && !prayerData) {
-    return <p>Loading</p>;
+    return <HomeDashboardSkeleton />;
   }
 
   if (locationError && !locationData) {
@@ -76,49 +99,84 @@ export function HomePage() {
 
   const nextPrayer = currentPrayerInfo?.nextPrayerName;
 
-  const currentPrayerTime = currentPrayerInfo?.currentPrayerTime?.toJSDate?.();
+  const currentPrayerTime =
+    currentPrayer && prayerData?.prayerTimes
+      ? prayerData.prayerTimes[currentPrayer]
+      : undefined;
 
-  const nextPrayerTime = currentPrayerInfo?.nextPrayerTime?.toJSDate?.();
+  const nextPrayerTime =
+    nextPrayer && prayerData?.prayerTimes
+      ? prayerData.prayerTimes[nextPrayer]
+      : undefined;
 
   const nextPrayerTimestamp = currentPrayerInfo?.nextPrayerTime?.toMillis?.();
 
+  const englishDate = formatEnglishDate(locationData?.timezone);
+
   return (
-    <div className='space-y-7'>
-      <header className='flex items-start justify-between gap-6'>
+    <div className='mx-auto max-w-[1500px] space-y-8 px-1'>
+      {/* Header */}
+      <header className='flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between'>
         <div>
           <p className='text-primary text-sm font-medium'>Assalamu Alaikum</p>
 
-          <h1 className='mt-1 text-3xl font-semibold tracking-tight'>
-            Today's Prayer
-          </h1>
+          {/* Dates */}
+          <div className='mt-3 flex flex-col gap-1'>
+            <p className='text-foreground text-lg'>{englishDate}</p>
 
-          <p className='text-muted-foreground mt-2'>
-            Your daily prayer and spiritual overview.
-          </p>
+            {arabicDate && (
+              <p className='text-foreground text-sm font-medium'>
+                {arabicDate}
+              </p>
+            )}
+          </div>
+
+          {locationData && (
+            <div className='text-muted-foreground mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm'>
+              <span>
+                {formatLocation(locationData.city, locationData.country)}
+              </span>
+
+              {locationData.flag && (
+                <span aria-label='Country'>{locationData.flag}</span>
+              )}
+
+              {locationData.timezone && (
+                <>
+                  <span className='text-border'>•</span>
+
+                  <span>{locationData.timezone}</span>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         {isRefreshing && (
-          <div className='text-muted-foreground flex items-center gap-2 text-sm'>
+          <div className='text-muted-foreground flex shrink-0 items-center gap-2 text-sm'>
             <RefreshCw className='size-4 animate-spin' />
             Updating
           </div>
         )}
       </header>
 
+      {/* Prayer error */}
       {prayerError && (
         <div className='border-destructive/30 bg-destructive/5 text-destructive flex items-center gap-3 rounded-xl border px-4 py-3 text-sm'>
           <AlertCircle className='size-4 shrink-0' />
 
-          {getErrorMessage(prayerError)}
+          <span>{getErrorMessage(prayerError)}</span>
         </div>
       )}
 
+      {/* Current / Next prayer hero */}
       <CurrentPrayerCard
         currentPrayer={currentPrayer}
         nextPrayer={nextPrayer}
         currentPrayerTime={currentPrayerTime}
         nextPrayerTime={nextPrayerTime}
         nextPrayerTimestamp={nextPrayerTimestamp}
+        prayerTimes={prayerData?.prayerTimes}
         timezone={locationData?.timezone}
       />
     </div>
