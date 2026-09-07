@@ -5,6 +5,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@muslim-zone/ui/components/theme-provider';
 import { TooltipProvider } from '@muslim-zone/ui/components/tooltip';
 
+import { FeaturedDuasProvider, StorageAdapter } from '@muslim-zone/react';
+
 import { queryClient } from '../lib/query-client';
 
 type AppProvidersProps = {
@@ -18,7 +20,9 @@ export function AppProviders({ children }: AppProvidersProps) {
         defaultTheme='system'
         storageKey='muslim-zone-desktop-theme'
       >
-        <TooltipProvider>{children}</TooltipProvider>
+        <FeaturedDuasProvider storage={undefined as unknown as StorageAdapter}>
+          <TooltipProvider>{children}</TooltipProvider>
+        </FeaturedDuasProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

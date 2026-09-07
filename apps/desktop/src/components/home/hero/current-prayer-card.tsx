@@ -41,7 +41,7 @@ export function CurrentPrayerCard({
   nextPrayerTimestamp,
   prayerTimes,
   timezone,
-  onPlayAdhan,
+  // onPlayAdhan,
 }: CurrentPrayerCardProps) {
   const countdown = usePrayerCountdown(nextPrayerTimestamp);
 
