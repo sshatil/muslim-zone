@@ -4,6 +4,7 @@ import { AppSidebar } from './components/app-sidebar';
 
 import { HomePage } from './pages/home-page';
 
+import { PrayerTimesPage } from './pages/prayer-times-page';
 import { SettingsPage } from './pages/settings-page';
 import type { AppPage } from './types/navigation';
 
@@ -11,6 +12,8 @@ function renderPage(page: AppPage) {
   switch (page) {
     case 'home':
       return <HomePage />;
+    case 'prayer-times':
+      return <PrayerTimesPage />;
     case 'settings':
       return <SettingsPage />;
   }
