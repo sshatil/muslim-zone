@@ -4,6 +4,7 @@ import { AppSidebar } from './components/app-sidebar';
 
 import { HomePage } from './pages/home-page';
 
+import { DuasPage } from './pages/duas-page';
 import { PrayerTimesPage } from './pages/prayer-times-page';
 import { SettingsPage } from './pages/settings-page';
 import type { AppPage } from './types/navigation';
@@ -16,6 +17,8 @@ function renderPage(page: AppPage) {
       return <PrayerTimesPage />;
     case 'settings':
       return <SettingsPage />;
+    case 'duas':
+      return <DuasPage />;
   }
 }
 
