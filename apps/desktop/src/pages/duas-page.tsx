@@ -204,24 +204,6 @@ export function DuasPage() {
               />
             )}
           </section>
-
-          {savedDuas.length > 0 && (
-            <section className='space-y-5'>
-              <div>
-                <h2 className='text-xl font-semibold'>Saved Duas</h2>
-
-                <p className='text-muted-foreground mt-1 text-sm'>
-                  Your bookmarked duas
-                </p>
-              </div>
-
-              <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
-                {savedDuas.slice(0, 4).map((dua) => (
-                  <DuaListCard key={dua.id} dua={dua} />
-                ))}
-              </div>
-            </section>
-          )}
         </>
       )}
 
@@ -239,7 +221,7 @@ export function DuasPage() {
           </div>
 
           {displayedCategoryDuas.length > 0 ? (
-            <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
+            <div className='grid gap-4'>
               {displayedCategoryDuas.map((dua) => (
                 <DuaListCard key={dua.id} dua={dua} />
               ))}

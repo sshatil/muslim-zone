@@ -58,9 +58,9 @@ export function DuaDetail({ dua }: DuaDetailProps) {
       <div className='flex items-center justify-between gap-4'>
         <Button
           type='button'
-          variant='ghost'
+          variant='outline'
           onClick={() => navigate(-1)}
-          className='gap-2'
+          className='mt-6 gap-2'
         >
           <ArrowLeft className='size-4' />
           Back
@@ -73,7 +73,7 @@ export function DuaDetail({ dua }: DuaDetailProps) {
           className='gap-2'
         >
           {bookmarked ? (
-            <BookmarkCheck className='size-4' />
+            <BookmarkCheck className='size-4 shrink-0 text-emerald-500' />
           ) : (
             <Bookmark className='size-4' />
           )}
@@ -170,7 +170,7 @@ export function DuaDetail({ dua }: DuaDetailProps) {
               className='gap-2'
             >
               {bookmarked ? (
-                <BookmarkCheck className='size-4' />
+                <BookmarkCheck className='size-4 shrink-0 text-emerald-500' />
               ) : (
                 <Bookmark className='size-4' />
               )}
