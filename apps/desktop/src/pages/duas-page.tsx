@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   getCategories,
@@ -7,31 +8,15 @@ import {
   getDuasByCategory,
   searchDuas,
   type Dua,
-  type DuaCategory,
 } from '@muslim-zone/core';
+import { Button } from '@muslim-zone/ui/components/button';
 
 import { useFeaturedDuas } from '@muslim-zone/react';
 
-import { Button } from '@muslim-zone/ui/components/button';
-
-import { DuaCategoryCard } from '../components/duas/dua-category-card';
-import { DuaDetail } from '../components/duas/dua-detail';
-import { DuaEmptyState } from '../components/duas/dua-empty-state';
-import { DuaListCard } from '../components/duas/dua-list-card';
-import { DuaSearch } from '../components/duas/dua-search';
-
-type ViewState =
-  | {
-      type: 'categories';
-    }
-  | {
-      type: 'category';
-      category: DuaCategory;
-    }
-  | {
-      type: 'dua';
-      dua: Dua;
-    };
+import { DuaCategoryCard } from '#components/duas/dua-category-card';
+import { DuaEmptyState } from '#components/duas/dua-empty-state';
+import { DuaListCard } from '#components/duas/dua-list-card';
+import { DuaSearch } from '#components/duas/dua-search';
 
 const MODULE_KEY = 'daily';
 
@@ -54,21 +39,34 @@ function getDuaSearchText(dua: Dua) {
 }
 
 export function DuasPage() {
+  const navigate = useNavigate();
+
+  const { categoryId } = useParams<{
+    categoryId?: string;
+  }>();
+
   const categories = useMemo(() => getCategories(), []);
 
   const [search, setSearch] = useState('');
-
-  const [view, setView] = useState<ViewState>({
-    type: 'categories',
-  });
 
   const { featuredIds } = useFeaturedDuas();
 
   const normalizedSearch = search.trim().toLowerCase();
 
-  /*
-   * Global search
-   */
+  const selectedCategory = useMemo(() => {
+    if (!categoryId) {
+      return null;
+    }
+
+    const id = Number(categoryId);
+
+    if (!Number.isInteger(id)) {
+      return null;
+    }
+
+    return categories.find((category) => category.id === id) ?? null;
+  }, [categoryId, categories]);
+
   const searchResults = useMemo(() => {
     if (!normalizedSearch) {
       return [];
@@ -77,7 +75,6 @@ export function DuasPage() {
     return searchDuas(MODULE_KEY, normalizedSearch);
   }, [normalizedSearch]);
 
-  //  Saved duas
   const savedDuas = useMemo(
     () =>
       featuredIds
@@ -86,7 +83,6 @@ export function DuasPage() {
     [featuredIds],
   );
 
-  //  Categories filtered by search
   const filteredCategories = useMemo(() => {
     if (!normalizedSearch) {
       return categories;
@@ -109,24 +105,6 @@ export function DuasPage() {
     });
   }, [categories, normalizedSearch]);
 
-  //  Dua detail view
-  if (view.type === 'dua') {
-    return (
-      <DuaDetail
-        dua={view.dua}
-        onBack={() => {
-          setView({
-            type: 'categories',
-          });
-        }}
-      />
-    );
-  }
-
-  //  Selected category
-  const selectedCategory = view.type === 'category' ? view.category : null;
-
-  //  Category duas
   const categoryDuas = selectedCategory
     ? getDuasByCategory(MODULE_KEY, selectedCategory.id)
     : [];
@@ -137,15 +115,10 @@ export function DuasPage() {
       )
     : categoryDuas;
 
-  //  Global search is active only
-  //  when we're on the main categories view.
-  const showingGlobalSearch =
-    Boolean(normalizedSearch) && view.type === 'categories';
+  const showingGlobalSearch = Boolean(normalizedSearch) && !selectedCategory;
 
-  //  Main page
   return (
     <div className='mx-auto w-full max-w-[1500px] space-y-8'>
-      {/* Header */}
       <header className='space-y-4'>
         <div>
           <p className='text-primary text-sm font-medium'>Duas</p>
@@ -161,30 +134,21 @@ export function DuasPage() {
           </p>
         </div>
 
-        {/* Search */}
         <DuaSearch value={search} onChange={setSearch} />
       </header>
 
-      {/* Category back button */}
       {selectedCategory && (
         <Button
           type='button'
-          variant='ghost'
-          onClick={() => {
-            setSearch('');
-
-            setView({
-              type: 'categories',
-            });
-          }}
-          className='-ml-2 gap-2'
+          variant='outline'
+          onClick={() => navigate('/duas')}
+          className='mt-6 gap-2'
         >
           <ArrowLeft className='size-4' />
           All Categories
         </Button>
       )}
 
-      {/* Global search results */}
       {showingGlobalSearch && (
         <section className='space-y-5'>
           <div>
@@ -197,18 +161,9 @@ export function DuasPage() {
           </div>
 
           {searchResults.length > 0 ? (
-            <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
+            <div className='grid gap-4'>
               {searchResults.map((dua) => (
-                <DuaListCard
-                  key={dua.id}
-                  dua={dua}
-                  onClick={() => {
-                    setView({
-                      type: 'dua',
-                      dua,
-                    });
-                  }}
-                />
+                <DuaListCard key={dua.id} dua={dua} />
               ))}
             </div>
           ) : (
@@ -217,7 +172,6 @@ export function DuasPage() {
         </section>
       )}
 
-      {/* Categories */}
       {!selectedCategory && !showingGlobalSearch && (
         <>
           <section className='space-y-5'>
@@ -238,10 +192,7 @@ export function DuasPage() {
                     onClick={() => {
                       setSearch('');
 
-                      setView({
-                        type: 'category',
-                        category,
-                      });
+                      navigate(`/duas/category/${category.id}`);
                     }}
                   />
                 ))}
@@ -254,7 +205,6 @@ export function DuasPage() {
             )}
           </section>
 
-          {/* Saved Duas */}
           {savedDuas.length > 0 && (
             <section className='space-y-5'>
               <div>
@@ -265,18 +215,9 @@ export function DuasPage() {
                 </p>
               </div>
 
-              <div className='grid gap-4'>
+              <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
                 {savedDuas.slice(0, 4).map((dua) => (
-                  <DuaListCard
-                    key={dua.id}
-                    dua={dua}
-                    onClick={() => {
-                      setView({
-                        type: 'dua',
-                        dua,
-                      });
-                    }}
-                  />
+                  <DuaListCard key={dua.id} dua={dua} />
                 ))}
               </div>
             </section>
@@ -284,7 +225,6 @@ export function DuasPage() {
         </>
       )}
 
-      {/* Category duas */}
       {selectedCategory && (
         <section className='space-y-5'>
           <div>
@@ -299,18 +239,9 @@ export function DuasPage() {
           </div>
 
           {displayedCategoryDuas.length > 0 ? (
-            <div className='grid gap-4'>
+            <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
               {displayedCategoryDuas.map((dua) => (
-                <DuaListCard
-                  key={dua.id}
-                  dua={dua}
-                  onClick={() => {
-                    setView({
-                      type: 'dua',
-                      dua,
-                    });
-                  }}
-                />
+                <DuaListCard key={dua.id} dua={dua} />
               ))}
             </div>
           ) : (

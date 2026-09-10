@@ -7,7 +7,7 @@ import { HomeDashboardSkeleton } from '../components/home-dashboard-skeleton';
 import { CurrentPrayerCard } from '../components/home/hero/current-prayer-card';
 import { useDesktopPrayer } from '../hooks/use-desktop-prayer';
 
-import { FeaturedDua } from '#components/home/featured-dua';
+import { FeaturedDua } from '#components/duas/featured-dua';
 import { formatLocation } from '../lib/prayer-display';
 
 function getErrorMessage(error: unknown) {

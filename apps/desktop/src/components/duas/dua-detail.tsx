@@ -3,17 +3,18 @@ import { useState } from 'react';
 
 import type { Dua } from '@muslim-zone/core';
 import { useFeaturedDuas } from '@muslim-zone/react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@muslim-zone/ui/components/button';
 import { Card, CardContent } from '@muslim-zone/ui/components/card';
 
 type DuaDetailProps = {
   dua: Dua;
-  onBack: () => void;
 };
 
-export function DuaDetail({ dua, onBack }: DuaDetailProps) {
+export function DuaDetail({ dua }: DuaDetailProps) {
   const { isFavourited, toggle } = useFeaturedDuas();
+  const navigate = useNavigate();
 
   const bookmarked = isFavourited(dua.id);
 
@@ -58,11 +59,11 @@ export function DuaDetail({ dua, onBack }: DuaDetailProps) {
         <Button
           type='button'
           variant='ghost'
-          onClick={onBack}
+          onClick={() => navigate(-1)}
           className='gap-2'
         >
           <ArrowLeft className='size-4' />
-          Back to Duas
+          Back
         </Button>
 
         <Button

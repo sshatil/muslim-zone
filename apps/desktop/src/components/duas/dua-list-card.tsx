@@ -2,25 +2,21 @@ import { BookmarkCheck } from 'lucide-react';
 
 import type { Dua } from '@muslim-zone/core';
 import { useFeaturedDuas } from '@muslim-zone/react';
+import { Link } from 'react-router-dom';
 
 import { Card, CardContent } from '@muslim-zone/ui/components/card';
 
 type DuaListCardProps = {
   dua: Dua;
-  onClick: () => void;
 };
 
-export function DuaListCard({ dua, onClick }: DuaListCardProps) {
+export function DuaListCard({ dua }: DuaListCardProps) {
   const { isFavourited } = useFeaturedDuas();
 
   const bookmarked = isFavourited(dua.id);
 
   return (
-    <button
-      type='button'
-      onClick={onClick}
-      className='group block w-full text-left'
-    >
+    <Link to={`/duas/${dua.id}`} className='group block w-full text-left'>
       <Card className='rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md'>
         <CardContent className='p-6'>
           <div className='flex items-start justify-between gap-6'>
@@ -67,6 +63,6 @@ export function DuaListCard({ dua, onClick }: DuaListCardProps) {
           </p>
         </CardContent>
       </Card>
-    </button>
+    </Link>
   );
 }
