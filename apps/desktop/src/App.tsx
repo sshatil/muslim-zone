@@ -8,6 +8,7 @@ import { duaStorage } from './lib/duas/dua-storage';
 
 import { DuaDetailsPage } from './pages/dua-details-page';
 import { DuasPage } from './pages/duas-page';
+import { FavoritesPage } from './pages/favorites-page';
 import { HomePage } from './pages/home-page';
 import { PrayerTimesPage } from './pages/prayer-times-page';
 import { SettingsPage } from './pages/settings-page';
@@ -35,7 +36,7 @@ export default function App() {
 
                 <Route path='/duas/:duaId' element={<DuaDetailsPage />} />
 
-                <Route path='/favorites' element={<div>Favorites</div>} />
+                <Route path='/favorites' element={<FavoritesPage />} />
 
                 <Route path='/settings' element={<SettingsPage />} />
 
