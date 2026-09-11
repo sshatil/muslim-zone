@@ -89,13 +89,38 @@ jobs:
           merge-multiple: true
 
       - name: Show release files
-        run: find release-assets -type f -print
+        run: |
+          echo "All downloaded files:"
+          find release-assets -type f -print
+
+      - name: Collect installer files
+        run: |
+          mkdir -p release-files
+
+          find release-assets -type f \
+            \( \
+              -name "*.dmg" \
+              -o -name "*.exe" \
+              -o -name "*.msi" \
+            \) \
+            -exec cp {} release-files/ \;
+
+          echo "Release files:"
+          find release-files -type f -print
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mapfile -t assets < <(find release-assets -type f)
+          mapfile -t assets < <(find release-files -type f)
+
+          if [ ${#assets[@]} -eq 0 ]; then
+            echo "No installer files found."
+            exit 1
+          fi
+
+          echo "Uploading ${#assets[@]} installer(s):"
+          printf '%s\n' "${assets[@]}"
 
           gh release create "${GITHUB_REF_NAME}" \
             "${assets[@]}" \
