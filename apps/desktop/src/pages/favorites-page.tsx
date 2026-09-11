@@ -1,6 +1,5 @@
 import { Bookmark, Heart } from 'lucide-react';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { getDuaById, type Dua } from '@muslim-zone/core';
 
@@ -14,8 +13,6 @@ import { DuaListCard } from '#components/duas/dua-list-card';
 const MODULE_KEY = 'daily';
 
 export function FavoritesPage() {
-  const navigate = useNavigate();
-
   const { featuredIds, isLoaded } = useFeaturedDuas();
 
   const favoriteDuas = useMemo(

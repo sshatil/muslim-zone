@@ -4,14 +4,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   getCategories,
-  getDuaById,
   getDuasByCategory,
   searchDuas,
   type Dua,
 } from '@muslim-zone/core';
 import { Button } from '@muslim-zone/ui/components/button';
-
-import { useFeaturedDuas } from '@muslim-zone/react';
 
 import { DuaCategoryCard } from '#components/duas/dua-category-card';
 import { DuaEmptyState } from '#components/duas/dua-empty-state';
@@ -49,8 +46,6 @@ export function DuasPage() {
 
   const [search, setSearch] = useState('');
 
-  const { featuredIds } = useFeaturedDuas();
-
   const normalizedSearch = search.trim().toLowerCase();
 
   const selectedCategory = useMemo(() => {
@@ -74,14 +69,6 @@ export function DuasPage() {
 
     return searchDuas(MODULE_KEY, normalizedSearch);
   }, [normalizedSearch]);
-
-  const savedDuas = useMemo(
-    () =>
-      featuredIds
-        .map((id) => getDuaById(MODULE_KEY, id))
-        .filter((dua): dua is Dua => dua !== undefined),
-    [featuredIds],
-  );
 
   const filteredCategories = useMemo(() => {
     if (!normalizedSearch) {
