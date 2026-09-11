@@ -1,0 +1,66 @@
+name: Build Desktop Apps
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Apple Silicon
+            os: macos-14
+            args: --target aarch64-apple-darwin
+
+          - name: macOS Intel
+            os: macos-13
+            args: --target x86_64-apple-darwin
+
+          - name: Windows
+            os: windows-latest
+            args: ''
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.21.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Add macOS Rust target
+        if: runner.os == 'macOS'
+        run: rustup target add ${{ matrix.args == '--target aarch64-apple-darwin' && 'aarch64-apple-darwin' || 'x86_64-apple-darwin' }}
+
+      - name: Build Tauri application
+        run: pnpm --filter @muslim-zone/desktop tauri:build -- ${{ matrix.args }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: muslim-zone-${{ matrix.name }}
+          path: |
+            apps/desktop/src-tauri/target/release/bundle/
+          if-no-files-found: error

@@ -1,0 +1,24 @@
+{
+  "name": "@muslim-zone/core",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "adhan": "^4.4.3",
+    "axios": "^1.19.0",
+    "luxon": "^3.7.2",
+    "tz-lookup": "^6.1.25"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.7.1",
+    "@types/tz-lookup": "^6.1.2",
+    "typescript": "~5.9.2"
+  }
+}

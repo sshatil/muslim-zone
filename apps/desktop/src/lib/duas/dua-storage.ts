@@ -1,0 +1,15 @@
+import type { StorageAdapter } from '@muslim-zone/react';
+
+export const duaStorage: StorageAdapter = {
+  async getItem(key) {
+    return window.localStorage.getItem(key);
+  },
+
+  async setItem(key, value) {
+    window.localStorage.setItem(key, value);
+  },
+
+  async removeItem(key) {
+    window.localStorage.removeItem(key);
+  },
+};

@@ -34,14 +34,17 @@ yarn-error.*
 # local env files
 .env*.local
 
+# Turborepo
+.turbo/
+
 # typescript
 *.tsbuildinfo
 
 app-example
 
-# generated native folders
-/ios
-/android
+# generated Expo native folders
+apps/mobile/ios/
+apps/mobile/android/
 
 # Firebase — contains API keys, never commit these
 google-services.json

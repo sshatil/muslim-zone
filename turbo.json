@@ -1,0 +1,47 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+
+    "tauri:dev": {
+      "cache": false,
+      "persistent": true
+    },
+
+    "tauri:build": {
+      "dependsOn": ["^typecheck"]
+    },
+
+    "android": {
+      "cache": false,
+      "persistent": true
+    },
+
+    "ios": {
+      "cache": false,
+      "persistent": true
+    },
+
+    "web": {
+      "cache": false,
+      "persistent": true
+    },
+
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "outputs": []
+    },
+
+    "format": {
+      "cache": false
+    }
+  }
+}
