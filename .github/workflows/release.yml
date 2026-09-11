@@ -18,17 +18,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # macOS Apple Silicon
           - name: macOS Apple Silicon
             os: macos-14
-            args: --target aarch64-apple-darwin
+            target: aarch64-apple-darwin
 
-          - name: macOS Intel
-            os: macos-13
-            args: --target x86_64-apple-darwin
-
+          # Windows
           - name: Windows
             os: windows-latest
-            args: ''
+            target: ''
 
     steps:
       - name: Checkout repository
@@ -52,15 +50,21 @@ jobs:
 
       - name: Add macOS Rust target
         if: runner.os == 'macOS'
-        run: rustup target add ${{ matrix.args == '--target aarch64-apple-darwin' && 'aarch64-apple-darwin' || 'x86_64-apple-darwin' }}
+        run: rustup target add ${{ matrix.target }}
 
-      - name: Build Tauri application
-        run: pnpm --filter @muslim-zone/desktop tauri:build -- ${{ matrix.args }}
+      - name: Build macOS application
+        if: runner.os == 'macOS'
+        working-directory: apps/desktop
+        run: pnpm tauri build --target ${{ matrix.target }}
+
+      - name: Build Windows application
+        if: runner.os == 'Windows'
+        working-directory: apps/desktop
+        run: pnpm tauri build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: muslim-zone-${{ matrix.name }}
-          path: |
-            apps/desktop/src-tauri/target/release/bundle/
+          path: apps/desktop/src-tauri/target/**/release/bundle/
           if-no-files-found: error
