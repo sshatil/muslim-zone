@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Check, LoaderCircle, MapPin, Search } from 'lucide-react';
+import { ArrowLeft, Check, LoaderCircle, MapPin, Search } from 'lucide-react';
 
 import {
   locationSearchResultToManualLocation,
@@ -32,8 +32,8 @@ export function ManualLocationSearch({
   onLocationSelected,
 }: ManualLocationSearchProps) {
   const [query, setQuery] = useState('');
-
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedLocation, setSelectedLocation] =
+    useState<LocationSearchResult | null>(null);
 
   const debouncedQuery = useDebouncedValue(query, 350);
 
@@ -47,15 +47,74 @@ export function ManualLocationSearch({
     const manualLocation = locationSearchResultToManualLocation(result);
 
     saveManualLocation(manualLocation);
-
     saveLocationMode('manual');
 
-    setSelectedId(result.id);
+    setSelectedLocation(result);
+    setQuery('');
 
     onLocationSelected?.(manualLocation);
   };
 
+  const handleChangeLocation = () => {
+    setSelectedLocation(null);
+    setQuery('');
+  };
+
   const hasQuery = query.trim().length >= 2;
+
+  if (selectedLocation) {
+    return (
+      <div className='space-y-4'>
+        <div className='bg-card rounded-xl border p-4'>
+          <div className='flex items-start gap-3'>
+            <div className='bg-primary/10 flex size-9 shrink-0 items-center justify-center rounded-full'>
+              <MapPin className='text-primary size-4' />
+            </div>
+
+            <div className='min-w-0 flex-1'>
+              <div className='flex items-start justify-between gap-3'>
+                <div className='min-w-0'>
+                  <p className='text-muted-foreground text-xs font-medium'>
+                    Selected location
+                  </p>
+
+                  <p className='mt-1 truncate font-semibold'>
+                    {selectedLocation.name}
+                  </p>
+
+                  <p className='text-muted-foreground mt-0.5 truncate text-sm'>
+                    {formatSearchLocation(selectedLocation)}
+                  </p>
+
+                  {selectedLocation.timezone && (
+                    <p className='text-muted-foreground mt-1 text-xs'>
+                      {selectedLocation.timezone}
+                    </p>
+                  )}
+                </div>
+
+                <Check className='text-primary mt-1 size-5 shrink-0' />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          type='button'
+          variant='outline'
+          onClick={handleChangeLocation}
+          className='w-full'
+        >
+          <ArrowLeft className='size-4' />
+          Change location
+        </Button>
+
+        <p className='text-muted-foreground text-xs'>
+          Location search data provided by Open-Meteo / GeoNames.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className='space-y-4'>
@@ -100,41 +159,34 @@ export function ManualLocationSearch({
 
       {locations.length > 0 && (
         <div className='overflow-hidden rounded-xl border'>
-          {locations.map((location, index) => {
-            const selected = selectedId === location.id;
+          {locations.map((location, index) => (
+            <Button
+              key={location.id}
+              type='button'
+              variant='ghost'
+              onClick={() => handleSelect(location)}
+              className={cn(
+                'h-auto w-full justify-start rounded-none px-4 py-3 text-left',
+                index !== locations.length - 1 && 'border-b',
+              )}
+            >
+              <MapPin className='text-muted-foreground size-4 shrink-0' />
 
-            return (
-              <Button
-                key={location.id}
-                type='button'
-                variant='ghost'
-                onClick={() => handleSelect(location)}
-                className={cn(
-                  'h-auto w-full justify-start rounded-none px-4 py-3 text-left',
-                  index !== locations.length - 1 && 'border-b',
-                  selected && 'bg-accent',
-                )}
-              >
-                <MapPin className='text-muted-foreground size-4 shrink-0' />
+              <div className='min-w-0 flex-1'>
+                <p className='truncate font-medium'>{location.name}</p>
 
-                <div className='min-w-0 flex-1'>
-                  <p className='truncate font-medium'>{location.name}</p>
+                <p className='text-muted-foreground mt-0.5 truncate text-xs'>
+                  {formatSearchLocation(location)}
+                </p>
 
-                  <p className='text-muted-foreground mt-0.5 truncate text-xs'>
-                    {formatSearchLocation(location)}
+                {location.timezone && (
+                  <p className='text-muted-foreground mt-0.5 text-xs'>
+                    {location.timezone}
                   </p>
-
-                  {location.timezone && (
-                    <p className='text-muted-foreground mt-0.5 text-xs'>
-                      {location.timezone}
-                    </p>
-                  )}
-                </div>
-
-                {selected && <Check className='text-primary size-4 shrink-0' />}
-              </Button>
-            );
-          })}
+                )}
+              </div>
+            </Button>
+          ))}
         </div>
       )}
 
