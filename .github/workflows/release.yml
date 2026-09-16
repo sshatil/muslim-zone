@@ -55,11 +55,17 @@ jobs:
       - name: Build macOS application
         if: runner.os == 'macOS'
         working-directory: apps/desktop
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: pnpm tauri build --target ${{ matrix.target }}
 
       - name: Build Windows application
         if: runner.os == 'Windows'
         working-directory: apps/desktop
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: pnpm tauri build
 
       - name: Upload build artifacts
@@ -93,7 +99,7 @@ jobs:
           echo "All downloaded files:"
           find release-assets -type f -print
 
-      - name: Collect installer files
+      - name: Collect release files
         run: |
           mkdir -p release-files
 
@@ -102,11 +108,66 @@ jobs:
               -name "*.dmg" \
               -o -name "*.exe" \
               -o -name "*.msi" \
+              -o -name "*.tar.gz" \
+              -o -name "*.sig" \
+              -o -name "*.zip" \
             \) \
             -exec cp {} release-files/ \;
 
           echo "Release files:"
           find release-files -type f -print
+
+      - name: Create latest.json
+        env:
+          VERSION: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          VERSION="${VERSION#v}"
+
+          echo "Release version: ${VERSION}"
+
+          MAC_URL="https://github.com/${REPO}/releases/download/v${VERSION}/Muslim.Zone_${VERSION}_aarch64.app.tar.gz"
+          WINDOWS_URL="https://github.com/${REPO}/releases/download/v${VERSION}/Muslim.Zone_${VERSION}_x64-setup.nsis.zip"
+
+          echo "macOS URL: ${MAC_URL}"
+          echo "Windows URL: ${WINDOWS_URL}"
+
+          MAC_SIG_FILE=$(find release-files -type f -name "*.app.tar.gz.sig" | head -n 1)
+          WINDOWS_SIG_FILE=$(find release-files -type f -name "*.nsis.zip.sig" | head -n 1)
+
+          if [ -z "$MAC_SIG_FILE" ]; then
+            echo "macOS signature file not found."
+            exit 1
+          fi
+
+          if [ -z "$WINDOWS_SIG_FILE" ]; then
+            echo "Windows signature file not found."
+            exit 1
+          fi
+
+          MAC_SIGNATURE=$(cat "$MAC_SIG_FILE")
+          WINDOWS_SIGNATURE=$(cat "$WINDOWS_SIG_FILE")
+
+          cat > release-files/latest.json <<EOF
+          {
+            "version": "${VERSION}",
+            "notes": "Muslim Zone ${VERSION}",
+            "pub_date": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "platforms": {
+              "darwin-aarch64": {
+                "signature": "${MAC_SIGNATURE}",
+                "url": "${MAC_URL}"
+              },
+              "windows-x86_64": {
+                "signature": "${WINDOWS_SIGNATURE}",
+                "url": "${WINDOWS_URL}"
+              }
+            }
+          }
+          EOF
+
+          echo "Generated latest.json:"
+          cat release-files/latest.json
 
       - name: Create GitHub Release
         env:
@@ -115,11 +176,11 @@ jobs:
           mapfile -t assets < <(find release-files -type f)
 
           if [ ${#assets[@]} -eq 0 ]; then
-            echo "No installer files found."
+            echo "No release files found."
             exit 1
           fi
 
-          echo "Uploading ${#assets[@]} installer(s):"
+          echo "Uploading ${#assets[@]} release files:"
           printf '%s\n' "${assets[@]}"
 
           gh release create "${GITHUB_REF_NAME}" \

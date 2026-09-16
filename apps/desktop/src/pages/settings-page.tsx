@@ -32,6 +32,7 @@ import { useLocationPreference } from '../hooks/use-location-preference';
 
 import { useSavedManualLocation } from '../hooks/use-saved-manual-location';
 
+import { UpdateButton } from '#components/update-button';
 import { clearManualLocation } from '../lib/location/manual-location-storage';
 
 function formatCoordinates(latitude?: number, longitude?: number) {
@@ -340,6 +341,8 @@ export function SettingsPage() {
           <ThemeSelector />
         </CardContent>
       </Card>
+      {/* Update */}
+      <UpdateButton />
     </div>
   );
 }
