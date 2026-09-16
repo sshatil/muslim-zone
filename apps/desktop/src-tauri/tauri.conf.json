@@ -24,6 +24,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -31,5 +32,13 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDIyN0FGRTExQUJEMDMzQUMKUldTc005Q3JFZjU2SWtVVU5zMjN2ZDZLM3FJTnZ4NWRoUGp4WFZ3anRLc01KeUVIVnZ3NDdaeCsK",
+      "endpoints": [
+        "https://github.com/sshatil/muslim-zone/releases/latest/download/latest.json"
+      ]
+    }
   }
 }
