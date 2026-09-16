@@ -18,12 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # macOS Apple Silicon
           - name: macOS Apple Silicon
             os: macos-14
             target: aarch64-apple-darwin
 
-          # Windows
           - name: Windows
             os: windows-latest
             target: ''
@@ -95,9 +93,7 @@ jobs:
           merge-multiple: true
 
       - name: Show release files
-        run: |
-          echo "All downloaded files:"
-          find release-assets -type f -print
+        run: find release-assets -type f -print
 
       - name: Collect release files
         run: |
@@ -108,14 +104,12 @@ jobs:
               -name "*.dmg" \
               -o -name "*.exe" \
               -o -name "*.msi" \
-              -o -name "*.tar.gz" \
-              -o -name "*.sig" \
-              -o -name "*.zip" \
+              -o -name "*.app.tar.gz" \
+              -o -name "*.app.tar.gz.sig" \
+              -o -name "*.exe.sig" \
+              -o -name "*.msi.sig" \
             \) \
             -exec cp {} release-files/ \;
-
-          echo "Release files:"
-          find release-files -type f -print
 
       - name: Create latest.json
         env:
@@ -124,19 +118,24 @@ jobs:
         run: |
           VERSION="${VERSION#v}"
 
-          echo "Release version: ${VERSION}"
-
-          MAC_URL="https://github.com/${REPO}/releases/download/v${VERSION}/Muslim.Zone_${VERSION}_aarch64.app.tar.gz"
-          WINDOWS_URL="https://github.com/${REPO}/releases/download/v${VERSION}/Muslim.Zone_${VERSION}_x64-setup.nsis.zip"
-
-          echo "macOS URL: ${MAC_URL}"
-          echo "Windows URL: ${WINDOWS_URL}"
-
+          MAC_FILE=$(find release-files -type f -name "*.app.tar.gz" | head -n 1)
           MAC_SIG_FILE=$(find release-files -type f -name "*.app.tar.gz.sig" | head -n 1)
-          WINDOWS_SIG_FILE=$(find release-files -type f -name "*.nsis.zip.sig" | head -n 1)
+
+          WINDOWS_FILE=$(find release-files -type f -name "*.exe" ! -name "*.sig" | head -n 1)
+          WINDOWS_SIG_FILE=$(find release-files -type f -name "*.exe.sig" | head -n 1)
+
+          if [ -z "$MAC_FILE" ]; then
+            echo "macOS updater file not found."
+            exit 1
+          fi
 
           if [ -z "$MAC_SIG_FILE" ]; then
             echo "macOS signature file not found."
+            exit 1
+          fi
+
+          if [ -z "$WINDOWS_FILE" ]; then
+            echo "Windows updater file not found."
             exit 1
           fi
 
@@ -145,8 +144,14 @@ jobs:
             exit 1
           fi
 
+          MAC_FILENAME=$(basename "$MAC_FILE")
+          WINDOWS_FILENAME=$(basename "$WINDOWS_FILE")
+
           MAC_SIGNATURE=$(cat "$MAC_SIG_FILE")
           WINDOWS_SIGNATURE=$(cat "$WINDOWS_SIG_FILE")
+
+          MAC_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${MAC_FILENAME}"
+          WINDOWS_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${WINDOWS_FILENAME}"
 
           cat > release-files/latest.json <<EOF
           {
@@ -166,9 +171,6 @@ jobs:
           }
           EOF
 
-          echo "Generated latest.json:"
-          cat release-files/latest.json
-
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -179,9 +181,6 @@ jobs:
             echo "No release files found."
             exit 1
           fi
-
-          echo "Uploading ${#assets[@]} release files:"
-          printf '%s\n' "${assets[@]}"
 
           gh release create "${GITHUB_REF_NAME}" \
             "${assets[@]}" \
