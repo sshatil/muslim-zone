@@ -1,0 +1,74 @@
+name: 🐞 Bug Report
+description: Report a bug to help us improve Muslim Zone
+title: 'bug: '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below as clearly as possible.
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Which platform are you experiencing the issue on?
+      options:
+        - Android
+        - iOS
+        - macOS
+        - Windows
+        - Shared package
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: Clearly describe what happened and what you expected to happen.
+      placeholder: Tell us what went wrong...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Provide the steps needed to reproduce the issue.
+      placeholder: |
+        1. Open...
+        2. Go to...
+        3. Tap...
+        4. The issue occurs...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Provide relevant device, operating system, and app information.
+      placeholder: |
+        Device:
+        OS:
+        Muslim Zone version:
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or logs
+      description: Add screenshots, screen recordings, error messages, or logs if applicable.
+      placeholder: Drag and drop files here...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: Add any other information that may help us understand the issue.
+    validations:
+      required: false

@@ -1,0 +1,54 @@
+name: ✨ Feature Request
+description: Suggest a new feature or improvement for Muslim Zone
+title: 'feature: '
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this feature solve?
+      description: Describe the problem or need behind your feature request.
+      placeholder: What problem are you trying to solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Describe your proposed feature
+      description: Clearly describe the feature or improvement you would like to see.
+      placeholder: Tell us about your idea...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Which platform would this feature affect?
+      options:
+        - Android
+        - macOS
+        - Windows
+        - Mobile
+        - Desktop
+        - Shared package
+        - All platforms
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Describe any alternative solutions or features you have considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: Add screenshots, examples, references, or anything else that may help.
+    validations:
+      required: false
