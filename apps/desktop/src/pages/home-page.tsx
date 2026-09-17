@@ -144,9 +144,12 @@ export function HomePage() {
 
               {locationData.timezone && (
                 <>
-                  <span className='text-border'>•</span>
+                  <span className='bg-accent-foreground h-1 w-1 rounded-full' />
 
-                  <span>{locationData.timezone}</span>
+                  <p>
+                    <span className='font-bold'>Time Zone:</span>{' '}
+                    {locationData.timezone}
+                  </p>
                 </>
               )}
             </div>
