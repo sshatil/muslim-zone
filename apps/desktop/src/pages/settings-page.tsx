@@ -80,7 +80,8 @@ export function SettingsPage() {
         <h1 className='text-3xl font-semibold tracking-tight'>Settings</h1>
 
         <p className='text-muted-foreground mt-2'>
-          Configure Muslim Zone for this device.
+          Configure Muslim Zone for this device.{' '}
+          <span className='text-xs'>(v0.3.0)</span>
         </p>
       </header>
 
