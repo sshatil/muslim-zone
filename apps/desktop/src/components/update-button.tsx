@@ -16,19 +16,20 @@ export function UpdateButton() {
       setProgress(0);
 
       const update = await checkForAppUpdate();
-
       if (!update) {
         setMessage('You are using the latest version.');
         return;
       }
 
-      const shouldUpdate = window.confirm(
-        `Muslim Zone ${update.version} is available. Update now?`,
-      );
+      // const shouldUpdate = window.confirm(
+      //   `Muslim Zone ${update.version} is available. Update now?`,
+      // );
 
-      if (!shouldUpdate) {
-        return;
-      }
+      // console.log('5. User selected update:', shouldUpdate);
+
+      // if (!shouldUpdate) {
+      //   return;
+      // }
 
       setIsUpdating(true);
       setMessage(`Downloading Muslim Zone ${update.version}...`);
@@ -39,7 +40,6 @@ export function UpdateButton() {
 
       setMessage('Update installed successfully. Please restart Muslim Zone.');
     } catch (error) {
-      console.error('Update failed:', error);
       setMessage('Failed to update Muslim Zone.');
     } finally {
       setIsChecking(false);
