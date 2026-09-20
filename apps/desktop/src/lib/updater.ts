@@ -1,3 +1,4 @@
+import { relaunch } from '@tauri-apps/plugin-process';
 import { check, type Update } from '@tauri-apps/plugin-updater';
 
 export async function checkForAppUpdate(): Promise<Update | null> {
@@ -54,6 +55,8 @@ export async function installAppUpdate(
     });
 
     console.log('Update installed successfully');
+
+    await relaunch();
   } catch (error) {
     console.error('UPDATE INSTALLATION FAILED:', error);
     throw error;
