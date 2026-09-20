@@ -144,14 +144,11 @@ jobs:
             exit 1
           fi
 
-          MAC_FILENAME=$(basename "$MAC_FILE")
-          WINDOWS_FILENAME=$(basename "$WINDOWS_FILE")
-
           MAC_SIGNATURE=$(cat "$MAC_SIG_FILE")
           WINDOWS_SIGNATURE=$(cat "$WINDOWS_SIG_FILE")
 
-          MAC_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${MAC_FILENAME}"
-          WINDOWS_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${WINDOWS_FILENAME}"
+          MAC_URL="https://github.com/${REPO}/releases/download/v${VERSION}/Muslim.Zone.app.tar.gz"
+          WINDOWS_URL="https://github.com/${REPO}/releases/download/v${VERSION}/Muslim.Zone_${VERSION}_x64-setup.exe"
 
           cat > release-files/latest.json <<EOF
           {

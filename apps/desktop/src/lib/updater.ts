@@ -1,8 +1,13 @@
+import { relaunch } from '@tauri-apps/plugin-process';
 import { check, type Update } from '@tauri-apps/plugin-updater';
 
 export async function checkForAppUpdate(): Promise<Update | null> {
   try {
-    return await check();
+    const update = await check();
+
+    console.log('Update check result:', update);
+
+    return update;
   } catch (error) {
     console.error('Failed to check for updates:', error);
     throw error;
@@ -13,31 +18,47 @@ export async function installAppUpdate(
   update: Update,
   onProgress?: (progress: number) => void,
 ): Promise<void> {
-  let downloaded = 0;
-  let contentLength = 0;
+  try {
+    console.log('Installing update:', update.version);
 
-  await update.downloadAndInstall((event) => {
-    switch (event.event) {
-      case 'Started':
-        contentLength = event.data.contentLength ?? 0;
-        downloaded = 0;
-        onProgress?.(0);
-        break;
+    let downloaded = 0;
+    let contentLength = 0;
 
-      case 'Progress':
-        downloaded += event.data.chunkLength;
+    await update.downloadAndInstall((event) => {
+      console.log('Update event:', event);
 
-        if (contentLength > 0) {
-          const progress = Math.round((downloaded / contentLength) * 100);
+      switch (event.event) {
+        case 'Started':
+          console.log('Download started');
 
-          onProgress?.(progress);
-        }
+          contentLength = event.data.contentLength ?? 0;
+          downloaded = 0;
+          onProgress?.(0);
+          break;
 
-        break;
+        case 'Progress':
+          downloaded += event.data.chunkLength;
 
-      case 'Finished':
-        onProgress?.(100);
-        break;
-    }
-  });
+          if (contentLength > 0) {
+            const progress = Math.round((downloaded / contentLength) * 100);
+
+            onProgress?.(progress);
+          }
+
+          break;
+
+        case 'Finished':
+          console.log('Download finished');
+          onProgress?.(100);
+          break;
+      }
+    });
+
+    console.log('Update installed successfully');
+
+    await relaunch();
+  } catch (error) {
+    console.error('UPDATE INSTALLATION FAILED:', error);
+    throw error;
+  }
 }
