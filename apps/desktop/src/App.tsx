@@ -6,6 +6,7 @@ import { AppSidebar } from './components/app-sidebar';
 
 import { duaStorage } from './lib/duas/dua-storage';
 
+import { PrayerNotificationScheduler } from './components/prayer-notification-scheduler';
 import { DuaDetailsPage } from './pages/dua-details-page';
 import { DuasPage } from './pages/duas-page';
 import { FavoritesPage } from './pages/favorites-page';
@@ -17,6 +18,7 @@ export default function App() {
   return (
     <HashRouter>
       <FeaturedDuasProvider storage={duaStorage} moduleKey='daily'>
+        <PrayerNotificationScheduler />
         <div className='bg-background text-foreground flex h-screen overflow-hidden'>
           <AppSidebar />
 
