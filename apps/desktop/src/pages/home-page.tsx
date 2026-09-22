@@ -1,4 +1,4 @@
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, Check, RefreshCw } from 'lucide-react';
 
 import { Button } from '@muslim-zone/ui/components/button';
 import { Card, CardContent } from '@muslim-zone/ui/components/card';
@@ -8,6 +8,7 @@ import { CurrentPrayerCard } from '../components/home/hero/current-prayer-card';
 import { useDesktopPrayer } from '../hooks/use-desktop-prayer';
 
 import { FeaturedDua } from '#components/duas/featured-dua';
+import { useState } from 'react';
 import { formatLocation } from '../lib/prayer-display';
 
 function getErrorMessage(error: unknown) {
@@ -45,27 +46,38 @@ function formatEnglishDate(timezone?: string) {
 export function HomePage() {
   const {
     locationData,
-
     prayerData,
     currentPrayerInfo,
     arabicDate,
-
     isLocationLoading,
-    isLocationFetching,
-
     isPrayerLoading,
     isPrayerFetching,
-
     locationError,
     prayerError,
-
     refetchLocation,
+    refetchPrayer,
   } = useDesktopPrayer();
 
   const isInitialLoading =
     isLocationLoading || (Boolean(locationData) && isPrayerLoading);
 
-  const isRefreshing = isLocationFetching || isPrayerFetching;
+  const [refreshSuccess, setRefreshSuccess] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  const handleRefresh = async () => {
+    try {
+      await refetchPrayer();
+
+      setLastUpdated(new Date());
+      setRefreshSuccess(true);
+
+      window.setTimeout(() => {
+        setRefreshSuccess(false);
+      }, 2000);
+    } catch {
+      setRefreshSuccess(false);
+    }
+  };
 
   if (isInitialLoading && !prayerData) {
     return <HomeDashboardSkeleton />;
@@ -156,14 +168,41 @@ export function HomePage() {
           )}
         </div>
 
-        {isRefreshing && (
-          <div className='text-muted-foreground flex shrink-0 items-center gap-2 text-sm'>
-            <RefreshCw className='size-4 animate-spin' />
-            Updating
-          </div>
-        )}
-      </header>
+        <div className='flex flex-col items-end gap-1'>
+          <Button
+            variant='outline'
+            onClick={() => void handleRefresh()}
+            disabled={isPrayerFetching}
+          >
+            {isPrayerFetching ? (
+              <>
+                <RefreshCw className='size-4 animate-spin' />
+                Refreshing...
+              </>
+            ) : refreshSuccess ? (
+              <>
+                <Check className='size-4' />
+                Updated
+              </>
+            ) : (
+              <>
+                <RefreshCw className='size-4' />
+                Refresh
+              </>
+            )}
+          </Button>
 
+          {lastUpdated && (
+            <span className='text-muted-foreground text-xs'>
+              Last updated:{' '}
+              {lastUpdated.toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+              })}
+            </span>
+          )}
+        </div>
+      </header>
       {/* Prayer error */}
       {prayerError && (
         <div className='border-destructive/30 bg-destructive/5 text-destructive flex items-center gap-3 rounded-xl border px-4 py-3 text-sm'>
@@ -172,7 +211,6 @@ export function HomePage() {
           <span>{getErrorMessage(prayerError)}</span>
         </div>
       )}
-
       {/* Current / Next prayer hero */}
       <CurrentPrayerCard
         currentPrayer={currentPrayer}
@@ -183,7 +221,6 @@ export function HomePage() {
         prayerTimes={prayerData?.prayerTimes}
         timezone={locationData?.timezone}
       />
-
       {/* Featured duas */}
       <div className='space-y-4'>
         <FeaturedDua />
