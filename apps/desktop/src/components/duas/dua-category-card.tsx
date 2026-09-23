@@ -48,11 +48,11 @@ export function DuaCategoryCard({ category, onClick }: DuaCategoryCardProps) {
             {category.name.en}
           </h2>
 
-          {category.name.bn && (
+          {/* {category.name.bn && (
             <p className='text-muted-foreground mt-1 text-sm'>
               {category.name.bn}
             </p>
-          )}
+          )} */}
 
           <div className='text-muted-foreground mt-5 text-sm'>View duas →</div>
         </CardContent>
